@@ -23,6 +23,8 @@ func init() {
 }
 
 func initSuperChatLogger() {
+	const logfolder:="./superchat"
+	os.MkdirAll(logfolder, os.ModeDir|0755)
 	today := time.Now()
 	const layout = "200601"
 	filename := "./superchat/" + today.Format(layout) + ".txt"
