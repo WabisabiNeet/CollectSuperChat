@@ -6,6 +6,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"path"
 	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
@@ -19,15 +20,15 @@ import (
 var chatlog, dbglog *zap.Logger
 
 func init() {
-	initSuperChatLogger()
+	initDebugLogger()
 }
 
-func initSuperChatLogger() {
-	const logfolder:="./superchat"
+func initSuperChatLogger(cannelID string) {
+	logfolder := path.Join("superchat", cannelID)
 	os.MkdirAll(logfolder, os.ModeDir|0755)
 	today := time.Now()
 	const layout = "200601"
-	filename := "./superchat/" + today.Format(layout) + ".txt"
+	filename := logfolder + "/" + today.Format(layout) + ".txt"
 
 	level := zap.NewAtomicLevel()
 	level.SetLevel(zapcore.InfoLevel)
@@ -47,13 +48,14 @@ func initSuperChatLogger() {
 			EncodeDuration: zapcore.StringDurationEncoder,
 			EncodeCaller:   zapcore.ShortCallerEncoder,
 		},
-		OutputPaths: []string{filename},
+		OutputPaths: []string{"stdout", filename},
 		// ErrorOutputPaths: []string{"stderr"},
 	}
 	chatlog, _ = myConfig.Build()
 }
 
 func initDebugLogger() {
+	os.MkdirAll("debug", os.ModeDir|0755)
 	today := time.Now()
 	const layout = "200601"
 	filename := "./debug/" + today.Format(layout) + ".txt"
@@ -83,8 +85,13 @@ func initDebugLogger() {
 }
 
 func main() {
-	channnelID := flag.String("c", "", "Message")
+	channelID := flag.String("c", "", "a channelID")
 	flag.Parse()
+
+	if *channelID == "" {
+		dbglog.Fatal("channelID is nil")
+	}
+	initSuperChatLogger(*channelID)
 
 	ctx := context.Background()
 
@@ -98,13 +105,13 @@ func main() {
 		dbglog.Fatal(err.Error())
 	}
 
-	vid, err := livestream.GetLiveStreamID(ys, *channnelID)
+	vid, err := livestream.GetLiveStreamID(ys, *channelID)
 	for err != nil {
 		e1 := err.Error()
 		if e1 == "live stream not found" {
 			dbglog.Info(err.Error())
 			time.Sleep(time.Minute)
-			vid, err = livestream.GetLiveStreamID(ys, *channnelID)
+			vid, err = livestream.GetLiveStreamID(ys, *channelID)
 		} else {
 			log.Fatal(err)
 		}
@@ -115,12 +122,6 @@ func main() {
 	if err != nil {
 		dbglog.Fatal(err.Error())
 	}
-
-	// messages, nextToken, err := livestream.GetSuperChatMessages(ys, chatid, "")
-	// if err != nil {
-	// 	dbglog.Fatal(err)
-	// }
-	// chatlog.Print(messages)
 
 	nextToken := ""
 	for {
@@ -138,6 +139,12 @@ func main() {
 		}
 
 		for _, message := range messages {
+			message.AuthorDetails.ProfileImageUrl = ""
+			message.Etag = ""
+			message.Id = ""
+			message.Kind = ""
+			message.Snippet.AuthorChannelId = ""
+			message.Snippet.DisplayMessage = ""
 			outputJSON, err := json.Marshal(*message)
 			if err == nil {
 				chatlog.Info(string(outputJSON))
