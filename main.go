@@ -33,6 +33,9 @@ func init() {
 	if apikey == "" {
 		dbglog.Fatal("not found api key.")
 	}
+
+	// watching ticket folder.
+	os.MkdirAll("waching", os.ModeDir|0755)
 }
 
 func initSuperChatLogger(channelID string) *zap.Logger {
@@ -118,21 +121,6 @@ func parseChannel() ([]string, error) {
 	}
 
 	return channels, nil
-}
-
-func main() {
-	defer dbglog.Sync()
-	channels, err := parseChannel()
-	if err != nil {
-		dbglog.Fatal(err.Error())
-	}
-	wg := &sync.WaitGroup{}
-	for i, channel := range channels {
-		dbglog.Info(fmt.Sprintf("%3v channel:%v", i, channel))
-		wg.Add(1)
-		go startWatch(wg, channel)
-	}
-	wg.Wait()
 }
 
 func startWatch(wg *sync.WaitGroup, channel string) {
@@ -232,4 +220,19 @@ func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (s
 
 		return vid, nil
 	}
+}
+
+func main() {
+	defer dbglog.Sync()
+	channels, err := parseChannel()
+	if err != nil {
+		dbglog.Fatal(err.Error())
+	}
+	wg := &sync.WaitGroup{}
+	for i, channel := range channels {
+		dbglog.Info(fmt.Sprintf("%3v channel:%v", i, channel))
+		wg.Add(1)
+		go startWatch(wg, channel)
+	}
+	wg.Wait()
 }
