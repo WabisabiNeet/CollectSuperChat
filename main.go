@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
+	"github.com/WabisabiNeet/CollectSuperChat/server"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"google.golang.org/api/googleapi"
@@ -100,7 +101,7 @@ func initDebugLogger() {
 	dbglog, _ = myConfig.Build()
 }
 
-func parseChannel() ([]string, error) {
+func getChannels() ([]string, error) {
 	channels := make([]string, 0)
 	flag.Parse()
 	filenames := flag.Args()
@@ -123,18 +124,15 @@ func parseChannel() ([]string, error) {
 	return channels, nil
 }
 
-func startWatch(wg *sync.WaitGroup, channel string) {
+func startWatch(wg *sync.WaitGroup, vid string) {
 	defer wg.Done()
-	if channel == "" {
-		dbglog.Fatal("channelID is nil")
+	if vid == "" {
+		dbglog.Fatal("vid is nil")
 	}
 
 	quit := make(chan os.Signal)
 	defer close(quit)
 	signal.Notify(quit, os.Interrupt)
-
-	chatlog := initSuperChatLogger(channel)
-	defer chatlog.Sync()
 
 	ctx := context.Background()
 	ys, err := youtube.NewService(ctx, option.WithAPIKey(apikey))
@@ -143,88 +141,82 @@ func startWatch(wg *sync.WaitGroup, channel string) {
 		return
 	}
 
+	// e.g. https://www.youtube.com/watch?v=WziZomD9KC8
+	channel, chatid, err := livestream.GetLiveInfo(ys, vid)
+	if err != nil {
+		dbglog.Fatal(fmt.Sprintf("[%v] %v", channel, err))
+	}
+
+	chatlog := initSuperChatLogger(channel)
+	defer chatlog.Sync()
+
+	nextToken := ""
 	for {
-		vid, err := getLiveStreamID(ys, channel, quit)
+		messages, nextToken, err := livestream.GetSuperChatRawMessages(ys, chatid, nextToken)
 		if err != nil {
-			dbglog.Warn(fmt.Sprintf("[%v] %v", channel, err))
+			switch t := err.(type) {
+			case *googleapi.Error:
+				if t.Code == 403 && t.Message == "The live chat is no longer live." {
+					dbglog.Info(t.Message)
+					return
+				}
+			default:
+				dbglog.Fatal(t.Error())
+			}
+		}
+
+		for _, message := range messages {
+			message.AuthorDetails.ProfileImageUrl = ""
+			message.Etag = ""
+			message.Id = ""
+			message.Kind = ""
+			message.Snippet.AuthorChannelId = ""
+			message.Snippet.DisplayMessage = ""
+			outputJSON, err := json.Marshal(*message)
+			if err == nil {
+				chatlog.Info(string(outputJSON))
+			}
+		}
+
+		if nextToken == "" {
+			dbglog.Info("nextToken is empty.")
+			break
+		}
+
+		dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", channel, interval))
+		select {
+		case <-time.Tick(interval * time.Second):
+		case <-quit:
+			dbglog.Info(fmt.Sprintf("[%v] signaled.", channel))
 			return
 		}
-		dbglog.Info(fmt.Sprintf("[%v] live stream start.: %vms", channel, interval))
-
-		// e.g. https://www.youtube.com/watch?v=WziZomD9KC8
-		chatid, err := livestream.GetLiveChatID(ys, vid)
-		if err != nil {
-			dbglog.Fatal(fmt.Sprintf("[%v] %v", channel, err))
-		}
-
-		nextToken := ""
-		for {
-			messages, nextToken, err := livestream.GetSuperChatRawMessages(ys, chatid, nextToken)
-			if err != nil {
-				switch t := err.(type) {
-				case *googleapi.Error:
-					if t.Code == 403 && t.Message == "The live chat is no longer live." {
-						dbglog.Info(t.Message)
-						return
-					}
-				default:
-					dbglog.Fatal(t.Error())
-				}
-			}
-
-			for _, message := range messages {
-				message.AuthorDetails.ProfileImageUrl = ""
-				message.Etag = ""
-				message.Id = ""
-				message.Kind = ""
-				message.Snippet.AuthorChannelId = ""
-				message.Snippet.DisplayMessage = ""
-				outputJSON, err := json.Marshal(*message)
-				if err == nil {
-					chatlog.Info(string(outputJSON))
-				}
-			}
-
-			if nextToken == "" {
-				dbglog.Info("nextToken is empty.")
-				break
-			}
-
-			dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", channel, interval))
-			select {
-			case <-time.Tick(interval * time.Second):
-			case <-quit:
-				dbglog.Info(fmt.Sprintf("[%v] signaled.", channel))
-				return
-			}
-		}
 	}
 }
 
-func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (string, error) {
-	t := time.NewTicker(time.Minute)
-	for {
-		vid, err := livestream.GetLiveStreamID(ys, channel)
-		if err != nil {
-			if err.Error() != "live stream not found" {
-				return "", err
-			}
-			select {
-			case <-t.C:
-				dbglog.Info(fmt.Sprintf("[%v] repert getLiveStreamID.", channel))
-				continue
-			case <-sig:
-				return "", fmt.Errorf("signaled")
-			}
-		}
+// func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (string, error) {
+// 	t := time.NewTicker(time.Minute)
+// 	for {
+// 		vid, err := livestream.GetLiveStreamID(ys, channel)
+// 		if err != nil {
+// 			if err.Error() != "live stream not found" {
+// 				return "", err
+// 			}
+// 			select {
+// 			case <-t.C:
+// 				dbglog.Info(fmt.Sprintf("[%v] repert getLiveStreamID.", channel))
+// 				continue
+// 			case <-sig:
+// 				return "", fmt.Errorf("signaled")
+// 			}
+// 		}
 
-		return vid, nil
-	}
-}
+// 		return vid, nil
+// 	}
+// }
 
 func main() {
 	defer dbglog.Sync()
-	channels, err := parseChannel()
+	channels, err := getChannels()
 	if err != nil {
 		dbglog.Fatal(err.Error())
 	}
@@ -234,5 +226,15 @@ func main() {
 		wg.Add(1)
 		go startWatch(wg, channel)
 	}
+
+	const watching = "watching"
+	srv := server.NewServer(func(vid string) {
+		// create file.
+		lockfile := path.Join(watching, vid)
+		if _, err := os.Stat(lockfile); err == nil {
+		}
+	})
+	dbglog.Info(fmt.Sprintf("%v", srv))
+
 	wg.Wait()
 }

@@ -3,6 +3,7 @@ module github.com/WabisabiNeet/CollectSuperChat
 go 1.13
 
 require (
+	github.com/fsnotify/fsnotify v1.4.7
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	go.uber.org/atomic v1.4.0 // indirect

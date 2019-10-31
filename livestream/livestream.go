@@ -35,21 +35,21 @@ func GetLiveStreamID(ys *youtube.Service, channnelID string) (string, error) {
 	return "", fmt.Errorf("live stream not found")
 }
 
-// GetLiveChatID return active live chat id.
-func GetLiveChatID(ys *youtube.Service, vid string) (string, error) {
-	call := ys.Videos.List("LiveStreamingDetails").Id(vid)
+// GetLiveInfo return video info.
+func GetLiveInfo(ys *youtube.Service, vid string) (channelID, chatID string, err error) {
+	call := ys.Videos.List("snippet,LiveStreamingDetails").Id(vid)
 	res, err := call.Do()
 
 	if err != nil {
-		return "", err
+		return "", "", err
 
 	}
 
 	for _, item := range res.Items {
-		return item.LiveStreamingDetails.ActiveLiveChatId, nil
+		return item.Snippet.ChannelId, item.LiveStreamingDetails.ActiveLiveChatId, nil
 	}
 
-	return "", fmt.Errorf("active chat can not found")
+	return "", "", fmt.Errorf("active chat can not found")
 }
 
 // GetSuperChatRawMessages return live chat messages
