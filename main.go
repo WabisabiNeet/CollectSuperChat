@@ -231,5 +231,4 @@ func main() {
 
 	n.PollingStart()
 	wg.Wait()
-
 }
