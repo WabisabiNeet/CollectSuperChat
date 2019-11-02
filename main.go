@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
-	"github.com/WabisabiNeet/CollectSuperChat/server"
+	"github.com/WabisabiNeet/CollectSuperChat/notifier"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"google.golang.org/api/googleapi"
@@ -21,7 +21,7 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-const interval = 90 // 90sec.
+const interval = 120 // 90sec.
 
 var dbglog *zap.Logger
 var apikey string
@@ -29,7 +29,8 @@ var apikey string
 func init() {
 	initDebugLogger()
 
-	apikey = os.Getenv("YOUTUBE_API_KEY")
+	// apikey = os.Getenv("YOUTUBE_API_KEY")
+	apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
 	// apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
 	if apikey == "" {
 		dbglog.Fatal("not found api key.")
@@ -145,6 +146,9 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 	channel, chatid, err := livestream.GetLiveInfo(ys, vid)
 	if err != nil {
 		dbglog.Fatal(fmt.Sprintf("[%v] %v", channel, err))
+	} else if chatid == "" {
+		dbglog.Info(fmt.Sprintf("[%v] Live chat not active.", channel))
+		return
 	}
 
 	chatlog := initSuperChatLogger(channel)
@@ -166,12 +170,11 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 		}
 
 		for _, message := range messages {
-			message.AuthorDetails.ProfileImageUrl = ""
+			message.AuthorDetails = nil
 			message.Etag = ""
 			message.Id = ""
 			message.Kind = ""
-			message.Snippet.AuthorChannelId = ""
-			message.Snippet.DisplayMessage = ""
+			message.Snippet.LiveChatId = ""
 			outputJSON, err := json.Marshal(*message)
 			if err == nil {
 				chatlog.Info(string(outputJSON))
@@ -216,25 +219,15 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 
 func main() {
 	defer dbglog.Sync()
-	channels, err := getChannels()
-	if err != nil {
-		dbglog.Fatal(err.Error())
-	}
+
 	wg := &sync.WaitGroup{}
-	for i, channel := range channels {
-		dbglog.Info(fmt.Sprintf("%3v channel:%v", i, channel))
-		wg.Add(1)
-		go startWatch(wg, channel)
+	n := notifier.Gmail{
+		CollectChat: func(vid string) {
+			wg.Add(1)
+			go startWatch(wg, vid)
+		},
 	}
 
-	const watching = "watching"
-	srv := server.NewServer(func(vid string) {
-		// create file.
-		lockfile := path.Join(watching, vid)
-		if _, err := os.Stat(lockfile); err == nil {
-		}
-	})
-	dbglog.Info(fmt.Sprintf("%v", srv))
-
+	n.PollingStart()
 	wg.Wait()
 }

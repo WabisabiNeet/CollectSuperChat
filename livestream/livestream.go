@@ -54,7 +54,8 @@ func GetLiveInfo(ys *youtube.Service, vid string) (channelID, chatID string, err
 
 // GetSuperChatRawMessages return live chat messages
 func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []*youtube.LiveChatMessage, nextToken string, err error) {
-	call := ys.LiveChatMessages.List(cid, "snippet,authorDetails")
+	log.Infof("GetSuperChatRawMessages call.")
+	call := ys.LiveChatMessages.List(cid, "snippet")
 	call.PageToken(next)
 	call.MaxResults(maxResult)
 	res, err := call.Do()
@@ -65,7 +66,7 @@ func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []
 	nextToken = res.NextPageToken
 	for _, item := range res.Items {
 		switch item.Snippet.Type {
-		case "superChatEvent", "superStickerEvent":
+		case "superChatEvent", "superStickerEvent", "textMessageEvent":
 
 		default:
 			continue

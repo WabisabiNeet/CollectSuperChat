@@ -11,6 +11,11 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+#credential data.
+credentials.json
+token.json
+
 # Exec result and debug data.
 superchat/
 debug/
+.vscode/
