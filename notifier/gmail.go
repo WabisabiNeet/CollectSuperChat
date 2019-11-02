@@ -13,10 +13,10 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/jhillyerd/enmime"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -26,37 +26,7 @@ import (
 var dbglog *zap.Logger
 
 func init() {
-	initDebugLogger()
-}
-
-func initDebugLogger() {
-	os.MkdirAll("debug", os.ModeDir|0755)
-	today := time.Now()
-	const layout = "200601"
-	filename := "./debug/" + today.Format(layout) + ".txt"
-
-	level := zap.NewAtomicLevel()
-	level.SetLevel(zapcore.DebugLevel)
-
-	myConfig := zap.Config{
-		Level:    level,
-		Encoding: "console",
-		EncoderConfig: zapcore.EncoderConfig{
-			TimeKey:        "time", // ignore.
-			LevelKey:       "",     // ignore.
-			NameKey:        "Name",
-			CallerKey:      "", // ignore.
-			MessageKey:     "Msg",
-			StacktraceKey:  "St",
-			EncodeLevel:    zapcore.CapitalLevelEncoder,
-			EncodeTime:     zapcore.ISO8601TimeEncoder,
-			EncodeDuration: zapcore.StringDurationEncoder,
-			EncodeCaller:   zapcore.ShortCallerEncoder,
-		},
-		OutputPaths:      []string{"stdout", filename},
-		ErrorOutputPaths: []string{"stderr"},
-	}
-	dbglog, _ = myConfig.Build()
+	dbglog = log.GetLogger()
 }
 
 // Retrieve a token, saves the token, then returns the generated client.
@@ -325,7 +295,7 @@ func (n *Gmail) PollingStart() {
 			}
 
 			select {
-			case <-time.Tick(time.Minute):
+			case <-time.Tick(30 * time.Second):
 			case <-quit:
 				return
 			}

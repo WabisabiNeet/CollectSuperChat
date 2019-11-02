@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
+	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/notifier"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -27,7 +28,7 @@ var dbglog *zap.Logger
 var apikey string
 
 func init() {
-	initDebugLogger()
+	dbglog = log.GetLogger()
 
 	// apikey = os.Getenv("YOUTUBE_API_KEY")
 	apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
@@ -44,7 +45,7 @@ func initSuperChatLogger(channelID string) *zap.Logger {
 	logfolder := path.Join("superchat", channelID)
 	os.MkdirAll(logfolder, os.ModeDir|0755)
 	today := time.Now()
-	const layout = "20060101010101"
+	const layout = "20060102"
 	filename := path.Join(logfolder, fmt.Sprintf("%s.txt", today.Format(layout)))
 
 	level := zap.NewAtomicLevel()
@@ -70,36 +71,6 @@ func initSuperChatLogger(channelID string) *zap.Logger {
 	}
 	chatlog, _ := myConfig.Build()
 	return chatlog
-}
-
-func initDebugLogger() {
-	os.MkdirAll("debug", os.ModeDir|0755)
-	today := time.Now()
-	const layout = "200601"
-	filename := "./debug/" + today.Format(layout) + ".txt"
-
-	level := zap.NewAtomicLevel()
-	level.SetLevel(zapcore.DebugLevel)
-
-	myConfig := zap.Config{
-		Level:    level,
-		Encoding: "console",
-		EncoderConfig: zapcore.EncoderConfig{
-			TimeKey:        "time", // ignore.
-			LevelKey:       "",     // ignore.
-			NameKey:        "Name",
-			CallerKey:      "", // ignore.
-			MessageKey:     "Msg",
-			StacktraceKey:  "St",
-			EncodeLevel:    zapcore.CapitalLevelEncoder,
-			EncodeTime:     zapcore.ISO8601TimeEncoder,
-			EncodeDuration: zapcore.StringDurationEncoder,
-			EncodeCaller:   zapcore.ShortCallerEncoder,
-		},
-		OutputPaths:      []string{"stdout", filename},
-		ErrorOutputPaths: []string{"stderr"},
-	}
-	dbglog, _ = myConfig.Build()
 }
 
 func getChannels() ([]string, error) {

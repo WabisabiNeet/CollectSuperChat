@@ -2,18 +2,18 @@ package livestream
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/sirupsen/logrus"
+	"github.com/WabisabiNeet/CollectSuperChat/log"
+	"go.uber.org/zap"
 	"google.golang.org/api/youtube/v3"
 )
 
 const maxResult = 2000
 
-var log = logrus.New()
+var dbglog *zap.Logger
 
 func init() {
-	log.Out = os.Stdout
+	dbglog = log.GetLogger()
 }
 
 // GetLiveStreamID return active live ID in specified channnel.
@@ -54,7 +54,7 @@ func GetLiveInfo(ys *youtube.Service, vid string) (channelID, chatID string, err
 
 // GetSuperChatRawMessages return live chat messages
 func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []*youtube.LiveChatMessage, nextToken string, err error) {
-	log.Infof("GetSuperChatRawMessages call.")
+	dbglog.Info("GetSuperChatRawMessages call.")
 	call := ys.LiveChatMessages.List(cid, "snippet")
 	call.PageToken(next)
 	call.MaxResults(maxResult)
