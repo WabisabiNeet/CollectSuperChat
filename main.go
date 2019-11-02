@@ -145,7 +145,8 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 	// e.g. https://www.youtube.com/watch?v=WziZomD9KC8
 	channel, chatid, err := livestream.GetLiveInfo(ys, vid)
 	if err != nil {
-		dbglog.Fatal(fmt.Sprintf("[%v] %v", channel, err))
+		dbglog.Warn(fmt.Sprintf("[%v] %v", channel, err))
+		return
 	} else if chatid == "" {
 		dbglog.Info(fmt.Sprintf("[%v] Live chat not active.", channel))
 		return

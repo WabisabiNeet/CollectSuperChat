@@ -218,7 +218,7 @@ func getLiveStreamHTML(src string) (string, error) {
 
 	subject := enve.GetHeader("Subject")
 	dbglog.Info(subject)
-	if !strings.Contains(subject, "ライブ配信中です") {
+	if !strings.Contains(subject, "ライブ配信中です") || !strings.Contains(subject, "プレミア公開を開始しました") {
 		return "", fmt.Errorf("not live stream mail")
 	}
 
