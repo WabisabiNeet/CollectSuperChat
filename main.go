@@ -44,8 +44,8 @@ func initSuperChatLogger(channelID string) *zap.Logger {
 	logfolder := path.Join("superchat", channelID)
 	os.MkdirAll(logfolder, os.ModeDir|0755)
 	today := time.Now()
-	const layout = "200601"
-	filename := logfolder + "/" + today.Format(layout) + ".txt"
+	const layout = "20060101010101"
+	filename := path.Join(logfolder, fmt.Sprintf("%s.txt", today.Format(layout)))
 
 	level := zap.NewAtomicLevel()
 	level.SetLevel(zapcore.InfoLevel)
