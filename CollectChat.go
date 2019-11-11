@@ -23,7 +23,7 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-const INTERVAL = 120 // 90sec.
+const INTERVAL = 240 // 90sec.
 const MAX_KEYS = 9
 
 // Collector is service struct
@@ -58,6 +58,9 @@ func init() {
 			YoutubeService:  ys,
 			ProcessingCount: 0,
 		})
+	}
+	if len(collectors) == 0 {
+		dbglog.Fatal("not found api key.")
 	}
 
 	// watching ticket folder.
@@ -131,21 +134,21 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	signal.Notify(quit, os.Interrupt)
 
 	// e.g. https://www.youtube.com/watch?v=WziZomD9KC8
-	channel, chatid, err := livestream.GetLiveInfo(c.YoutubeService, vid)
+	videoInfo, err := livestream.GetLiveInfo(c.YoutubeService, vid)
 	if err != nil {
-		dbglog.Warn(fmt.Sprintf("[%v] %v", channel, err))
+		dbglog.Warn(fmt.Sprintf("[vid:%v] %v", vid, err))
 		return
-	} else if chatid == "" {
-		dbglog.Info(fmt.Sprintf("[%v] Live chat not active.", channel))
+	} else if videoInfo.LiveStreamingDetails.ActiveLiveChatId == "" {
+		dbglog.Info(fmt.Sprintf("[vid:%v] Live chat not active.", vid))
 		return
 	}
 
-	chatlog := initSuperChatLogger(channel)
+	chatlog := initSuperChatLogger(videoInfo.Snippet.ChannelId)
 	defer chatlog.Sync()
 
 	nextToken := ""
 	for {
-		messages, nextToken, err := livestream.GetSuperChatRawMessages(c.YoutubeService, chatid, nextToken)
+		messages, nextToken, err := livestream.GetSuperChatRawMessages(c.YoutubeService, videoInfo.LiveStreamingDetails.ActiveLiveChatId, nextToken)
 		if err != nil {
 			switch t := err.(type) {
 			case *googleapi.Error:
@@ -159,12 +162,24 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 		}
 
 		for _, message := range messages {
-			message.AuthorDetails = nil
+			message.AuthorDetails.ChannelUrl = ""
+			message.AuthorDetails.ProfileImageUrl = ""
 			message.Etag = ""
 			message.Id = ""
 			message.Kind = ""
 			message.Snippet.LiveChatId = ""
-			outputJSON, err := json.Marshal(*message)
+			message.Snippet.DisplayMessage = ""
+			message.Snippet.AuthorChannelId = ""
+
+			c := livestream.ChatMessage{
+				ChannelID:    videoInfo.Snippet.ChannelId,
+				ChannelTitle: videoInfo.Snippet.ChannelTitle,
+				VideoID:      videoInfo.Id,
+				VideoTitle:   videoInfo.Snippet.Title,
+				PublishedAt:  videoInfo.Snippet.PublishedAt,
+				Message:      message,
+			}
+			outputJSON, err := json.Marshal(c)
 			if err == nil {
 				chatlog.Info(string(outputJSON))
 			}
@@ -175,11 +190,11 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			break
 		}
 
-		dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", channel, INTERVAL))
+		dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", videoInfo.Snippet.ChannelId, INTERVAL))
 		select {
 		case <-time.Tick(INTERVAL * time.Second):
 		case <-quit:
-			dbglog.Info(fmt.Sprintf("[%v] signaled.", channel))
+			dbglog.Info(fmt.Sprintf("[%v] signaled.", videoInfo.Snippet.ChannelId))
 			return
 		}
 	}
