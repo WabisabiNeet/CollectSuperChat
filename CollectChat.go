@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"path"
+	"sort"
 	"sync"
 	"time"
 
@@ -22,19 +23,41 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-const interval = 120 // 90sec.
+const INTERVAL = 120 // 90sec.
+const MAX_KEYS = 9
+
+// Collector is service struct
+type Collector struct {
+	YoutubeService  *youtube.Service
+	ProcessingCount int
+}
+
+// Collectors is List
+type Collectors []Collector
 
 var dbglog *zap.Logger
 var apikey string
+var collectors Collectors
 
 func init() {
 	dbglog = log.GetLogger()
 
-	// apikey = os.Getenv("YOUTUBE_API_KEY")
-	apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
-	// apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
-	if apikey == "" {
-		dbglog.Fatal("not found api key.")
+	for i := 1; i < MAX_KEYS; i++ {
+		apikey = os.Getenv(fmt.Sprintf("YOUTUBE_WATCH_LIVE_KEY%v", i))
+		// apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
+		if apikey == "" {
+			break
+		}
+
+		ctx := context.Background()
+		ys, err := youtube.NewService(ctx, option.WithAPIKey(apikey))
+		if err != nil {
+			dbglog.Fatal(err.Error())
+		}
+		collectors = append(collectors, Collector{
+			YoutubeService:  ys,
+			ProcessingCount: 0,
+		})
 	}
 
 	// watching ticket folder.
@@ -96,7 +119,8 @@ func getChannels() ([]string, error) {
 	return channels, nil
 }
 
-func startWatch(wg *sync.WaitGroup, vid string) {
+// StartWatch collect super chat.
+func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	defer wg.Done()
 	if vid == "" {
 		dbglog.Fatal("vid is nil")
@@ -106,15 +130,8 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 	defer close(quit)
 	signal.Notify(quit, os.Interrupt)
 
-	ctx := context.Background()
-	ys, err := youtube.NewService(ctx, option.WithAPIKey(apikey))
-	if err != nil {
-		dbglog.Warn(err.Error())
-		return
-	}
-
 	// e.g. https://www.youtube.com/watch?v=WziZomD9KC8
-	channel, chatid, err := livestream.GetLiveInfo(ys, vid)
+	channel, chatid, err := livestream.GetLiveInfo(c.YoutubeService, vid)
 	if err != nil {
 		dbglog.Warn(fmt.Sprintf("[%v] %v", channel, err))
 		return
@@ -128,7 +145,7 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 
 	nextToken := ""
 	for {
-		messages, nextToken, err := livestream.GetSuperChatRawMessages(ys, chatid, nextToken)
+		messages, nextToken, err := livestream.GetSuperChatRawMessages(c.YoutubeService, chatid, nextToken)
 		if err != nil {
 			switch t := err.(type) {
 			case *googleapi.Error:
@@ -158,9 +175,9 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 			break
 		}
 
-		dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", channel, interval))
+		dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", channel, INTERVAL))
 		select {
-		case <-time.Tick(interval * time.Second):
+		case <-time.Tick(INTERVAL * time.Second):
 		case <-quit:
 			dbglog.Info(fmt.Sprintf("[%v] signaled.", channel))
 			return
@@ -192,11 +209,17 @@ func startWatch(wg *sync.WaitGroup, vid string) {
 func main() {
 	defer dbglog.Sync()
 
+	m := sync.Mutex{}
 	wg := &sync.WaitGroup{}
 	n := notifier.Gmail{
 		CollectChat: func(vid string) {
+			m.Lock()
+			defer m.Unlock()
+			sort.Slice(collectors, func(i, j int) bool {
+				return collectors[i].ProcessingCount < collectors[j].ProcessingCount
+			})
 			wg.Add(1)
-			go startWatch(wg, vid)
+			go collectors[0].StartWatch(wg, vid)
 		},
 	}
 
