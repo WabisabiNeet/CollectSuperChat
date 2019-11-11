@@ -11,6 +11,7 @@ import (
 	"path"
 	"sort"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
@@ -29,7 +30,7 @@ const MAX_KEYS = 9
 // Collector is service struct
 type Collector struct {
 	YoutubeService  *youtube.Service
-	ProcessingCount int
+	ProcessingCount int32
 }
 
 // Collectors is List
@@ -122,8 +123,20 @@ func getChannels() ([]string, error) {
 	return channels, nil
 }
 
+func (c *Collector) incrementCount() {
+	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), 1)
+}
+
+func (c *Collector) decrementCount() {
+	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), -1)
+}
+
 // StartWatch collect super chat.
 func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
+	c.incrementCount()
+	defer c.decrementCount()
+
+	defer func() { c.ProcessingCount-- }()
 	defer wg.Done()
 	if vid == "" {
 		dbglog.Fatal("vid is nil")
