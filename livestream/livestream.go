@@ -53,21 +53,21 @@ func GetLiveInfo(ys *youtube.Service, vid string) (videoInfo *youtube.Video, err
 }
 
 // GetSuperChatRawMessages return live chat messages
-func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []*youtube.LiveChatMessage, nextToken string, err error) {
+func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []*youtube.LiveChatMessage, nextToken string, intervalMillis int64, err error) {
 	dbglog.Info("GetSuperChatRawMessages call.")
 	call := ys.LiveChatMessages.List(cid, "snippet,authorDetails")
 	call.PageToken(next)
 	call.MaxResults(maxResult)
 	res, err := call.Do()
 	if err != nil {
-		return nil, "", err
+		return nil, "", 0, err
 	}
 
+	intervalMillis = res.PollingIntervalMillis
 	nextToken = res.NextPageToken
 	for _, item := range res.Items {
 		switch item.Snippet.Type {
 		case "superChatEvent", "superStickerEvent", "textMessageEvent":
-
 		default:
 			continue
 		}
@@ -77,11 +77,12 @@ func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []
 }
 
 type ChatMessage struct {
-	ChannelID    string `json:"channelId,omitempty"`
-	ChannelTitle string `json:"channelTitle,omitempty"`
-	VideoID      string `json:"videoId,omitempty"`
-	VideoTitle   string `json:"videotitle,omitempty"`
-	PublishedAt  string `json:"publishedAt,omitempty"`
+	ChannelID          string `json:"channelId,omitempty"`
+	ChannelTitle       string `json:"channelTitle,omitempty"`
+	VideoID            string `json:"videoId,omitempty"`
+	VideoTitle         string `json:"videotitle,omitempty"`
+	ScheduledStartTime string `json:"scheduledStartTime,omitempty"`
+	ActualStartTime    string `json:"actualStartTime,omitempty"`
 
 	Message *youtube.LiveChatMessage `json:"chat,omitempty"`
 }

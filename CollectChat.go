@@ -161,7 +161,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 
 	nextToken := ""
 	for {
-		messages, nextToken, err := livestream.GetSuperChatRawMessages(c.YoutubeService, videoInfo.LiveStreamingDetails.ActiveLiveChatId, nextToken)
+		messages, nextToken, intervalMillis, err := livestream.GetSuperChatRawMessages(c.YoutubeService, videoInfo.LiveStreamingDetails.ActiveLiveChatId, nextToken)
 		if err != nil {
 			switch t := err.(type) {
 			case *googleapi.Error:
@@ -185,12 +185,13 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			message.Snippet.AuthorChannelId = ""
 
 			c := livestream.ChatMessage{
-				ChannelID:    videoInfo.Snippet.ChannelId,
-				ChannelTitle: videoInfo.Snippet.ChannelTitle,
-				VideoID:      videoInfo.Id,
-				VideoTitle:   videoInfo.Snippet.Title,
-				PublishedAt:  videoInfo.Snippet.PublishedAt,
-				Message:      message,
+				ChannelID:          videoInfo.Snippet.ChannelId,
+				ChannelTitle:       videoInfo.Snippet.ChannelTitle,
+				VideoID:            videoInfo.Id,
+				VideoTitle:         videoInfo.Snippet.Title,
+				ScheduledStartTime: videoInfo.LiveStreamingDetails.ScheduledStartTime,
+				ActualStartTime:    videoInfo.LiveStreamingDetails.ActualStartTime,
+				Message:            message,
 			}
 			outputJSON, err := json.Marshal(c)
 			if err == nil {
@@ -203,9 +204,11 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			break
 		}
 
-		dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", videoInfo.Snippet.ChannelId, INTERVAL))
+		// dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", videoInfo.Snippet.ChannelId, INTERVAL))
+		dbglog.Info(fmt.Sprintf("[%v] interval: %vsec.", videoInfo.Snippet.ChannelId, intervalMillis))
 		select {
-		case <-time.Tick(INTERVAL * time.Second):
+		// case <-time.Tick(INTERVAL * time.Second):
+		case <-time.Tick(time.Duration(intervalMillis) * time.Millisecond):
 		case <-quit:
 			dbglog.Info(fmt.Sprintf("[%v] signaled.", videoInfo.Snippet.ChannelId))
 			return
