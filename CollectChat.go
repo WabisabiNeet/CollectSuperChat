@@ -175,6 +175,42 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 		}
 
 		for _, message := range messages {
+			c := livestream.ChatMessage{
+				ChannelID:          videoInfo.Snippet.ChannelId,
+				ChannelTitle:       videoInfo.Snippet.ChannelTitle,
+				VideoID:            videoInfo.Id,
+				VideoTitle:         videoInfo.Snippet.Title,
+				ScheduledStartTime: videoInfo.LiveStreamingDetails.ScheduledStartTime,
+				ActualStartTime:    videoInfo.LiveStreamingDetails.ActualStartTime,
+			}
+
+			// 暫定 日本円の場合だけ金額を入れる
+			// 他国通貨の場合は要件等…
+			var amount uint64
+			var currency string
+			switch message.Snippet.Type {
+			case "superChatEvent":
+				c.AmountDisplayString = message.Snippet.SuperChatDetails.AmountDisplayString
+				c.AmountMicros = message.Snippet.SuperChatDetails.AmountMicros
+				c.Currency = message.Snippet.SuperChatDetails.Currency
+				c.Tier = message.Snippet.SuperChatDetails.Tier
+				c.UserComment = message.Snippet.SuperChatDetails.UserComment
+
+				amount = message.Snippet.SuperChatDetails.AmountMicros / 1000 / 1000
+				currency = message.Snippet.SuperChatDetails.Currency
+			case "superStickerEvent":
+				c.AmountDisplayString = message.Snippet.SuperStickerDetails.AmountDisplayString
+				c.AmountMicros = message.Snippet.SuperStickerDetails.AmountMicros
+				c.Currency = message.Snippet.SuperStickerDetails.Currency
+				c.Tier = message.Snippet.SuperStickerDetails.Tier
+
+				amount = message.Snippet.SuperStickerDetails.AmountMicros / 1000 / 1000
+				currency = message.Snippet.SuperStickerDetails.Currency
+			}
+			if currency == "JPY" {
+				c.AmountJPY = amount
+			}
+
 			message.AuthorDetails.ChannelUrl = ""
 			message.AuthorDetails.ProfileImageUrl = ""
 			message.Etag = ""
@@ -183,16 +219,9 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			message.Snippet.LiveChatId = ""
 			message.Snippet.DisplayMessage = ""
 			message.Snippet.AuthorChannelId = ""
+			message.Snippet.SuperChatDetails = nil
+			message.Snippet.SuperStickerDetails = nil
 
-			c := livestream.ChatMessage{
-				ChannelID:          videoInfo.Snippet.ChannelId,
-				ChannelTitle:       videoInfo.Snippet.ChannelTitle,
-				VideoID:            videoInfo.Id,
-				VideoTitle:         videoInfo.Snippet.Title,
-				ScheduledStartTime: videoInfo.LiveStreamingDetails.ScheduledStartTime,
-				ActualStartTime:    videoInfo.LiveStreamingDetails.ActualStartTime,
-				Message:            message,
-			}
 			outputJSON, err := json.Marshal(c)
 			if err == nil {
 				chatlog.Info(string(outputJSON))
