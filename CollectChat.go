@@ -24,8 +24,10 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-const INTERVAL = 240 // 90sec.
-const MAX_KEYS = 9
+// Interval is api cal intercal
+const Interval = 240 // 90sec.
+// MaxKeys is api keys.
+const MaxKeys = 9
 
 // Collector is service struct
 type Collector struct {
@@ -43,7 +45,7 @@ var collectors Collectors
 func init() {
 	dbglog = log.GetLogger()
 
-	for i := 1; i < MAX_KEYS; i++ {
+	for i := 1; i < MaxKeys; i++ {
 		apikey = os.Getenv(fmt.Sprintf("YOUTUBE_WATCH_LIVE_KEY%v", i))
 		// apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
 		if apikey == "" {
@@ -133,7 +135,6 @@ func (c *Collector) decrementCount() {
 
 // StartWatch collect super chat.
 func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
-	c.incrementCount()
 	defer c.decrementCount()
 
 	defer func() { c.ProcessingCount-- }()
@@ -221,6 +222,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			message.Snippet.AuthorChannelId = ""
 			message.Snippet.SuperChatDetails = nil
 			message.Snippet.SuperStickerDetails = nil
+			c.Message = message
 
 			outputJSON, err := json.Marshal(c)
 			if err == nil {
@@ -279,6 +281,7 @@ func main() {
 				return collectors[i].ProcessingCount < collectors[j].ProcessingCount
 			})
 			wg.Add(1)
+			collectors[0].incrementCount()
 			go collectors[0].StartWatch(wg, vid)
 		},
 	}
