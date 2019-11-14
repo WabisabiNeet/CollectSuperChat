@@ -8,7 +8,7 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-const maxResult = 2000
+const MaxMessageCount = 2000
 
 var dbglog *zap.Logger
 
@@ -57,7 +57,7 @@ func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []
 	dbglog.Info("GetSuperChatRawMessages call.")
 	call := ys.LiveChatMessages.List(cid, "snippet,authorDetails")
 	call.PageToken(next)
-	call.MaxResults(maxResult)
+	call.MaxResults(MaxMessageCount)
 	res, err := call.Do()
 	if err != nil {
 		return nil, "", 0, err
