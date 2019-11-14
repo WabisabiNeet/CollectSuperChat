@@ -162,7 +162,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 
 	nextToken := ""
 	for {
-		messages, nextToken, intervalMillis, err := livestream.GetSuperChatRawMessages(c.YoutubeService, videoInfo.LiveStreamingDetails.ActiveLiveChatId, nextToken)
+		messages, next, intervalMillis, err := livestream.GetSuperChatRawMessages(c.YoutubeService, videoInfo.LiveStreamingDetails.ActiveLiveChatId, nextToken)
 		if err != nil {
 			switch t := err.(type) {
 			case *googleapi.Error:
@@ -230,6 +230,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			}
 		}
 
+		nextToken = next
 		if nextToken == "" {
 			dbglog.Info("nextToken is empty.")
 			break
