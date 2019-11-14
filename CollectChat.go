@@ -29,6 +29,7 @@ const MaxKeys = 9
 
 // Collector is service struct
 type Collector struct {
+	ID              string
 	YoutubeService  *youtube.Service
 	ProcessingCount int32
 }
@@ -56,6 +57,7 @@ func init() {
 			dbglog.Fatal(err.Error())
 		}
 		collectors = append(collectors, Collector{
+			ID:              string(i),
 			YoutubeService:  ys,
 			ProcessingCount: 0,
 		})
@@ -301,6 +303,8 @@ func main() {
 			})
 			wg.Add(1)
 			collectors[0].incrementCount()
+			dbglog.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
+
 			go collectors[0].StartWatch(wg, vid)
 		},
 	}
