@@ -65,9 +65,6 @@ func init() {
 	if len(collectors) == 0 {
 		dbglog.Fatal("not found api key.")
 	}
-
-	// watching ticket folder.
-	os.MkdirAll("waching", os.ModeDir|0755)
 }
 
 func initSuperChatLogger(channelID string) *zap.Logger {
