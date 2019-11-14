@@ -136,8 +136,6 @@ func (c *Collector) decrementCount() {
 // StartWatch collect super chat.
 func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	defer c.decrementCount()
-
-	defer func() { c.ProcessingCount-- }()
 	defer wg.Done()
 	if vid == "" {
 		dbglog.Fatal("vid is nil")
