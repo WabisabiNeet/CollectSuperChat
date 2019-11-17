@@ -232,24 +232,25 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			break
 		}
 
-		switch countPerMinute := int64(len(messages)) * 60000 / intervalMillis; { // コメント分速からインターバル時間を決定
-		case countPerMinute > 1800:
-			// API取得上限を超えそうな場合は分速から必要とされる時間の2/3
-			intervalMillis = 60 * livestream.MaxMessageCount / countPerMinute * 1000 * 2 / 3
-		case countPerMinute > 1200:
-			intervalMillis = 60 * 1000
-		case countPerMinute > 800:
-			intervalMillis = 120 * 1000
-		case countPerMinute > 500:
-			intervalMillis = 180 * 1000
-		default:
-			intervalMillis = 240 * 1000
-		}
-		// Youtubeから指示されたInterval以下にはしない
-		if intervalMillis < requireIntervalMillis {
-			intervalMillis = requireIntervalMillis
-		}
-
+		// switch countPerMinute := int64(len(messages)) * 60000 / intervalMillis; { // コメント分速からインターバル時間を決定
+		// case countPerMinute > 1800:
+		// 	// API取得上限を超えそうな場合は分速から必要とされる時間の2/3
+		// 	intervalMillis = 60 * livestream.MaxMessageCount / countPerMinute * 1000 * 2 / 3
+		// case countPerMinute > 1200:
+		// 	intervalMillis = 60 * 1000
+		// case countPerMinute > 800:
+		// 	intervalMillis = 120 * 1000
+		// case countPerMinute > 500:
+		// 	intervalMillis = 180 * 1000
+		// default:
+		// 	intervalMillis = 240 * 1000
+		// }
+		// // Youtubeから指示されたInterval以下にはしない
+		// if intervalMillis < requireIntervalMillis {
+		// 	intervalMillis = requireIntervalMillis
+		// }
+		// intervalMillis = 10000
+		intervalMillis = requireIntervalMillis
 		// TODO: live開始10分前までは10分とかでいいかも
 		// TODO: live開始直後はコメント集中しやすいからデフォルトを短縮してもいいかも
 
