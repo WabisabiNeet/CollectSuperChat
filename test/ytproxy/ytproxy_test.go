@@ -3,11 +3,14 @@
 package ytproxy
 
 import (
+	"bytes"
 	"crypto/tls"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 	"testing"
 
 	"github.com/elazarl/goproxy"
@@ -20,30 +23,40 @@ func TestProxy(tt *testing.T) {
 	flag.Parse()
 
 	proxy2 := goproxy.NewProxyHttpServer()
-	// re := regexp.MustCompile(`.*/get_live_chat/.*`)
+
 	proxy2.OnRequest().HandleConnectFunc(func(host string, ctx *goproxy.ProxyCtx) (*goproxy.ConnectAction, string) {
-		fmt.Println("HandleConnectFunc")
+		// fmt.Println("HandleConnectFunc")
 		return goproxy.MitmConnect, host
 	})
-	proxy2.OnRequest().DoFunc(func(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
-		fmt.Println("OnRequest().DoFunc")
-		// return req, goproxy.NewResponse(req,
-		// 	goproxy.ContentTypeText, http.StatusForbidden, "就業時間中です。")
-		return req, nil
-	})
-	proxy2.OnResponse().DoFunc(func(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-		fmt.Println("OnResponse().DoFunc")
+
+	re := regexp.MustCompile(`.*/get_live_chat.*`)
+	proxy2.OnResponse(goproxy.UrlMatches(re)).DoFunc(func(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+		referer := resp.Request.Header["Referer"]
+		fmt.Println(fmt.Sprintf("livestream referer:%v", referer))
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err == nil {
+			fmt.Println(fmt.Sprintf("body:%v", string(body)))
+		}
+
+		resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 		return resp
 	})
-	// proxy2.OnResponse(goproxy.UrlMatches(re)).DoFunc(func(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	// 	fmt.Println("test")
-	// 	return resp
-	// })
-	// proxy2.OnResponse(goproxy.UrlIs(`/search`)).DoFunc(func(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	// 	fmt.Println("ReqHostIs [www.google.co.jp]")
-	// 	return resp
-	// })
-	proxy2.Verbose = true
+	re2 := regexp.MustCompile(`/live_chat_replay.*`)
+	proxy2.OnResponse(goproxy.UrlMatches(re2)).DoFunc(func(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+		referer := resp.Request.Header["Referer"]
+		fmt.Println(fmt.Sprintf("archive referer:%v", referer))
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err == nil {
+			fmt.Println(fmt.Sprintf("body:%v", string(body)))
+		}
+
+		resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+		return resp
+	})
+
+	proxy2.Verbose = false
 	go http.ListenAndServe("0.0.0.0:8081", proxy2)
 
 	cfg, err := TLSConfigFromCA(&goproxy.GoproxyCa, *flagHost)

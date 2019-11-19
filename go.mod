@@ -10,7 +10,6 @@ require (
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/jhillyerd/enmime v0.6.0
 	github.com/pkg/errors v0.8.1
-	github.com/ricohsimfp/si-iwb/agent/cmd/goproxy v0.0.0-20191111064242-8fef48508685
 	github.com/sclevine/agouti v3.0.0+incompatible
 	github.com/sirupsen/logrus v1.4.2
 	go.uber.org/atomic v1.4.0 // indirect
