@@ -1,6 +1,4 @@
-// Copyright (C) 2019 RICOH Co., Ltd. All rights reserved.
-
-package ytproxy
+package ytproxy_test
 
 import (
 	"bytes"
@@ -13,11 +11,12 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"github.com/elazarl/goproxy"
 	"golang.org/x/net/http2"
 )
 
-var flagHost = flag.String("host", "localhost", "")
+var flagHost = "localhost"
 
 func TestProxy(tt *testing.T) {
 	flag.Parse()
@@ -25,7 +24,6 @@ func TestProxy(tt *testing.T) {
 	proxy2 := goproxy.NewProxyHttpServer()
 
 	proxy2.OnRequest().HandleConnectFunc(func(host string, ctx *goproxy.ProxyCtx) (*goproxy.ConnectAction, string) {
-		// fmt.Println("HandleConnectFunc")
 		return goproxy.MitmConnect, host
 	})
 
@@ -56,10 +54,10 @@ func TestProxy(tt *testing.T) {
 		return resp
 	})
 
-	proxy2.Verbose = false
-	go http.ListenAndServe("0.0.0.0:8081", proxy2)
+	// proxy2.Verbose = false
+	// go http.ListenAndServe("0.0.0.0:8081", proxy2)
 
-	cfg, err := TLSConfigFromCA(&goproxy.GoproxyCa, *flagHost)
+	cfg, err := ytproxy.TLSConfigFromCA(&goproxy.GoproxyCa, flagHost)
 	if err != nil {
 		log.Println(err)
 	}
