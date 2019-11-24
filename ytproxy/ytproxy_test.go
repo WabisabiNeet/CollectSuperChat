@@ -2,18 +2,14 @@ package ytproxy_test
 
 import (
 	"bytes"
-	"crypto/tls"
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"regexp"
 	"testing"
 
-	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"github.com/elazarl/goproxy"
-	"golang.org/x/net/http2"
 )
 
 var flagHost = "localhost"
@@ -54,21 +50,20 @@ func TestProxy(tt *testing.T) {
 		return resp
 	})
 
-	// proxy2.Verbose = false
-	// go http.ListenAndServe("0.0.0.0:8081", proxy2)
-
-	cfg, err := ytproxy.TLSConfigFromCA(&goproxy.GoproxyCa, flagHost)
-	if err != nil {
-		log.Println(err)
-	}
-	sv2 := &http.Server{ // http1.1+http2 and tls1.2
-		Handler:   proxy2,
-		Addr:      "127.0.0.1:8083",
-		TLSConfig: cfg.Clone(),
-	}
-	sv2.TLSConfig.NextProtos = []string{"http/1.1", "h2"}
-	sv2.TLSConfig.MinVersion = tls.VersionTLS12
-	http2.VerboseLogs = true
-	http2.ConfigureServer(sv2, nil)
-	sv2.ListenAndServeTLS("", "")
+	proxy2.Verbose = false
+	http.ListenAndServe("0.0.0.0:8081", proxy2)
+	// cfg, err := ytproxy.TLSConfigFromCA(&goproxy.GoproxyCa, flagHost)
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+	// sv2 := &http.Server{ // http1.1+http2 and tls1.2
+	// 	Handler:   proxy2,
+	// 	Addr:      "127.0.0.1:8083",
+	// 	TLSConfig: cfg.Clone(),
+	// }
+	// sv2.TLSConfig.NextProtos = []string{"http/1.1", "h2"}
+	// sv2.TLSConfig.MinVersion = tls.VersionTLS12
+	// http2.VerboseLogs = true
+	// http2.ConfigureServer(sv2, nil)
+	// sv2.ListenAndServeTLS("", "")
 }

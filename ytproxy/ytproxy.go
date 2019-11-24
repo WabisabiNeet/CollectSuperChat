@@ -3,10 +3,10 @@ package ytproxy
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"regexp"
@@ -14,7 +14,6 @@ import (
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/elazarl/goproxy"
 	"go.uber.org/zap"
-	"golang.org/x/net/http2"
 )
 
 var dbglog *zap.Logger
@@ -22,7 +21,7 @@ var dbglog *zap.Logger
 var flagHost = "localhost"
 
 // OnRecieveLiveChatData is func.
-var OnRecieveLiveChatData func(json string)
+var OnRecieveLiveChatData func(vid, json string)
 
 func init() {
 	dbglog = log.GetLogger()
@@ -31,6 +30,7 @@ func init() {
 // OpenYoutubeLiveChatProxy open youtube proxy.
 func OpenYoutubeLiveChatProxy() {
 	proxy2 := goproxy.NewProxyHttpServer()
+	proxy2.Verbose = false
 
 	proxy2.OnRequest().HandleConnectFunc(func(host string, ctx *goproxy.ProxyCtx) (*goproxy.ConnectAction, string) {
 		return goproxy.MitmConnect, host
@@ -39,9 +39,21 @@ func OpenYoutubeLiveChatProxy() {
 	re := regexp.MustCompile(`.*/get_live_chat.*`)
 	proxy2.OnResponse(goproxy.UrlMatches(re)).DoFunc(func(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
 		referer := resp.Request.Header["Referer"]
+		if len(referer) == 0 {
+			return resp
+		}
+		vid := ""
+		for _, u := range referer {
+			url, _ := url.Parse(u)
+			q := url.Query()
+			vid = q.Get("v")
+		}
+		if vid == "" {
+			return resp
+		}
 		dbglog.Info(fmt.Sprintf("URL:%v referer:%v", resp.Request.URL, referer))
-		defer resp.Body.Close()
 
+		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		json := string(body)
 		if err == nil {
@@ -49,7 +61,7 @@ func OpenYoutubeLiveChatProxy() {
 		}
 
 		if OnRecieveLiveChatData != nil {
-			go OnRecieveLiveChatData(json)
+			go OnRecieveLiveChatData(vid, json)
 		}
 
 		resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
@@ -69,23 +81,10 @@ func OpenYoutubeLiveChatProxy() {
 	// 	return resp
 	// })
 
-	// proxy2.Verbose = false
-	// go http.ListenAndServe("0.0.0.0:8081", proxy2)
-
-	cfg, err := TLSConfigFromCA(&goproxy.GoproxyCa, flagHost)
-	if err != nil {
-		dbglog.Error(err.Error())
+	sv2 := &http.Server{
+		Handler: proxy2,
+		Addr:    "127.0.0.1:8081",
 	}
-	sv2 := &http.Server{ // http1.1+http2 and tls1.2
-		Handler:   proxy2,
-		Addr:      "127.0.0.1:8083",
-		TLSConfig: cfg.Clone(),
-	}
-	sv2.TLSConfig.NextProtos = []string{"http/1.1", "h2"}
-	sv2.TLSConfig.MinVersion = tls.VersionTLS12
-	http2.VerboseLogs = true
-	http2.ConfigureServer(sv2, nil)
-
 	go func() {
 		sigint := make(chan os.Signal, 1)
 		signal.Notify(sigint, os.Interrupt)
@@ -97,6 +96,5 @@ func OpenYoutubeLiveChatProxy() {
 			dbglog.Error(fmt.Sprintf("HTTP server Shutdown: %v", err))
 		}
 	}()
-
-	go sv2.ListenAndServeTLS("", "")
+	go sv2.ListenAndServe()
 }
