@@ -6,16 +6,12 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"path"
 	"sort"
 	"sync"
-	"sync/atomic"
-	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/notifier"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -23,19 +19,9 @@ import (
 // MaxKeys is api keys.
 const MaxKeys = 9
 
-// Collector is service struct
-type Collector struct {
-	ID              string
-	YoutubeService  *youtube.Service
-	ProcessingCount int32
-}
-
-// Collectors is List
-type Collectors []Collector
-
 var dbglog *zap.Logger
 var apikey string
-var collectors Collectors
+var collectors []Collector
 
 func init() {
 	dbglog = log.GetLogger()
@@ -63,38 +49,6 @@ func init() {
 	}
 }
 
-func initSuperChatLogger(channelID string) *zap.Logger {
-	logfolder := path.Join("superchat", channelID)
-	os.MkdirAll(logfolder, os.ModeDir|0755)
-	today := time.Now()
-	const layout = "20060102"
-	filename := path.Join(logfolder, fmt.Sprintf("%s.txt", today.Format(layout)))
-
-	level := zap.NewAtomicLevel()
-	level.SetLevel(zapcore.InfoLevel)
-
-	myConfig := zap.Config{
-		Level:    level,
-		Encoding: "console",
-		EncoderConfig: zapcore.EncoderConfig{
-			TimeKey:        "", // ignore.
-			LevelKey:       "", // ignore.
-			NameKey:        "Name",
-			CallerKey:      "", // ignore.
-			MessageKey:     "Msg",
-			StacktraceKey:  "St",
-			EncodeLevel:    zapcore.CapitalLevelEncoder,
-			EncodeTime:     zapcore.ISO8601TimeEncoder,
-			EncodeDuration: zapcore.StringDurationEncoder,
-			EncodeCaller:   zapcore.ShortCallerEncoder,
-		},
-		OutputPaths: []string{"stdout", filename},
-		// ErrorOutputPaths: []string{"stderr"},
-	}
-	chatlog, _ := myConfig.Build()
-	return chatlog
-}
-
 func getChannels() ([]string, error) {
 	channels := make([]string, 0)
 	flag.Parse()
@@ -116,14 +70,6 @@ func getChannels() ([]string, error) {
 	}
 
 	return channels, nil
-}
-
-func (c *Collector) incrementCount() {
-	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), 1)
-}
-
-func (c *Collector) decrementCount() {
-	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), -1)
 }
 
 func main() {

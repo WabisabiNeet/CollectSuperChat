@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/sclevine/agouti"
+	"golang.org/x/text/currency"
 )
 
 func TestScrapeLiveStreamingChat(tt *testing.T) {
@@ -126,4 +127,6 @@ func TestScrapeLiveStreamingChat(tt *testing.T) {
 	time.Sleep(5 * time.Second)
 
 	fmt.Fprintf(os.Stderr, "*** 終了 ***\n")
+
+	currency.NarrowSymbol(cur.Amount(120000.0))
 }

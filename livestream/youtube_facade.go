@@ -75,22 +75,3 @@ func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []
 	}
 	return
 }
-
-// ChatMessage : output json.
-type ChatMessage struct {
-	ChannelID          string `json:"cid,omitempty"`
-	ChannelTitle       string `json:"ctitle,omitempty"`
-	VideoID            string `json:"vid,omitempty"`
-	VideoTitle         string `json:"vtitle,omitempty"`
-	ScheduledStartTime string `json:"scheduledStartTime,omitempty"`
-	ActualStartTime    string `json:"actualStartTime,omitempty"`
-
-	AmountDisplayString string `json:"amountDisplayString,omitempty"`
-	AmountMicros        uint64 `json:"amountMicros,omitempty"`
-	AmountJPY           uint64 `json:"amountJPY,omitempty"`
-	Currency            string `json:"currency,omitempty"`
-	Tier                int64  `json:"tier,omitempty"`
-	UserComment         string `json:"userComment,omitempty"`
-
-	Message *youtube.LiveChatMessage `json:"chat,omitempty"`
-}
