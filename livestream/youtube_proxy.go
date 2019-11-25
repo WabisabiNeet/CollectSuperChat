@@ -103,7 +103,6 @@ func getLiveChatTextMessage(item *jason.Object) (*ChatMessage, error) {
 			switch iconType {
 			case "MODERATOR":
 				isModerator = true
-			case "":
 			default:
 				dbglog.Info(fmt.Sprintf("unexpected iconType:%v", iconType))
 			}
