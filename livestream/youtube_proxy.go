@@ -13,7 +13,7 @@ const liveStreamChatURL = "https://www.youtube.com/live_chat?is_popout=1&"
 func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error) {
 	root, err := jason.NewObjectFromReader(strings.NewReader(chatJSON))
 	if err != nil {
-		return nil, false, err
+		return nil, true, err
 	}
 
 	finished := false
@@ -36,13 +36,14 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 	// 	return
 	// }
 
+	messages := []*ChatMessage{}
+
 	actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
 	if err != nil {
 		// no chat.
-		return nil, finished, nil
+		return messages, finished, nil
 	}
 
-	messages := []*ChatMessage{}
 	for _, action := range actions {
 		item, err := action.GetObject("addChatItemAction", "item")
 		if err != nil {
@@ -118,9 +119,9 @@ func getLiveChatTextMessage(item *jason.Object) (*ChatMessage, error) {
 		}
 	}
 
-	m.MessageType = "TextMessage"
-	m.IsModerator = isModerator
-	m.AccessibilityLabel = accessibilityLabel
+	m.Message.MessageType = "TextMessage"
+	m.Message.IsModerator = isModerator
+	m.Message.AccessibilityLabel = accessibilityLabel
 
 	return m, nil
 }
@@ -141,10 +142,10 @@ func getLiveChatPaidMessage(item *jason.Object) (*ChatMessage, error) {
 	if err != nil {
 		return nil, err
 	}
-	m.MessageType = "PaidMessage"
-	m.AmountDisplayString = purchase
-	m.AmountJPY = 0
-	m.Currency = ""
+	m.Message.MessageType = "PaidMessage"
+	m.Message.AmountDisplayString = purchase
+	m.Message.AmountJPY = 0
+	m.Message.Currency = ""
 
 	return m, nil
 }
@@ -166,10 +167,10 @@ func getLiveChatPaidStickerMessage(item *jason.Object) (*ChatMessage, error) {
 		return nil, err
 	}
 
-	m.MessageType = "PaidMessage-Sticker"
-	m.AmountDisplayString = purchase
-	m.AmountJPY = 0
-	m.Currency = ""
+	m.Message.MessageType = "PaidMessage-Sticker"
+	m.Message.AmountDisplayString = purchase
+	m.Message.AmountJPY = 0
+	m.Message.Currency = ""
 
 	return m, nil
 }
@@ -202,11 +203,11 @@ func getCommonMessageInfo(renderer *jason.Object, message *ChatMessage) (*ChatMe
 		return nil, err
 	}
 
-	message.ID = id
-	message.AuthorName = author
-	message.AuthorChannelID = autherChannelID
-	message.UserComment = messageStr
-	message.PublishedAt = timestamp
+	message.Message.MessageID = id
+	message.Message.AuthorName = author
+	message.Message.AuthorChannelID = autherChannelID
+	message.Message.UserComment = messageStr
+	message.Message.PublishedAt = timestamp
 
 	return message, nil
 }

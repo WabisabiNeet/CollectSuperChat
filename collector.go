@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/signal"
@@ -9,6 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
 	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"go.uber.org/zap"
@@ -48,16 +50,75 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	chatlog := initSuperChatLogger(videoInfo.Snippet.ChannelId)
 	defer chatlog.Sync()
 
-	ch := make(chan string, 20)
-	ytproxy.SetWatcher(vid, ch)
+	ch := ytproxy.CreateWatcher(vid)
+	for {
+		select {
+		case json, ok := <-ch:
+			if !ok {
+				dbglog.Info("Live end. [%v][%v][%v]",
+					videoInfo.Snippet.ChannelTitle,
+					videoInfo.Snippet.Title,
+					fmt.Sprintf("https://www.youtube.com/watch?v=%v", vid))
+				return
+			}
 
-	// for {
-	// 	select {
-	// 	case json, ok := <-ch:
-	// 	case <-quit:
-	// 		return
-	// 	}
-	// }
+			messages, finished, err := livestream.GetLiveChatMessagesFromProxy(json)
+			if err != nil {
+				dbglog.Error(err.Error())
+			}
+			if finished {
+				ytproxy.UnsetWatcher(vid)
+				return
+			}
+
+			outputSuperChat(messages, videoInfo, chatlog)
+		case <-quit:
+			return
+		}
+	}
+
+	// kick selenium
+}
+
+func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, chatlog *zap.Logger) {
+	for _, m := range messages {
+		m.VideoInfo.ChannelID = vinfo.Snippet.ChannelId
+		m.VideoInfo.ChannelTitle = vinfo.Snippet.ChannelTitle
+		m.VideoInfo.VideoID = vinfo.Id
+		m.VideoInfo.VideoTitle = vinfo.Snippet.Title
+		m.VideoInfo.ScheduledStartTime = vinfo.LiveStreamingDetails.ScheduledStartTime
+		m.VideoInfo.ActualStartTime = vinfo.LiveStreamingDetails.ActualStartTime
+
+		if m.Message.AmountDisplayString != "" {
+			c, err := currency.GetCurrency(m.Message.AmountDisplayString)
+			if err != nil {
+				dbglog.Warn(err.Error())
+				continue
+			}
+			if c.Code == "JPY" {
+				continue
+			}
+			if c.RateToJPY == 0 {
+				dbglog.Warn(fmt.Sprintf("RateToJPY == 0 [%v]", c))
+				continue
+			}
+
+			val, err := c.GetAmountValue(m.Message.AmountDisplayString)
+			if err != nil {
+				dbglog.Warn(fmt.Sprintf("RateToJPY == 0 [%v]", c))
+				continue
+			}
+			m.Message.CurrencyRateToJPY = c.RateToJPY
+			m.Message.AmountJPY = uint(val * c.RateToJPY)
+			m.Message.Currency = c.Code
+		}
+
+		outputJSON, err := json.Marshal(m)
+		if err != nil {
+			dbglog.Error(err.Error())
+		}
+		chatlog.Info(string(outputJSON))
+	}
 }
 
 func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (string, error) {

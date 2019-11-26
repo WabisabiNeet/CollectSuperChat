@@ -3,7 +3,6 @@ package ytproxy
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -14,16 +13,15 @@ import (
 
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/elazarl/goproxy"
-	"go.uber.org/zap"
 )
 
-var dbglog *zap.Logger
+var dbglog log.ILogger
 
-var watcher map[string](chan<- string)
+var watcher map[string](chan string)
 var watcherMutex = sync.Mutex{}
 
 func init() {
-	dbglog = log.GetLogger()
+	dbglog = log.GetOriginLogger()
 }
 
 // OpenYoutubeLiveChatProxy open youtube proxy.
@@ -52,7 +50,7 @@ func OpenYoutubeLiveChatProxy() {
 		// We received an interrupt signal, shut down.
 		if err := sv2.Shutdown(context.Background()); err != nil {
 			// Error from closing listeners, or context timeout:
-			dbglog.Error(fmt.Sprintf("HTTP server Shutdown: %v", err))
+			dbglog.Error("HTTP server Shutdown: %v", err)
 		}
 	}()
 	go sv2.ListenAndServe()
@@ -73,13 +71,13 @@ func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Respon
 	if vid == "" {
 		return resp
 	}
-	dbglog.Info(fmt.Sprintf("URL:%v referer:%v", resp.Request.URL, referer))
+	dbglog.Info("URL:%v referer:%v", resp.Request.URL, referer)
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	json := string(body)
 	if err == nil {
-		dbglog.Info(fmt.Sprintf("body:%v", json))
+		dbglog.Info("body:%v", json)
 	}
 
 	if w, ok := getWatcher(vid); ok {
@@ -92,11 +90,13 @@ func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Respon
 
 // OnLiveChatReplayResponse is proxy func.
 func OnLiveChatReplayResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+	// リプレイ取得時はRefererにvidが含まれないためチェックをしない
+
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	json := string(body)
 	if err == nil {
-		dbglog.Info(fmt.Sprintf("body:%v", json))
+		dbglog.Info("body:%v", json)
 	}
 
 	for _, w := range watcher {
@@ -112,20 +112,34 @@ func getWatcher(vid string) (chan<- string, bool) {
 	watcherMutex.Lock()
 	defer watcherMutex.Lock()
 
-	c, ok := watcher[vid]
-	return c, ok
+	w, ok := watcher[vid]
+	return w, ok
 }
 
-// SetWatcher is register channel
-func SetWatcher(vid string, ch chan<- string) {
+// CreateWatcher is register channel
+func CreateWatcher(vid string) <-chan string {
 	watcherMutex.Lock()
 	defer watcherMutex.Lock()
-	watcher[vid] = ch
+
+	w, ok := watcher[vid]
+	if ok {
+		return w
+	}
+
+	newCh := make(chan string, 20)
+	watcher[vid] = newCh
+
+	return newCh
 }
 
 // UnsetWatcher is unregister channel
 func UnsetWatcher(vid string) {
 	watcherMutex.Lock()
 	defer watcherMutex.Lock()
+
+	w, ok := watcher[vid]
+	if ok {
+		close(w)
+	}
 	delete(watcher, vid)
 }

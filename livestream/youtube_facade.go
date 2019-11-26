@@ -4,16 +4,15 @@ import (
 	"fmt"
 
 	"github.com/WabisabiNeet/CollectSuperChat/log"
-	"go.uber.org/zap"
 	"google.golang.org/api/youtube/v3"
 )
 
 const MaxMessageCount = 2000
 
-var dbglog *zap.Logger
+var dbglog log.ILogger
 
 func init() {
-	dbglog = log.GetLogger()
+	dbglog = log.GetOriginLogger()
 }
 
 // GetLiveStreamID return active live ID in specified channnel.

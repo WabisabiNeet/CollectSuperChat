@@ -1,5 +1,26 @@
 package main
 
+import "testing"
+
+import "fmt"
+
+func Test(tt *testing.T) {
+	ch := make(chan string, 1)
+	ch <- "aaa"
+	_, ok := <-ch
+	if !ok {
+		fmt.Println("error1")
+		return
+	}
+
+	close(ch)
+	_, ok = <-ch
+	if ok {
+		fmt.Println("error2")
+		return
+	}
+}
+
 // func TestGetLiveStreamID(tt *testing.T) {
 // 	ctx := context.Background()
 // 	ys, err := youtube.NewService(ctx, option.WithAPIKey(""))

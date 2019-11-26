@@ -1,17 +1,17 @@
 package main
 
 import (
-	"bufio"
 	"context"
-	"flag"
 	"fmt"
 	"os"
+	"os/signal"
 	"sort"
 	"sync"
+	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/notifier"
-	"go.uber.org/zap"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -19,12 +19,12 @@ import (
 // MaxKeys is api keys.
 const MaxKeys = 9
 
-var dbglog *zap.Logger
+var dbglog log.ILogger
 var apikey string
 var collectors []*Collector
 
 func init() {
-	dbglog = log.GetLogger()
+	dbglog = log.GetOriginLogger()
 
 	for i := 1; i < MaxKeys; i++ {
 		apikey = os.Getenv(fmt.Sprintf("YOUTUBE_WATCH_LIVE_KEY%v", i))
@@ -49,27 +49,34 @@ func init() {
 	}
 }
 
-func getChannels() ([]string, error) {
-	channels := make([]string, 0)
-	flag.Parse()
-	filenames := flag.Args()
-
-	f, err := os.Open(filenames[0])
-	if err != nil {
-
-		return nil, err
-	}
-	defer f.Close()
-
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		channels = append(channels, scanner.Text())
-	}
-	if err = scanner.Err(); err != nil {
-		return nil, err
+func pollCurrency() {
+	collect := func() {
+		for _, c := range currency.Currencies {
+			err := c.ScrapeRataToJPY()
+			if err != nil {
+				dbglog.Warn(err.Error())
+			}
+			dbglog.Info("[%v] %v", c.Code, c.RateToJPY)
+		}
 	}
 
-	return channels, nil
+	collect()
+
+	go func() {
+		quit := make(chan os.Signal)
+		defer close(quit)
+		signal.Notify(quit, os.Interrupt)
+
+		for {
+			select {
+			case <-time.Tick(12 * time.Hour):
+			case <-quit:
+				return
+			}
+
+			collect()
+		}
+	}()
 }
 
 func main() {

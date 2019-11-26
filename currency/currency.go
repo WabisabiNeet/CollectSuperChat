@@ -8,6 +8,7 @@ import (
 	"unicode"
 
 	"github.com/mmcdole/gofeed"
+	"github.com/pkg/errors"
 )
 
 // Currency is currency code & symbol set.
@@ -46,29 +47,44 @@ var Currencies = []*Currency{
 	// {Code: "PHP", Symbol: "₱"},// フィリピンペソ
 }
 
+// ErrUnknownCurrency error
+var (
+	ErrUnknownCurrency = errors.New("unknown currency")
+	ErrParseCurrency   = errors.New("currency parse fail")
+)
+
+// GetCurrency return Currency
+func GetCurrency(amountStr string) (*Currency, error) {
+	for _, c := range Currencies {
+		if strings.Contains(amountStr, c.Symbol) {
+			return c, nil
+		}
+	}
+	return nil, ErrUnknownCurrency
+}
+
 // ScrapeRataToJPY get currency rate to JPY
-func (c *Currency) ScrapeRataToJPY() {
+func (c *Currency) ScrapeRataToJPY() error {
 	if c.Code == "JPY" {
 		c.RateToJPY = 1
-		return
+		return nil
 	}
 
 	u := fmt.Sprintf(feedURLBase, strings.ToLower(c.Code))
 	fp := gofeed.NewParser()
-	feed, _ := fp.ParseURL(u)
+	feed, err := fp.ParseURL(u)
+	if err != nil {
+		return err
+	}
 	items := feed.Items
 
 	desc := ""
 	for _, item := range items {
-		fmt.Println(item.Title)
-		fmt.Println(item.Link)
-		fmt.Println(item.Description)
-
 		desc = item.Description
 	}
 
 	baseRateStr := fmt.Sprintf("%s=", c.Code)
-	usdRate := ""
+	rateWords := ""
 	scanner := bufio.NewScanner(strings.NewReader(desc))
 	for scanner.Scan() {
 		text := strings.TrimSpace(scanner.Text())
@@ -82,21 +98,29 @@ func (c *Currency) ScrapeRataToJPY() {
 		if !strings.Contains(text, baseRateStr) {
 			continue
 		}
-		usdRate = text
+		rateWords = text
 		break
 	}
 
-	fmt.Println("usdRate:[" + usdRate + "]")
-	usdRate = strings.TrimRight(strings.ToUpper(usdRate), `JPY<BR/>`)
-	strs := strings.SplitAfter(usdRate, baseRateStr)
+	rateWords = strings.TrimRight(strings.ToUpper(rateWords), `JPY<BR/>`)
+	strs := strings.SplitAfter(rateWords, baseRateStr)
+	rateStr := strs[len(strs)-1]
 
-	rate := strs[len(strs)-1]
-	fmt.Println()
-	fmt.Println(rate)
-
-	if s, err := strconv.ParseFloat(rate, 64); err == nil {
+	if s, err := strconv.ParseFloat(rateStr, 64); err == nil {
 		c.RateToJPY = s
 	} else {
-		// エラーログ
+		return errors.Wrap(ErrParseCurrency, fmt.Sprintf("rateStr[%v]", rateStr))
 	}
+
+	return nil
+}
+
+// GetAmountValue return amount value.
+func (c *Currency) GetAmountValue(amountStr string) (float64, error) {
+	valueStr := strings.TrimPrefix(amountStr, c.Symbol)
+	s, err := strconv.ParseFloat(valueStr, 64)
+	if err != nil {
+		return 0, err
+	}
+	return s, nil
 }
