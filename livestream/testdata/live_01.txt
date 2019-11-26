@@ -1,0 +1,261 @@
+{
+	"timing": {
+		"info": {
+			"st": 131
+		}
+	},
+	"xsrf_token": "QUFFLUhqa2VmQ2ZzSjdsS2lXenZjWWRielZ5UXQzYjhSZ3xBQ3Jtc0tsaDBJbURUVlhUWjdNaE5FemlRTU0xWmc1NzhOaUxyckVFQThmUVV2djcwQ09HZjRXejB1ZUozSVBlVWFnUDNvMzdRbzlSeFpadVJrZ0xDX2hMUDhhYU1ra0xJUWFiWjB0X2Z3dDg2eEZUUlptLWh0VWxYeTlfSXRPbFgxeEt6TzFIa0hMQWxKeGhfZF9TUllGc0pXWnowY29YVGxWdl9WeEFsanlkRDVXb0M4NldXN1E=",
+	"url": "/live_chat/get_live_chat?continuation=0ofMyAO3ARpQQ2pnS0RRb0xUMFk0ZVZCR2RXTnZhREFxSndvWVZVTlBSRTVNZVc0elREZ3pkMFZ0UXpCRVRFd3dZM2hCRWd0UFJqaDVVRVoxWTI5b01DQUMow9ON5MyC5gIwADgAQAJKKQgAEAAYACAAKg5zdGF0aWNjaGVja3N1bToAQABKAFCFnKnczILmAlgDUMyCuuTMguYCWIy174LFguYCaASCAQIIBIgBAJoBAggAoAHAi9vkzILmAg%253D%253D&hidden=false",
+	"csn": "IFbaXc-XCfuolQTb74iQDw",
+	"endpoint": {
+		"commandMetadata": {
+			"webCommandMetadata": {
+				"url": "/live_chat/get_live_chat?continuation=0ofMyAO3ARpQQ2pnS0RRb0xUMFk0ZVZCR2RXTnZhREFxSndvWVZVTlBSRTVNZVc0elREZ3pkMFZ0UXpCRVRFd3dZM2hCRWd0UFJqaDVVRVoxWTI5b01DQUMow9ON5MyC5gIwADgAQAJKKQgAEAAYACAAKg5zdGF0aWNjaGVja3N1bToAQABKAFCFnKnczILmAlgDUMyCuuTMguYCWIy174LFguYCaASCAQIIBIgBAJoBAggAoAHAi9vkzILmAg%253D%253D&hidden=false",
+				"rootVe": 83769
+			}
+		},
+		"urlEndpoint": {
+			"url": "/live_chat/get_live_chat?continuation=0ofMyAO3ARpQQ2pnS0RRb0xUMFk0ZVZCR2RXTnZhREFxSndvWVZVTlBSRTVNZVc0elREZ3pkMFZ0UXpCRVRFd3dZM2hCRWd0UFJqaDVVRVoxWTI5b01DQUMow9ON5MyC5gIwADgAQAJKKQgAEAAYACAAKg5zdGF0aWNjaGVja3N1bToAQABKAFCFnKnczILmAlgDUMyCuuTMguYCWIy174LFguYCaASCAQIIBIgBAJoBAggAoAHAi9vkzILmAg%253D%253D&hidden=false"
+		}
+	},
+	"response": {
+		"responseContext": {
+			"serviceTrackingParams": [
+				{
+					"service": "CSI",
+					"params": [
+						{
+							"key": "GetLiveChat_rid",
+							"value": "0xf0270c4b1c053209"
+						},
+						{
+							"key": "c",
+							"value": "WEB"
+						},
+						{
+							"key": "cver",
+							"value": "2.20191122.05.01"
+						},
+						{
+							"key": "yt_li",
+							"value": "1"
+						}
+					]
+				},
+				{
+					"service": "GFEEDBACK",
+					"params": [
+						{
+							"key": "e",
+							"value": "23744176,23745073,23748147,23788848,23804281,23827263,23832132,23837040,23837772,23837993,23839597,23842630,23842986,23843766,23848795,23850275,23851771,23852866,23853886,23856568,23856652,23857014,23857014,23857450,23857851,23857851,23857949,23858139,23858143,23858319,23859803,3300116,3300133,3300164,3313321,3314786,3315531,3315790,3315944,3315945,3316343,9447854,9449243,9471235,9475072"
+						},
+						{
+							"key": "logged_in",
+							"value": "1"
+						}
+					]
+				},
+				{
+					"service": "GUIDED_HELP",
+					"params": [
+						{
+							"key": "creator_channel_id",
+							"value": "UC4fN28QC6rdv4oBj43uuSbQ"
+						},
+						{
+							"key": "logged_in",
+							"value": "1"
+						}
+					]
+				},
+				{
+					"service": "ECATCHER",
+					"params": [
+						{
+							"key": "client.name",
+							"value": "WEB"
+						},
+						{
+							"key": "client.version",
+							"value": "2.20191122"
+						},
+						{
+							"key": "innertube.build.changelist",
+							"value": "281979857"
+						},
+						{
+							"key": "innertube.build.experiments.source_version",
+							"value": "282045355"
+						},
+						{
+							"key": "innertube.build.label",
+							"value": "youtube.ytfe.innertube_20191121_6_RC2"
+						},
+						{
+							"key": "innertube.build.timestamp",
+							"value": "1574442830"
+						},
+						{
+							"key": "innertube.build.variants.checksum",
+							"value": "cfeab7f9840354c71222d42ec3a4ce75"
+						},
+						{
+							"key": "innertube.run.job",
+							"value": "ytfe-innertube-replica-only.ytfe"
+						}
+					]
+				}
+			],
+			"webResponseContextExtensionData": {
+				"ytConfigData": {
+					"csn": "IFbaXc-XCfuolQTb74iQDw",
+					"visitorData": "CgtLeXFWU3BYaXF2TSigrOnuBQ%3D%3D",
+					"sessionIndex": 0,
+					"delegatedSessionId": "104770057932753661218"
+				}
+			}
+		},
+		"continuationContents": {
+			"liveChatContinuation": {
+				"continuations": [
+					{
+						"invalidationContinuationData": {
+							"invalidationId": {
+								"objectSource": 1056,
+								"objectId": "Y2hhdH5PRjh5UEZ1Y29oMH41MjQ4NjMz",
+								"topic": "chat~OF8yPFucoh0~5248633",
+								"subscribeToGcmTopics": true,
+								"protoCreationTimestampMs": "1574589984267"
+							},
+							"timeoutMs": 10000,
+							"continuation": "0ofMyAO3ARpQQ2pnS0RRb0xUMFk0ZVZCR2RXTnZhREFxSndvWVZVTlBSRTVNZVc0elREZ3pkMFZ0UXpCRVRFd3dZM2hCRWd0UFJqaDVVRVoxWTI5b01DQUMo0Ovx5MyC5gIwADgAQAJKKQgAEAAYACAAKg5zdGF0aWNjaGVja3N1bToAQABKAFCFnKnczILmAlgDUNfvk-XMguYCWIy174LFguYCaASCAQIIBIgBAJoBAggAoAHfq7flzILmAg%3D%3D"
+						}
+					}
+				],
+				"actions": [
+					{
+						"addChatItemAction": {
+							"item": {
+								"liveChatTextMessageRenderer": {
+									"message": {
+										"runs": [
+											{
+												"text": "おっπ草"
+											}
+										]
+									},
+									"authorName": {
+										"simpleText": "蔡綺"
+									},
+									"authorPhoto": {
+										"thumbnails": [
+											{
+												"url": "https://yt3.ggpht.com/-jCYxyG3N4j4/AAAAAAAAAAI/AAAAAAAAAAA/ZA-3rmt3phI/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+												"width": 32,
+												"height": 32
+											},
+											{
+												"url": "https://yt3.ggpht.com/-jCYxyG3N4j4/AAAAAAAAAAI/AAAAAAAAAAA/ZA-3rmt3phI/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+												"width": 64,
+												"height": 64
+											}
+										]
+									},
+									"contextMenuEndpoint": {
+										"commandMetadata": {
+											"webCommandMetadata": {
+												"ignoreNavigation": true
+											}
+										},
+										"liveChatItemContextMenuEndpoint": {
+											"params": "Q2pzS09Rb2FRMDlpV1hFdFZFMW5kVmxEUmxsUFYzZFJiMlJCZVhkSFZIY1NHME5RYWxWMlkweEtaM1ZaUTBaWU4wZFVRVWxrV2pWelJtSm5OUkFBR2pnS0RRb0xUMFk0ZVZCR2RXTnZhREFxSndvWVZVTlBSRTVNZVc0elREZ3pkMFZ0UXpCRVRFd3dZM2hCRWd0UFJqaDVVRVoxWTI5b01DQUNLQVF5R2dvWVZVTmtWVTlUWjAxTmNGTnpZa2czY1dSclZsRlJia04z"
+										}
+									},
+									"id": "CjkKGkNPYllxLVRNZ3VZQ0ZZT1d3UW9kQXl3R1R3EhtDUGpVdmNMSmd1WUNGWDdHVEFJZFo1c0ZiZzU%3D",
+									"timestampUsec": "1574589981977702",
+									"authorBadges": [
+										{
+											"liveChatAuthorBadgeRenderer": {
+												"customThumbnail": {
+													"thumbnails": [
+														{
+															"url": "https://yt3.ggpht.com/hO-K9GovnPU6RznvjonaxtEGQhfnt7QA0cK8pcIZEhjeGfS7o37N6Awa62jSIn5TD2VDcsmFUy0=s16-c-k"
+														}
+													]
+												},
+												"tooltip": "新規メンバー",
+												"accessibility": {
+													"accessibilityData": {
+														"label": "新規メンバー"
+													}
+												}
+											}
+										}
+									],
+									"authorExternalChannelId": "UCdUOSgMMpSsbH7qdkVQQnCw",
+									"contextMenuAccessibility": {
+										"accessibilityData": {
+											"label": "コメントの操作"
+										}
+									}
+								}
+							},
+							"clientId": "CPjUvcLJguYCFX7GTAIdZ5sFbg5"
+						}
+					},
+					{
+						"addChatItemAction": {
+							"item": {
+								"liveChatTextMessageRenderer": {
+									"message": {
+										"runs": [
+											{
+												"text": "x^2-9"
+											}
+										]
+									},
+									"authorName": {
+										"simpleText": "ギエロ"
+									},
+									"authorPhoto": {
+										"thumbnails": [
+											{
+												"url": "https://yt3.ggpht.com/-cBaRS-CtWQ0/AAAAAAAAAAI/AAAAAAAAAAA/XKDeoa9TyJA/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+												"width": 32,
+												"height": 32
+											},
+											{
+												"url": "https://yt3.ggpht.com/-cBaRS-CtWQ0/AAAAAAAAAAI/AAAAAAAAAAA/XKDeoa9TyJA/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+												"width": 64,
+												"height": 64
+											}
+										]
+									},
+									"contextMenuEndpoint": {
+										"commandMetadata": {
+											"webCommandMetadata": {
+												"ignoreNavigation": true
+											}
+										},
+										"liveChatItemContextMenuEndpoint": {
+											"params": "Q2pzS09Rb2FRMDVFY2pobFZFMW5kVmxEUmxWdVNuZFJiMlJwWjAxSGRtY1NHME5MTm1nM2NsQk1aM1ZaUTBaUmIxTlpRVzlrT1ZCWlRrMW5NeEFBR2pnS0RRb0xUMFk0ZVZCR2RXTnZhREFxSndvWVZVTlBSRTVNZVc0elREZ3pkMFZ0UXpCRVRFd3dZM2hCRWd0UFJqaDVVRVoxWTI5b01DQUNLQVF5R2dvWVZVTk9NbE52VDJOTFNXOVFhbE5pYVhVelMxVTVSa0ZS"
+										}
+									},
+									"id": "CjkKGkNORHI4ZVRNZ3VZQ0ZVbkp3UW9kaWdNR3ZnEhtDSzZoN3JQTGd1WUNGUW9TWUFvZDlQWU5NZzM%3D",
+									"timestampUsec": "1574589983126992",
+									"authorExternalChannelId": "UCN2SoOcKIoPjSbiu3KU9FAQ",
+									"contextMenuAccessibility": {
+										"accessibilityData": {
+											"label": "コメントの操作"
+										}
+									}
+								}
+							},
+							"clientId": "CK6h7rPLguYCFQoSYAod9PYNMg3"
+						}
+					}
+				]
+			}
+		}
+	}
+}

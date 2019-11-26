@@ -21,7 +21,7 @@ const MaxKeys = 9
 
 var dbglog *zap.Logger
 var apikey string
-var collectors []Collector
+var collectors []*Collector
 
 func init() {
 	dbglog = log.GetLogger()
@@ -38,7 +38,7 @@ func init() {
 		if err != nil {
 			dbglog.Fatal(err.Error())
 		}
-		collectors = append(collectors, Collector{
+		collectors = append(collectors, &Collector{
 			ID:              string(i),
 			YoutubeService:  ys,
 			ProcessingCount: 0,

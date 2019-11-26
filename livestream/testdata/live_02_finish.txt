@@ -1,0 +1,119 @@
+{
+	"csn": "0Q_aXZbuOqKyiga9pp04",
+	"response": {
+		"responseContext": {
+			"serviceTrackingParams": [
+				{
+					"service": "CSI",
+					"params": [
+						{
+							"key": "GetLiveChat_rid",
+							"value": "0x4c612e44ff49bbb8"
+						},
+						{
+							"key": "c",
+							"value": "WEB"
+						},
+						{
+							"key": "cver",
+							"value": "2.20191122.05.01"
+						},
+						{
+							"key": "yt_li",
+							"value": "1"
+						}
+					]
+				},
+				{
+					"service": "GFEEDBACK",
+					"params": [
+						{
+							"key": "e",
+							"value": "23744176,23745073,23748147,23788848,23804281,23827263,23832132,23837040,23837772,23837993,23839597,23842630,23842986,23843766,23848795,23850275,23851771,23853886,23856568,23856652,23857014,23857014,23857450,23857851,23857851,23857949,23858139,23858143,23858319,23859803,3300116,3300133,3300164,3313321,3314786,3315790,3315944,3315945,3316343,9447854,9449243,9471235"
+						},
+						{
+							"key": "logged_in",
+							"value": "1"
+						}
+					]
+				},
+				{
+					"service": "GUIDED_HELP",
+					"params": [
+						{
+							"key": "creator_channel_id",
+							"value": "UC4fN28QC6rdv4oBj43uuSbQ"
+						},
+						{
+							"key": "logged_in",
+							"value": "1"
+						}
+					]
+				},
+				{
+					"service": "ECATCHER",
+					"params": [
+						{
+							"key": "client.name",
+							"value": "WEB"
+						},
+						{
+							"key": "client.version",
+							"value": "2.20191122"
+						},
+						{
+							"key": "innertube.build.changelist",
+							"value": "281979857"
+						},
+						{
+							"key": "innertube.build.experiments.source_version",
+							"value": "282045355"
+						},
+						{
+							"key": "innertube.build.label",
+							"value": "youtube.ytfe.innertube_20191121_6_RC2"
+						},
+						{
+							"key": "innertube.build.timestamp",
+							"value": "1574442830"
+						},
+						{
+							"key": "innertube.build.variants.checksum",
+							"value": "cfeab7f9840354c71222d42ec3a4ce75"
+						},
+						{
+							"key": "innertube.run.job",
+							"value": "ytfe-innertube-replica-only.ytfe"
+						}
+					]
+				}
+			],
+			"webResponseContextExtensionData": {
+				"ytConfigData": {
+					"csn": "0Q_aXZbuOqKyiga9pp04",
+					"visitorData": "CgtLeXFWU3BYaXF2TSjRn-juBQ%3D%3D",
+					"sessionIndex": 0,
+					"delegatedSessionId": "104770057932753661218"
+				}
+			}
+		}
+	},
+	"xsrf_token": "QUFFLUhqbkFRSGt3T2JQMlF5ZS1jbEV4bkt4NTNlUi1WZ3xBQ3Jtc0ttNUkwM3hhM0cwQVNpMm5VSHgxdEpCNmgxcDNzMC1jQzVaUkdZV2sxS2V4a3RoVTg1NUdLUGMxa2NQTjBpdmhURi1OZW12bFZnSF96ZGN1SmpOeFViV21mSmZxRDUwelFacXpmM1I5bFlNUURHMDBvZTNuNlczLXVNa0VEeWtVUGhfbGNnZlg4QlRPbHp4LXVZRzVhZEF2NDJJMXd5b3cxQU1tZ0RnUG1aM3liYl9Fdms=",
+	"url": "/live_chat/get_live_chat?continuation=0ofMyAPXARpuQ2t3U0lRb1lWVU5FY1VreWFrOTZNSGRsZFcxRk9ITTNjR0ZGYXpabkVnVXZiR2wyWlNvbkNoaFZRMFJ4U1RKcVQzb3dkMlYxYlVVNGN6ZHdZVVZyTm1jU0MzZEJlbWxRY21oMmRtWTBJQUklM0Qoj_XTx4mC5gIwADgAQAJKKwgBEAAYACAAKg5zdGF0aWNjaGVja3N1bToAQABKAggBUNSbrarJgeYCWANQk4z5x4mC5gJYj4KRrr2B5gJoBIIBAggEiAEAmgECCACgAcb6m9qJguYC&isInvalidationTimeoutRequest=true&hidden=true",
+	"endpoint": {
+		"commandMetadata": {
+			"webCommandMetadata": {
+				"url": "/live_chat/get_live_chat?continuation=0ofMyAPXARpuQ2t3U0lRb1lWVU5FY1VreWFrOTZNSGRsZFcxRk9ITTNjR0ZGYXpabkVnVXZiR2wyWlNvbkNoaFZRMFJ4U1RKcVQzb3dkMlYxYlVVNGN6ZHdZVVZyTm1jU0MzZEJlbWxRY21oMmRtWTBJQUklM0Qoj_XTx4mC5gIwADgAQAJKKwgBEAAYACAAKg5zdGF0aWNjaGVja3N1bToAQABKAggBUNSbrarJgeYCWANQk4z5x4mC5gJYj4KRrr2B5gJoBIIBAggEiAEAmgECCACgAcb6m9qJguYC&isInvalidationTimeoutRequest=true&hidden=true",
+				"rootVe": 83769
+			}
+		},
+		"urlEndpoint": {
+			"url": "/live_chat/get_live_chat?continuation=0ofMyAPXARpuQ2t3U0lRb1lWVU5FY1VreWFrOTZNSGRsZFcxRk9ITTNjR0ZGYXpabkVnVXZiR2wyWlNvbkNoaFZRMFJ4U1RKcVQzb3dkMlYxYlVVNGN6ZHdZVVZyTm1jU0MzZEJlbWxRY21oMmRtWTBJQUklM0Qoj_XTx4mC5gIwADgAQAJKKwgBEAAYACAAKg5zdGF0aWNjaGVja3N1bToAQABKAggBUNSbrarJgeYCWANQk4z5x4mC5gJYj4KRrr2B5gJoBIIBAggEiAEAmgECCACgAcb6m9qJguYC&isInvalidationTimeoutRequest=true&hidden=true"
+		}
+	},
+	"timing": {
+		"info": {
+			"st": 104
+		}
+	}
+}

@@ -51,13 +51,13 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	ch := make(chan string, 20)
 	ytproxy.SetWatcher(vid, ch)
 
-	for {
-		select {
-		case json, ok := <-ch:
-		case <-quit:
-			return
-		}
-	}
+	// for {
+	// 	select {
+	// 	case json, ok := <-ch:
+	// 	case <-quit:
+	// 		return
+	// 	}
+	// }
 }
 
 func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (string, error) {
