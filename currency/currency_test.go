@@ -1,4 +1,4 @@
-package currency
+package currency_test
 
 import (
 	"bufio"
