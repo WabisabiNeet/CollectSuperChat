@@ -61,6 +61,7 @@ func (c *Currency) ScrapeRataToJPY() {
 		desc = item.Description
 	}
 
+	baseRateStr := fmt.Sprintf("%s=", c.Code)
 	usdRate := ""
 	scanner := bufio.NewScanner(strings.NewReader(desc))
 	for scanner.Scan() {
@@ -71,7 +72,8 @@ func (c *Currency) ScrapeRataToJPY() {
 			}
 			return r
 		}, text)
-		if !strings.Contains(text, "USD=") {
+
+		if !strings.Contains(text, baseRateStr) {
 			continue
 		}
 		usdRate = text
@@ -80,7 +82,7 @@ func (c *Currency) ScrapeRataToJPY() {
 
 	fmt.Println("usdRate:[" + usdRate + "]")
 	usdRate = strings.TrimRight(strings.ToUpper(usdRate), `JPY<BR/>`)
-	strs := strings.SplitAfter(usdRate, "USD=")
+	strs := strings.SplitAfter(usdRate, baseRateStr)
 
 	rate := strs[len(strs)-1]
 	fmt.Println()
