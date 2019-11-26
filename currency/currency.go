@@ -18,7 +18,7 @@ type Currency struct {
 }
 
 // e.g https://www.fx-exchange.com/jpy/usd.html
-const feedURLBase = `https://www.fx-exchange.com/jpy/%s.html`
+const feedURLBase = `https://www.fx-exchange.com/%s/jpy.xml`
 
 // Currencies is currency  table
 var Currencies = []*Currency{
@@ -48,8 +48,14 @@ var Currencies = []*Currency{
 
 // ScrapeRataToJPY get currency rate to JPY
 func (c *Currency) ScrapeRataToJPY() {
+	if c.Code == "JPY" {
+		c.RateToJPY = 1
+		return
+	}
+
+	u := fmt.Sprintf(feedURLBase, strings.ToLower(c.Code))
 	fp := gofeed.NewParser()
-	feed, _ := fp.ParseURL(fmt.Sprintf(feedURLBase, strings.ToLower(c.Code)))
+	feed, _ := fp.ParseURL(u)
 	items := feed.Items
 
 	desc := ""
