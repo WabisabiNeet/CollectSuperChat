@@ -10,6 +10,18 @@ import (
 	"github.com/sclevine/agouti"
 )
 
+func TestSeleniumServer(tt *testing.T) {
+	url := "http://0000:4444/wd/hub"
+	options := []agouti.Option{agouti.Browser("chrome")}
+	page, _ := agouti.NewPage(url, options...)
+
+	page.Navigate("https://yahoo.co.jp")
+	defer page.CloseWindow()
+	<-time.Tick(time.Second * 5)
+
+	page.Screenshot("Screenshot01.png")
+}
+
 func TestScrapeLiveStreamingChat(tt *testing.T) {
 	// ---------------------------------------------------------------
 
