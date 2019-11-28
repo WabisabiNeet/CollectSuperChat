@@ -8,7 +8,9 @@ import (
 	"net/http"
 	"regexp"
 	"testing"
+	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"github.com/elazarl/goproxy"
 )
 
@@ -66,4 +68,11 @@ func TestProxy(tt *testing.T) {
 	// http2.VerboseLogs = true
 	// http2.ConfigureServer(sv2, nil)
 	// sv2.ListenAndServeTLS("", "")
+}
+
+func TestProxy2(tt *testing.T) {
+	ytproxy.OpenYoutubeLiveChatProxy()
+	fmt.Println("proxy started.")
+	<-time.Tick(time.Minute * 1)
+	fmt.Println("proxy end.")
 }
