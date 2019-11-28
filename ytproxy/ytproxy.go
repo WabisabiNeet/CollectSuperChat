@@ -40,7 +40,7 @@ func OpenYoutubeLiveChatProxy() {
 
 	sv2 := &http.Server{
 		Handler: proxy2,
-		Addr:    "127.0.0.1:8081",
+		Addr:    "0.0.0.0:8081",
 	}
 	go func() {
 		sigint := make(chan os.Signal, 1)

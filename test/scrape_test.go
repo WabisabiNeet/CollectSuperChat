@@ -12,7 +12,14 @@ import (
 
 func TestSeleniumServer(tt *testing.T) {
 	url := "http://0000:4444/wd/hub"
-	options := []agouti.Option{agouti.Browser("chrome")}
+	options := []agouti.Option{
+		agouti.Browser("chrome"),
+		agouti.ChromeOptions(
+			"args", []string{
+				"--proxy-server=0000:8081",
+			}),
+	}
+	// free proxy 43.245.216.189:8080
 	page, _ := agouti.NewPage(url, options...)
 
 	page.Navigate("https://yahoo.co.jp")
