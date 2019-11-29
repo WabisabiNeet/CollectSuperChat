@@ -12,6 +12,7 @@ import (
 
 	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
+	"github.com/WabisabiNeet/CollectSuperChat/selenium"
 	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -51,6 +52,15 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	defer chatlog.Sync()
 
 	ch := ytproxy.CreateWatcher(vid)
+	defer ytproxy.UnsetWatcher(vid)
+
+	defer selenium.CloseLiveChatWindow(vid)
+	err = selenium.OpenLiveChatWindow(vid)
+	if err != nil {
+		dbglog.Error(fmt.Sprintf("OpenLiveChatWindow error:%v", err.Error()))
+		return
+	}
+
 	for {
 		select {
 		case json, ok := <-ch:
@@ -76,8 +86,6 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 			return
 		}
 	}
-
-	// kick selenium
 }
 
 func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, chatlog *zap.Logger) {

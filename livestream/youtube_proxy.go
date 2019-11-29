@@ -7,8 +7,6 @@ import (
 	"github.com/antonholmquist/jason"
 )
 
-const liveStreamChatURL = "https://www.youtube.com/live_chat?is_popout=1&"
-
 // GetLiveChatMessagesFromProxy scrape live chat
 func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error) {
 	root, err := jason.NewObjectFromReader(strings.NewReader(chatJSON))

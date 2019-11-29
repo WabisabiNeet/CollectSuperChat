@@ -12,6 +12,7 @@ import (
 	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/notifier"
+	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -99,6 +100,7 @@ func main() {
 		},
 	}
 
+	ytproxy.OpenYoutubeLiveChatProxy()
 	n.PollingStart()
 	wg.Wait()
 }
