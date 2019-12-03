@@ -52,7 +52,6 @@ func OpenYoutubeLiveChatProxy() {
 
 // OnLiveChatResponse is proxy func.
 func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	log.Info("OnLiveChatResponse called.")
 	referer := resp.Request.Header["Referer"]
 	if len(referer) == 0 {
 		return resp
