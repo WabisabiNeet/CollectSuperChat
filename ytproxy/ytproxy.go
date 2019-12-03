@@ -3,7 +3,6 @@ package ytproxy
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -55,7 +54,6 @@ func OpenYoutubeLiveChatProxy() {
 func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
 	log.Info("OnLiveChatResponse called.")
 	referer := resp.Request.Header["Referer"]
-	log.Info(fmt.Sprintf("Referer:%v", referer))
 	if len(referer) == 0 {
 		return resp
 	}
@@ -64,7 +62,6 @@ func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Respon
 		url, _ := url.Parse(u)
 		q := url.Query()
 		vid = q.Get("v")
-		log.Info(fmt.Sprintf("vid:%v", vid))
 	}
 	if vid == "" {
 		return resp

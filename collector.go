@@ -66,7 +66,6 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	for {
 		select {
 		case json, ok := <-ch:
-			log.Info(fmt.Sprintf("json:%v", json))
 			if !ok {
 				log.Info("Live end. [%v][%v][%v]",
 					videoInfo.Snippet.ChannelTitle,
