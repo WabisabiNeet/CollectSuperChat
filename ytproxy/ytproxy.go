@@ -105,7 +105,7 @@ func OnLiveChatReplayResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.
 
 func getWatcher(vid string) (chan<- string, bool) {
 	watcherMutex.Lock()
-	defer watcherMutex.Lock()
+	defer watcherMutex.Unlock()
 
 	w, ok := watcher[vid]
 	return w, ok
@@ -114,7 +114,7 @@ func getWatcher(vid string) (chan<- string, bool) {
 // CreateWatcher is register channel
 func CreateWatcher(vid string) <-chan string {
 	watcherMutex.Lock()
-	defer watcherMutex.Lock()
+	defer watcherMutex.Unlock()
 
 	w, ok := watcher[vid]
 	if ok {
@@ -130,7 +130,7 @@ func CreateWatcher(vid string) <-chan string {
 // UnsetWatcher is unregister channel
 func UnsetWatcher(vid string) {
 	watcherMutex.Lock()
-	defer watcherMutex.Lock()
+	defer watcherMutex.Unlock()
 
 	w, ok := watcher[vid]
 	if ok {
