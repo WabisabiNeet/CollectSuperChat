@@ -65,20 +65,20 @@ func Info(format string, args ...interface{}) {
 
 // Warn output warn level.
 func Warn(format string, args ...interface{}) {
-	dbglog.Warn(fmt.Sprintf(format, args...))
 	sentry.CaptureException(errors.New(fmt.Sprintf(format, args...)))
+	dbglog.Warn(fmt.Sprintf(format, args...))
 }
 
 // Error output error level.
 func Error(format string, args ...interface{}) {
-	dbglog.Error(fmt.Sprintf(format, args...))
 	sentry.CaptureException(errors.New(fmt.Sprintf(format, args...)))
+	dbglog.Error(fmt.Sprintf(format, args...))
 }
 
 // Fatal outpu fatal level.
 func Fatal(format string, args ...interface{}) {
-	dbglog.Fatal(fmt.Sprintf(format, args...))
 	sentry.CaptureException(errors.New(fmt.Sprintf(format, args...)))
+	dbglog.Fatal(fmt.Sprintf(format, args...))
 }
 
 // Sync is wapper: zap.Logger
