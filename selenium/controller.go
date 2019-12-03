@@ -51,6 +51,8 @@ func CloseLiveChatWindow(vid string) error {
 	if !ok {
 		return nil
 	}
+
+	defer page.Session().Delete()
 	var err error
 	for i := 0; i < maxCloseRetry; i++ {
 		err = page.CloseWindow()
