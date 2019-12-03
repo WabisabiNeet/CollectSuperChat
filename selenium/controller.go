@@ -4,6 +4,7 @@ import (
 	"net/url"
 	"sync"
 
+	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/sclevine/agouti"
 )
 
@@ -25,6 +26,7 @@ func OpenLiveChatWindow(vid string) error {
 	// free proxy 43.245.216.189:8080
 	page, err := agouti.NewPage(seleniumServer, options...)
 	if err != nil {
+		log.Info("err1")
 		return err
 	}
 
