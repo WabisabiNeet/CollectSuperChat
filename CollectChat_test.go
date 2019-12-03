@@ -1,8 +1,10 @@
 package main
 
-import "testing"
-
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+	"testing"
+)
 
 func Test(tt *testing.T) {
 	ch := make(chan string, 1)
@@ -19,6 +21,15 @@ func Test(tt *testing.T) {
 		fmt.Println("error2")
 		return
 	}
+}
+
+func Test2(tt *testing.T) {
+	u, _ := url.Parse("https://www.youtube.com/live_chat?is_popout=1")
+	q := u.Query()
+	q.Add("v", "aaa")
+	u.RawQuery = q.Encode()
+
+	fmt.Println(u.String())
 }
 
 // func TestGetLiveStreamID(tt *testing.T) {

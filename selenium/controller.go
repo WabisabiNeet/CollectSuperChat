@@ -7,7 +7,7 @@ import (
 	"github.com/sclevine/agouti"
 )
 
-const liveStreamChatURL = "https://www.youtube.com/live_chat?is_popout=1&"
+const liveStreamChatURL = "https://www.youtube.com/live_chat?is_popout=1"
 
 var pages map[string]*agouti.Page
 var pagesMutex = sync.Mutex{}
@@ -35,6 +35,7 @@ func OpenLiveChatWindow(vid string) error {
 	u, _ := url.Parse(liveStreamChatURL)
 	q := u.Query()
 	q.Add("v", vid)
+	u.RawQuery = q.Encode()
 
 	err = page.Navigate(u.String())
 	return err
