@@ -20,12 +20,11 @@ import (
 // MaxKeys is api keys.
 const MaxKeys = 9
 
-var apikey string
-var collectors []*Collector
+var collectors = []*Collector{}
 
 func init() {
 	for i := 1; i < MaxKeys; i++ {
-		apikey = os.Getenv(fmt.Sprintf("YOUTUBE_WATCH_LIVE_KEY%v", i))
+		apikey := os.Getenv(fmt.Sprintf("YOUTUBE_WATCH_LIVE_KEY%v", i))
 		// apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
 		if apikey == "" {
 			break

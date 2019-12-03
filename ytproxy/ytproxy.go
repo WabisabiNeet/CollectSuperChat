@@ -15,7 +15,7 @@ import (
 	"github.com/elazarl/goproxy"
 )
 
-var watcher map[string](chan string)
+var watcher = map[string](chan string){}
 var watcherMutex = sync.Mutex{}
 
 // OpenYoutubeLiveChatProxy open youtube proxy.

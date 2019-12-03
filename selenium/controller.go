@@ -9,7 +9,7 @@ import (
 
 const liveStreamChatURL = "https://www.youtube.com/live_chat?is_popout=1"
 
-var pages map[string]*agouti.Page
+var pages = map[string]*agouti.Page{}
 var pagesMutex = sync.Mutex{}
 
 // OpenLiveChatWindow send request to selenium server that opening live chat window
