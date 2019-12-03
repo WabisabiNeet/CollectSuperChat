@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/antonholmquist/jason"
 )
 
@@ -27,7 +28,7 @@ func ScrapeLiveStreamingChat(vid string) {
 
 	vhtml, err := getHTMLString(url.String())
 	if err != nil {
-		dbglog.Error(err.Error())
+		log.Error(err.Error())
 		return
 	}
 
@@ -52,7 +53,7 @@ func ScrapeLiveStreamingChat(vid string) {
 
 		chtml, err := getHTMLString(url.String())
 		if err != nil {
-			dbglog.Error(err.Error())
+			log.Error(err.Error())
 			return
 		}
 

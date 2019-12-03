@@ -9,12 +9,6 @@ import (
 
 const MaxMessageCount = 2000
 
-var dbglog log.ILogger
-
-func init() {
-	dbglog = log.GetOriginLogger()
-}
-
 // GetLiveStreamID return active live ID in specified channnel.
 func GetLiveStreamID(ys *youtube.Service, channnelID string) (string, error) {
 	call := ys.Search.List("id")
@@ -53,7 +47,7 @@ func GetLiveInfo(ys *youtube.Service, vid string) (videoInfo *youtube.Video, err
 
 // GetSuperChatRawMessages return live chat messages
 func GetSuperChatRawMessages(ys *youtube.Service, cid, next string) (messages []*youtube.LiveChatMessage, nextToken string, intervalMillis int64, err error) {
-	dbglog.Info("GetSuperChatRawMessages call.")
+	log.Info("GetSuperChatRawMessages call.")
 	call := ys.LiveChatMessages.List(cid, "snippet,authorDetails")
 	call.PageToken(next)
 	call.MaxResults(MaxMessageCount)

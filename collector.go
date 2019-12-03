@@ -12,6 +12,7 @@ import (
 
 	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
+	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/selenium"
 	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"go.uber.org/zap"
@@ -31,7 +32,8 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	defer c.decrementCount()
 	defer wg.Done()
 	if vid == "" {
-		dbglog.Fatal("vid is nil")
+		log.Error("vid is nil")
+		return
 	}
 
 	quit := make(chan os.Signal)
@@ -41,10 +43,10 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	// e.g. https://www.youtube.com/watch?v=WziZomD9KC8
 	videoInfo, err := livestream.GetLiveInfo(c.YoutubeService, vid)
 	if err != nil {
-		dbglog.Warn(fmt.Sprintf("[vid:%v] %v", vid, err))
+		log.Error(fmt.Sprintf("[vid:%v] %v", vid, err))
 		return
 	} else if videoInfo.LiveStreamingDetails.ActiveLiveChatId == "" {
-		dbglog.Info(fmt.Sprintf("[vid:%v] Live chat not active.", vid))
+		log.Info(fmt.Sprintf("[vid:%v] Live chat not active.", vid))
 		return
 	}
 
@@ -57,7 +59,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	defer selenium.CloseLiveChatWindow(vid)
 	err = selenium.OpenLiveChatWindow(vid)
 	if err != nil {
-		dbglog.Error(fmt.Sprintf("OpenLiveChatWindow error:%v", err.Error()))
+		log.Error(fmt.Sprintf("OpenLiveChatWindow error:%v", err.Error()))
 		return
 	}
 
@@ -65,7 +67,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 		select {
 		case json, ok := <-ch:
 			if !ok {
-				dbglog.Info("Live end. [%v][%v][%v]",
+				log.Info("Live end. [%v][%v][%v]",
 					videoInfo.Snippet.ChannelTitle,
 					videoInfo.Snippet.Title,
 					fmt.Sprintf("https://www.youtube.com/watch?v=%v", vid))
@@ -74,7 +76,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 
 			messages, finished, err := livestream.GetLiveChatMessagesFromProxy(json)
 			if err != nil {
-				dbglog.Error(err.Error())
+				log.Error(err.Error())
 			}
 			if finished {
 				ytproxy.UnsetWatcher(vid)
@@ -100,20 +102,20 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, c
 		if m.Message.AmountDisplayString != "" {
 			c, err := currency.GetCurrency(m.Message.AmountDisplayString)
 			if err != nil {
-				dbglog.Warn(err.Error())
+				log.Warn(err.Error())
 				continue
 			}
 			if c.Code == "JPY" {
 				continue
 			}
 			if c.RateToJPY == 0 {
-				dbglog.Warn(fmt.Sprintf("RateToJPY == 0 [%v]", c))
+				log.Warn(fmt.Sprintf("RateToJPY == 0 [%v]", c))
 				continue
 			}
 
 			val, err := c.GetAmountValue(m.Message.AmountDisplayString)
 			if err != nil {
-				dbglog.Warn(fmt.Sprintf("RateToJPY == 0 [%v]", c))
+				log.Error(err.Error())
 				continue
 			}
 			m.Message.CurrencyRateToJPY = c.RateToJPY
@@ -123,7 +125,7 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, c
 
 		outputJSON, err := json.Marshal(m)
 		if err != nil {
-			dbglog.Error(err.Error())
+			log.Error(err.Error())
 		}
 		chatlog.Info(string(outputJSON))
 	}
@@ -139,7 +141,7 @@ func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (s
 			}
 			select {
 			case <-t.C:
-				dbglog.Info(fmt.Sprintf("[%v] repert getLiveStreamID.", channel))
+				log.Info(fmt.Sprintf("[%v] repert getLiveStreamID.", channel))
 				continue
 			case <-sig:
 				return "", fmt.Errorf("signaled")

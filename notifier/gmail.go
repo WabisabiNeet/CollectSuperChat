@@ -22,12 +22,6 @@ import (
 	"google.golang.org/api/gmail/v1"
 )
 
-var dbglog log.ILogger
-
-func init() {
-	dbglog = log.GetOriginLogger()
-}
-
 // Retrieve a token, saves the token, then returns the generated client.
 func getClient(config *oauth2.Config) *http.Client {
 	// The file token.json stores the user's access and refresh tokens, and is
@@ -45,17 +39,17 @@ func getClient(config *oauth2.Config) *http.Client {
 // Request a token from the web, then returns the retrieved token.
 func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 	authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
-	dbglog.Info("Go to the following link in your browser then type the "+
+	log.Info("Go to the following link in your browser then type the "+
 		"authorization code: \n%v\n", authURL)
 
 	var authCode string
 	if _, err := fmt.Scan(&authCode); err != nil {
-		dbglog.Fatal("Unable to read authorization code: %v", err)
+		log.Fatal("Unable to read authorization code: %v", err)
 	}
 
 	tok, err := config.Exchange(context.TODO(), authCode)
 	if err != nil {
-		dbglog.Fatal("Unable to retrieve token from web: %v", err)
+		log.Fatal("Unable to retrieve token from web: %v", err)
 	}
 	return tok
 }
@@ -74,10 +68,10 @@ func tokenFromFile(file string) (*oauth2.Token, error) {
 
 // Saves a token to a file path.
 func saveToken(path string, token *oauth2.Token) {
-	dbglog.Info("Saving credential file to: %s\n", path)
+	log.Info("Saving credential file to: %s\n", path)
 	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
-		dbglog.Fatal("Unable to cache oauth token: %v", err)
+		log.Fatal("Unable to cache oauth token: %v", err)
 	}
 	defer f.Close()
 	json.NewEncoder(f).Encode(token)
@@ -97,7 +91,7 @@ func getVideoIDsFromList(srv *gmail.Service, socialLabelID string) (vids []strin
 			case "not live stream mail":
 				continue
 			default:
-				dbglog.Warn(err.Error())
+				log.Error(err.Error())
 				continue
 			}
 		}
@@ -121,7 +115,7 @@ func getVideoIDfromHistroy(srv *gmail.Service, h *gmail.History) (vids []string,
 			case "not live stream mail":
 				continue
 			default:
-				dbglog.Warn(err.Error())
+				log.Error(err.Error())
 				continue
 			}
 		}
@@ -186,7 +180,7 @@ func getLiveStreamHTML(src string) (string, error) {
 	}
 
 	subject := enve.GetHeader("Subject")
-	dbglog.Info(subject)
+	log.Info(subject)
 	if !strings.Contains(subject, "ライブ配信中です") && !strings.Contains(subject, "プレミア公開を開始しました") {
 		return "", fmt.Errorf("not live stream mail")
 	}
@@ -221,28 +215,28 @@ func (n *Gmail) PollingStart() {
 
 	b, err := ioutil.ReadFile("credentials.json") // Download own credentials.json from google developer console.
 	if err != nil {
-		dbglog.Fatal("Unable to read client secret file: %v", err)
+		log.Fatal("Unable to read client secret file: %v", err)
 	}
 
 	// If modifying these scopes, delete your previously saved token.json.
 	config, err := google.ConfigFromJSON(b, gmail.GmailReadonlyScope)
 	if err != nil {
-		dbglog.Fatal("Unable to parse client secret file to config: %v", err)
+		log.Fatal("Unable to parse client secret file to config: %v", err)
 	}
 	client := getClient(config)
 
 	srv, err := gmail.New(client)
 	if err != nil {
-		dbglog.Fatal("Unable to retrieve Gmail client: %v", err)
+		log.Fatal("Unable to retrieve Gmail client: %v", err)
 	}
 
 	user := "me"
 	r, err := srv.Users.Labels.List(user).Do()
 	if err != nil {
-		dbglog.Fatal("Unable to retrieve labels: %v", err)
+		log.Fatal("Unable to retrieve labels: %v", err)
 	}
 	if len(r.Labels) == 0 {
-		dbglog.Error("No labels found.")
+		log.Error("No labels found.")
 		return
 	}
 
@@ -254,7 +248,7 @@ func (n *Gmail) PollingStart() {
 		socialLabelID = l.Id
 	}
 	if socialLabelID == "" {
-		dbglog.Info("CATEGORY_SOCIAL can not found.")
+		log.Error("CATEGORY_SOCIAL can not found.")
 		return
 	}
 
@@ -269,7 +263,7 @@ func (n *Gmail) PollingStart() {
 		}
 
 		for {
-			dbglog.Info("history timer tick.")
+			log.Info("history timer tick.")
 			histroyRes, err := srv.Users.History.List("me").
 				StartHistoryId(historyID).
 				HistoryTypes("messageAdded").

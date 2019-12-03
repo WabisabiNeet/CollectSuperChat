@@ -20,13 +20,10 @@ import (
 // MaxKeys is api keys.
 const MaxKeys = 9
 
-var dbglog log.ILogger
 var apikey string
 var collectors []*Collector
 
 func init() {
-	dbglog = log.GetOriginLogger()
-
 	for i := 1; i < MaxKeys; i++ {
 		apikey = os.Getenv(fmt.Sprintf("YOUTUBE_WATCH_LIVE_KEY%v", i))
 		// apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
@@ -37,7 +34,7 @@ func init() {
 		ctx := context.Background()
 		ys, err := youtube.NewService(ctx, option.WithAPIKey(apikey))
 		if err != nil {
-			dbglog.Fatal(err.Error())
+			log.Fatal(err.Error())
 		}
 		collectors = append(collectors, &Collector{
 			ID:              string(i),
@@ -46,7 +43,7 @@ func init() {
 		})
 	}
 	if len(collectors) == 0 {
-		dbglog.Fatal("not found api key.")
+		log.Fatal("not found api key.")
 	}
 }
 
@@ -55,9 +52,9 @@ func pollCurrency() {
 		for _, c := range currency.Currencies {
 			err := c.ScrapeRataToJPY()
 			if err != nil {
-				dbglog.Warn(err.Error())
+				log.Warn(err.Error())
 			}
-			dbglog.Info("[%v] %v", c.Code, c.RateToJPY)
+			log.Info("[%v] %v", c.Code, c.RateToJPY)
 		}
 	}
 
@@ -81,7 +78,7 @@ func pollCurrency() {
 }
 
 func main() {
-	defer dbglog.Sync()
+	defer log.Sync()
 
 	m := sync.Mutex{}
 	wg := &sync.WaitGroup{}
@@ -94,12 +91,13 @@ func main() {
 			})
 			wg.Add(1)
 			collectors[0].incrementCount()
-			dbglog.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
+			log.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
 
 			go collectors[0].StartWatch(wg, vid)
 		},
 	}
 
+	pollCurrency()
 	ytproxy.OpenYoutubeLiveChatProxy()
 	n.PollingStart()
 	wg.Wait()

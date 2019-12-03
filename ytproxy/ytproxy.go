@@ -15,14 +15,8 @@ import (
 	"github.com/elazarl/goproxy"
 )
 
-var dbglog log.ILogger
-
 var watcher map[string](chan string)
 var watcherMutex = sync.Mutex{}
-
-func init() {
-	dbglog = log.GetOriginLogger()
-}
 
 // OpenYoutubeLiveChatProxy open youtube proxy.
 func OpenYoutubeLiveChatProxy() {
@@ -50,7 +44,7 @@ func OpenYoutubeLiveChatProxy() {
 		// We received an interrupt signal, shut down.
 		if err := sv2.Shutdown(context.Background()); err != nil {
 			// Error from closing listeners, or context timeout:
-			dbglog.Error("HTTP server Shutdown: %v", err)
+			log.Error("HTTP server Shutdown: %v", err)
 		}
 	}()
 	go sv2.ListenAndServe()
@@ -71,15 +65,15 @@ func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Respon
 	if vid == "" {
 		return resp
 	}
-	dbglog.Info("URL:%v referer:%v", resp.Request.URL, referer)
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	json := string(body)
-	if err == nil {
-		dbglog.Info("body:%v", json)
+	if err != nil {
+		log.Error(err.Error())
+		return resp
 	}
 
+	json := string(body)
 	if w, ok := getWatcher(vid); ok {
 		w <- json
 	}
@@ -94,11 +88,12 @@ func OnLiveChatReplayResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	json := string(body)
-	if err == nil {
-		dbglog.Info("body:%v", json)
+	if err != nil {
+		log.Info(err.Error())
+		return resp
 	}
 
+	json := string(body)
 	for _, w := range watcher {
 		w <- json
 		break

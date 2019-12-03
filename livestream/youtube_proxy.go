@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/antonholmquist/jason"
 )
 
@@ -52,21 +53,21 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 		if _, ok := m["liveChatTextMessageRenderer"]; ok {
 			message, err := getLiveChatTextMessage(item)
 			if err != nil {
-				dbglog.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
+				log.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
 				continue
 			}
 			messages = append(messages, message)
 		} else if _, ok := m["liveChatPaidMessageRenderer"]; ok {
 			message, err := getLiveChatPaidMessage(item)
 			if err != nil {
-				dbglog.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+				log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
 				continue
 			}
 			messages = append(messages, message)
 		} else if _, ok := m["liveChatPaidStickerRenderer"]; ok {
 			message, err := getLiveChatPaidStickerMessage(item)
 			if err != nil {
-				dbglog.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+				log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
 				continue
 			}
 			messages = append(messages, message)
@@ -103,7 +104,7 @@ func getLiveChatTextMessage(item *jason.Object) (*ChatMessage, error) {
 			case "MODERATOR":
 				isModerator = true
 			default:
-				dbglog.Info(fmt.Sprintf("unexpected iconType:%v", iconType))
+				log.Warn(fmt.Sprintf("unexpected iconType:%v", iconType))
 			}
 
 			continue
