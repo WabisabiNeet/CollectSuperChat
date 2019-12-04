@@ -10,7 +10,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/selenium"
@@ -100,27 +99,10 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, c
 		m.VideoInfo.ActualStartTime = vinfo.LiveStreamingDetails.ActualStartTime
 
 		if m.Message.AmountDisplayString != "" {
-			c, err := currency.GetCurrency(m.Message.AmountDisplayString)
+			err := m.ConvertToJPY()
 			if err != nil {
 				log.Warn(err.Error())
-				continue
 			}
-			if c.Code == "JPY" {
-				continue
-			}
-			if c.RateToJPY == 0 {
-				log.Warn(fmt.Sprintf("RateToJPY == 0 [%v]", c))
-				continue
-			}
-
-			val, err := c.GetAmountValue(m.Message.AmountDisplayString)
-			if err != nil {
-				log.Error(err.Error())
-				continue
-			}
-			m.Message.CurrencyRateToJPY = c.RateToJPY
-			m.Message.AmountJPY = uint(val * c.RateToJPY)
-			m.Message.Currency = c.Code
 		}
 
 		outputJSON, err := json.Marshal(m)

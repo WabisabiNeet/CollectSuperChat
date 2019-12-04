@@ -34,8 +34,8 @@ func initDebugLogger() {
 		},
 	)
 	enc := zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
-		TimeKey:        "time", // ignore.
-		LevelKey:       "",     // ignore.
+		TimeKey:        "time",  // ignore.
+		LevelKey:       "Level", // ignore.
 		NameKey:        "Name",
 		CallerKey:      "", // ignore.
 		MessageKey:     "Msg",
