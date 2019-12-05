@@ -66,7 +66,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 		select {
 		case json, ok := <-ch:
 			if !ok {
-				log.Info("Live end. [%v][%v][%v]",
+				log.Warn("channel closed. [%v][%v][%v]",
 					videoInfo.Snippet.ChannelTitle,
 					videoInfo.Snippet.Title,
 					fmt.Sprintf("https://www.youtube.com/watch?v=%v", vid))
@@ -78,7 +78,10 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 				log.Error(err.Error())
 			}
 			if finished {
-				ytproxy.UnsetWatcher(vid)
+				log.Info("Live end. [%v][%v][%v]",
+					videoInfo.Snippet.ChannelTitle,
+					videoInfo.Snippet.Title,
+					fmt.Sprintf("https://www.youtube.com/watch?v=%v", vid))
 				return
 			}
 
@@ -167,7 +170,7 @@ func initSuperChatLogger(channelID string) *zap.Logger {
 			EncodeDuration: zapcore.StringDurationEncoder,
 			EncodeCaller:   zapcore.ShortCallerEncoder,
 		},
-		OutputPaths: []string{"stdout", filename},
+		OutputPaths: []string{filename},
 		// ErrorOutputPaths: []string{"stderr"},
 	}
 	chatlog, _ := myConfig.Build()

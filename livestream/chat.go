@@ -24,6 +24,7 @@ type ChatMessage struct {
 		AuthorName         string `json:"authorName,omitempty"`
 		IsModerator        bool   `json:"isModerator,omitempty"`
 		IsMember           bool   `json:"isMember,omitempty"`
+		IsOwner            bool   `json:"isOwner,omitempty"`
 		AccessibilityLabel string `json:"accessibilityLabel,omitempty"`
 		AuthorChannelID    string `json:"authorChannelID,omitempty"`
 		UserComment        string `json:"userComment,omitempty"`

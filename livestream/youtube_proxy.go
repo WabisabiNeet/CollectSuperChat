@@ -91,6 +91,7 @@ func getLiveChatTextMessage(item *jason.Object) (*ChatMessage, error) {
 
 	authorBadges, err := mr.GetObjectArray("authorBadges") // メンバー/モデレーター
 	isModerator := false
+	isOwner := false
 	accessibilityLabel := ""
 	for _, badge := range authorBadges {
 		authorBadgeRenderer, err := badge.GetObject("liveChatAuthorBadgeRenderer")
@@ -103,8 +104,11 @@ func getLiveChatTextMessage(item *jason.Object) (*ChatMessage, error) {
 			switch iconType {
 			case "MODERATOR":
 				isModerator = true
+			case "OWNER":
+				isOwner = true
+			case "VERIFIED":
 			default:
-				log.Warn(fmt.Sprintf("unexpected iconType:%v", iconType))
+				log.Warn(fmt.Sprintf("unexpected iconType:%v src[%v]", iconType, mr))
 			}
 
 			continue
@@ -120,6 +124,7 @@ func getLiveChatTextMessage(item *jason.Object) (*ChatMessage, error) {
 
 	m.Message.MessageType = "TextMessage"
 	m.Message.IsModerator = isModerator
+	m.Message.IsOwner = isOwner
 	m.Message.AccessibilityLabel = accessibilityLabel
 
 	return m, nil

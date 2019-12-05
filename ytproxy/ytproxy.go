@@ -13,6 +13,7 @@ import (
 
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/elazarl/goproxy"
+	"github.com/pkg/errors"
 )
 
 var watcher = map[string](chan string){}
@@ -29,8 +30,8 @@ func OpenYoutubeLiveChatProxy() {
 
 	re := regexp.MustCompile(`www.youtube.com.*/get_live_chat.*`)
 	proxy2.OnResponse(goproxy.UrlMatches(re)).DoFunc(OnLiveChatResponse)
-	re2 := regexp.MustCompile(`www.youtube.com/.*get_live_chat_replay.*`)
-	proxy2.OnResponse(goproxy.UrlMatches(re2)).DoFunc(OnLiveChatReplayResponse)
+	// re2 := regexp.MustCompile(`www.youtube.com/.*get_live_chat_replay.*`)
+	// proxy2.OnResponse(goproxy.UrlMatches(re2)).DoFunc(OnLiveChatReplayResponse)
 
 	sv2 := &http.Server{
 		Handler: proxy2,
@@ -74,8 +75,9 @@ func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Respon
 	}
 
 	json := string(body)
-	if w, ok := getWatcher(vid); ok {
-		w <- json
+	err = sendToWatcher(vid, json)
+	if err != nil {
+		log.Error(errors.Wrapf(err, "vid:[%v] json:[%v]", vid, json).Error())
 	}
 
 	resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
@@ -83,32 +85,36 @@ func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Respon
 }
 
 // OnLiveChatReplayResponse is proxy func.
-func OnLiveChatReplayResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	// リプレイ取得時はRefererにvidが含まれないためチェックをしない
+// func OnLiveChatReplayResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+// 	// リプレイ取得時はRefererにvidが含まれないためチェックをしない
 
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Info(err.Error())
-		return resp
-	}
+// 	defer resp.Body.Close()
+// 	body, err := ioutil.ReadAll(resp.Body)
+// 	if err != nil {
+// 		log.Info(err.Error())
+// 		return resp
+// 	}
 
-	json := string(body)
-	for _, w := range watcher {
-		w <- json
-		break
-	}
+// 	json := string(body)
+// 	for _, w := range watcher {
+// 		w <- json
+// 		break
+// 	}
 
-	resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-	return resp
-}
+// 	resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+// 	return resp
+// }
 
-func getWatcher(vid string) (chan<- string, bool) {
+func sendToWatcher(vid, json string) error {
 	watcherMutex.Lock()
 	defer watcherMutex.Unlock()
 
 	w, ok := watcher[vid]
-	return w, ok
+	if !ok {
+		return errors.New("watcher not found")
+	}
+	w <- json
+	return nil
 }
 
 // CreateWatcher is register channel
@@ -133,8 +139,9 @@ func UnsetWatcher(vid string) {
 	defer watcherMutex.Unlock()
 
 	w, ok := watcher[vid]
-	if ok {
-		close(w)
+	if !ok {
+		return
 	}
 	delete(watcher, vid)
+	close(w)
 }
