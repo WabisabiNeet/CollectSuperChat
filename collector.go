@@ -98,8 +98,19 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, c
 		m.VideoInfo.ChannelTitle = vinfo.Snippet.ChannelTitle
 		m.VideoInfo.VideoID = vinfo.Id
 		m.VideoInfo.VideoTitle = vinfo.Snippet.Title
-		m.VideoInfo.ScheduledStartTime = vinfo.LiveStreamingDetails.ScheduledStartTime
-		m.VideoInfo.ActualStartTime = vinfo.LiveStreamingDetails.ActualStartTime
+
+		scheduledStartTime, err := time.Parse(time.RFC3339, vinfo.LiveStreamingDetails.ScheduledStartTime)
+		if err != nil {
+			m.VideoInfo.ScheduledStartTime = scheduledStartTime.In(time.FixedZone("Asia/Tokyo", 9*60*60)).Format(time.RFC3339)
+		} else {
+			m.VideoInfo.ScheduledStartTime = vinfo.LiveStreamingDetails.ScheduledStartTime
+		}
+		actualStartTime, err := time.Parse(time.RFC3339, vinfo.LiveStreamingDetails.ActualStartTime)
+		if err != nil {
+			m.VideoInfo.ActualStartTime = actualStartTime.In(time.FixedZone("Asia/Tokyo", 9*60*60)).Format(time.RFC3339)
+		} else {
+			m.VideoInfo.ActualStartTime = vinfo.LiveStreamingDetails.ActualStartTime
+		}
 
 		if m.Message.AmountDisplayString != "" {
 			err := m.ConvertToJPY()

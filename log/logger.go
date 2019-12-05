@@ -41,7 +41,7 @@ func initDebugLogger() {
 		MessageKey:     "Msg",
 		StacktraceKey:  "St",
 		EncodeLevel:    zapcore.CapitalLevelEncoder,
-		EncodeTime:     zapcore.ISO8601TimeEncoder,
+		EncodeTime:     JSTTimeEncoder,
 		EncodeDuration: zapcore.StringDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	})
@@ -85,4 +85,10 @@ func Fatal(format string, args ...interface{}) {
 func Sync() {
 	dbglog.Sync()
 	sentry.Flush(time.Second * 10)
+}
+
+// JSTTimeEncoder return JST
+func JSTTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+	enc.AppendString(t.In(jst).Format(time.RFC3339))
 }

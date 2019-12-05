@@ -2,7 +2,9 @@ package livestream
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/antonholmquist/jason"
@@ -202,6 +204,12 @@ func getCommonMessageInfo(renderer *jason.Object, message *ChatMessage) (*ChatMe
 	if err != nil {
 		return nil, err
 	}
+	publishedAtMicroSec, err := strconv.ParseInt(timestamp, 10, 64)
+	var publishedAtSec int64 = 0
+	if err == nil {
+		publishedAtSec = publishedAtMicroSec / 1000 / 1000
+	}
+
 	autherChannelID, err := renderer.GetString("authorExternalChannelId") //投稿者チャンネルID
 	if err != nil {
 		return nil, err
@@ -211,7 +219,7 @@ func getCommonMessageInfo(renderer *jason.Object, message *ChatMessage) (*ChatMe
 	message.Message.AuthorName = author
 	message.Message.AuthorChannelID = autherChannelID
 	message.Message.UserComment = messageStr
-	message.Message.PublishedAt = timestamp
+	message.Message.PublishedAt = time.Unix(publishedAtSec, 0).In(time.FixedZone("Asia/Tokyo", 9*60*60)).Format(time.RFC3339)
 
 	return message, nil
 }
