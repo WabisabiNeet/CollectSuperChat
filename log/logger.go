@@ -84,4 +84,5 @@ func Fatal(format string, args ...interface{}) {
 // Sync is wapper: zap.Logger
 func Sync() {
 	dbglog.Sync()
+	sentry.Flush(time.Second * 10)
 }
