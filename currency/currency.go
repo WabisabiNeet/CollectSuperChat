@@ -56,7 +56,7 @@ var (
 // GetCurrency return Currency
 func GetCurrency(amountStr string) (*Currency, error) {
 	for _, c := range Currencies {
-		if strings.Contains(amountStr, c.Symbol) {
+		if strings.HasPrefix(amountStr, c.Symbol) {
 			return c, nil
 		}
 	}
@@ -118,6 +118,7 @@ func (c *Currency) ScrapeRataToJPY() error {
 // GetAmountValue return amount value.
 func (c *Currency) GetAmountValue(amountStr string) (float64, error) {
 	valueStr := strings.TrimPrefix(amountStr, c.Symbol)
+	valueStr = strings.ReplaceAll(valueStr, ",", "")
 	s, err := strconv.ParseFloat(valueStr, 64)
 	if err != nil {
 		return 0, err
