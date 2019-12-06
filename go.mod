@@ -5,6 +5,9 @@ go 1.13
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/antonholmquist/jason v1.0.0
+	github.com/elastic/go-elasticsearch v0.0.0
+	github.com/elastic/go-elasticsearch/v7 v7.5.0
+	github.com/elastic/go-elasticsearch/v8 v8.0.0-20191204143503-cb4ea94ef05b
 	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484
 	github.com/getsentry/sentry-go v0.3.1
 	github.com/jhillyerd/enmime v0.6.0

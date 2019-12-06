@@ -34,6 +34,7 @@ var Currencies = []*Currency{
 	{Code: "AUD", Symbol: "A$"},   // オーストラリアドル
 	{Code: "NZD", Symbol: "NZ$"},  // ニュージーランドドル
 	{Code: "MXN", Symbol: "Mex$"}, // メキシコペソ
+	{Code: "MXN", Symbol: "MX$"},  // メキシコペソ
 	{Code: "BND", Symbol: "B$"},   // ブルネイドル
 	{Code: "FJD", Symbol: "FJ$"},  // フィジードル
 	{Code: "IDR", Symbol: "Rp"},   // インドネシアルピア

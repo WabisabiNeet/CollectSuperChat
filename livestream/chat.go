@@ -31,7 +31,7 @@ type ChatMessage struct {
 		PublishedAt        string `json:"publishedAt,omitempty"`
 
 		AmountDisplayString string  `json:"amountDisplayString,omitempty"`
-		CurrencyRateToJPY   float64 `json:"currencyRateToJPY,string,omitempty"`
+		CurrencyRateToJPY   float64 `json:"currencyRateToJPY,omitempty"`
 		AmountJPY           uint    `json:"amountJPY,omitempty"`
 		Currency            string  `json:"currency,omitempty"`
 
