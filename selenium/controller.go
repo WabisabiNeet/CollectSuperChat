@@ -3,6 +3,7 @@ package selenium
 import (
 	"net/url"
 	"sync"
+	"time"
 
 	"github.com/sclevine/agouti"
 )
@@ -37,7 +38,14 @@ func OpenLiveChatWindow(vid string) error {
 	q.Add("v", vid)
 	u.RawQuery = q.Encode()
 
-	err = page.Navigate(u.String())
+	for i := 0; i < 3; i++ {
+		err = page.Navigate(u.String())
+		if err == nil {
+			break
+		}
+		time.Sleep(time.Second * 3)
+	}
+
 	return err
 }
 

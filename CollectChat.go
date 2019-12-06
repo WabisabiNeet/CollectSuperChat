@@ -64,9 +64,12 @@ func pollCurrency() {
 		defer close(quit)
 		signal.Notify(quit, os.Interrupt)
 
+		t := time.NewTicker(12 * time.Hour)
+		defer t.Stop()
 		for {
 			select {
-			case <-time.Tick(12 * time.Hour):
+			case <-t.C:
+				log.Info("pollCurrency timer ticked.")
 			case <-quit:
 				return
 			}

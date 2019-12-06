@@ -252,6 +252,8 @@ func (n *Gmail) PollingStart() {
 		return
 	}
 
+	t := time.NewTicker(1 * time.Minute)
+	defer t.Stop()
 	for {
 		vids, historyID, err := getVideoIDsFromList(srv, socialLabelID)
 		if err != nil {
@@ -288,7 +290,7 @@ func (n *Gmail) PollingStart() {
 			}
 
 			select {
-			case <-time.Tick(30 * time.Second):
+			case <-t.C:
 			case <-quit:
 				return
 			}

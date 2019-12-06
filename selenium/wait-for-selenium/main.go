@@ -9,7 +9,6 @@ import (
 
 func main() {
 	for {
-		<-time.Tick(time.Second * 3)
 		fmt.Println("connecting...")
 		seleniumServer := "http://selenium:4444/wd/hub"
 		options := []agouti.Option{
@@ -19,6 +18,7 @@ func main() {
 		page, err := agouti.NewPage(seleniumServer, options...)
 		if err != nil {
 			fmt.Println(fmt.Sprintf("connect error:%v", err))
+			time.Sleep(time.Second * 3)
 			continue
 		}
 		page.CloseWindow()
