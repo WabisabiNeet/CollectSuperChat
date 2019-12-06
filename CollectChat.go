@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"sort"
+	"strconv"
 	"sync"
 	"time"
 
@@ -36,7 +37,7 @@ func init() {
 			log.Fatal(err.Error())
 		}
 		collectors = append(collectors, &Collector{
-			ID:              string(i),
+			ID:              strconv.FormatInt(int64(i), 10),
 			YoutubeService:  ys,
 			ProcessingCount: 0,
 		})
