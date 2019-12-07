@@ -27,6 +27,7 @@ var Currencies = []*Currency{
 	{Code: "JPY", Symbol: "￥"},    // 円
 	{Code: "USD", Symbol: "$"},    // アメリカドル
 	{Code: "CAD", Symbol: "C$"},   // カナダドル
+	{Code: "CAD", Symbol: "CA$"},  // カナダドル
 	{Code: "EUR", Symbol: "€"},    // ユーロ
 	{Code: "HKD", Symbol: "HK$"},  // 香港ドル
 	{Code: "KRW", Symbol: "₩"},    // 韓国ウォン
