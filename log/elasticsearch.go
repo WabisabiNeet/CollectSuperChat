@@ -2,6 +2,7 @@ package log
 
 import (
 	"context"
+	"io/ioutil"
 	"strings"
 
 	"github.com/elastic/go-elasticsearch/esapi"
@@ -42,6 +43,11 @@ func SendChat(channelID, messageID, jsonStr string) error {
 
 	}
 	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		Info(err.Error())
+	}
+	Info(string(body))
 
 	return nil
 }
