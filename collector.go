@@ -128,7 +128,9 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, c
 		if err != nil {
 			log.Error(err.Error())
 		}
-		chatlog.Info(string(outputJSON))
+		o := string(outputJSON)
+		log.SendChat(vinfo.Snippet.ChannelId, m.Message.MessageID, o)
+		chatlog.Info(o)
 	}
 }
 
