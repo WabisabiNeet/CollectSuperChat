@@ -40,6 +40,8 @@ func TestGetCurrency(tt *testing.T) {
 		{AmountStr: "₫5.00", ExpectedCode: "VND"},
 		{AmountStr: "CHF5.00", ExpectedCode: "CHF"},
 		{AmountStr: "£5.00", ExpectedCode: "GBP"},
+		{AmountStr: "R$2.00", ExpectedCode: "BRL"},
+		{AmountStr: "PEN 2.00", ExpectedCode: "PEN"},
 	}
 
 	for _, d := range testdata {

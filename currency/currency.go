@@ -44,6 +44,8 @@ var Currencies = []*Currency{
 	{Code: "VND", Symbol: "₫"},    // ベトナムドン
 	{Code: "CHF", Symbol: "CHF"},  // スイスフラン
 	{Code: "GBP", Symbol: "£"},    // 英ポンド
+	{Code: "BRL", Symbol: "R$"},   // ブラジルレアル
+	{Code: "PEN", Symbol: "PEN"},  // ペルーソル
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 	// {Code: "PHP", Symbol: "₱"},// フィリピンペソ
 }
@@ -119,6 +121,7 @@ func (c *Currency) ScrapeRataToJPY() error {
 // GetAmountValue return amount value.
 func (c *Currency) GetAmountValue(amountStr string) (float64, error) {
 	valueStr := strings.TrimPrefix(amountStr, c.Symbol)
+	valueStr = strings.TrimSpace(valueStr)
 	valueStr = strings.ReplaceAll(valueStr, ",", "")
 	s, err := strconv.ParseFloat(valueStr, 64)
 	if err != nil {
