@@ -37,6 +37,7 @@ func SendChat(channelID, messageID, jsonStr string) error {
 
 	res, err := indexReq.Do(context.Background(), es)
 	if err != nil {
+		Info(err.Error())
 		return errors.Wrap(err, "SendChat error.")
 
 	}
