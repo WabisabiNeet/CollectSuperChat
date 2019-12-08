@@ -119,3 +119,12 @@ func Test3(tt *testing.T) {
 	}
 	fmt.Println(fmt.Sprintf("docid:%v", docid))
 }
+
+func Test4(tt *testing.T) {
+	channel := "aaa"
+
+	err := SendChat(channel, "messageID", `{"videoInfo":{"cid":"UC1CfXB_kRs3C-zaeTG3oGyg","ctitle":"Haato Channel 赤井はあと","vid":"8t8oUT8crfM","vtitle":"Let's play Dark Souls REMASTERED!!!","scheduledStartTime":"2019-12-08T10:00:00+09:00","actualStartTime":"2019-12-08T10:01:32+09:00"},"message":{"messageID":"CjsKGkNOdVQzcV8zcE9ZQ0ZZaS1nZ29kYVkwRElBEh1DS1hKbm92c3BPWUNGUzRDdHdBZDBUOEhzdzEyOA%3D%3D","type":"TextMessage","authorName":"Badger","authorChannelID":"UCW26VvYINAEy6wnean5wcRw","userComment":"WOW PRO GAMER","publishedAt":"2019-12-08T10:47:25+09:00"}}`)
+	if err != nil {
+		tt.Fatal(err)
+	}
+}

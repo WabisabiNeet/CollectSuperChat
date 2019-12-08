@@ -3,6 +3,8 @@ package log
 import (
 	"context"
 	"crypto/sha1"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -19,6 +21,7 @@ func init() {
 	cfg := elasticsearch.Config{
 		Addresses: []string{
 			"http://elasticsearch:9200",
+			// "http://192.168.10.11:9200", // for debug
 		},
 	}
 	var err error
@@ -49,7 +52,12 @@ func SendChat(channelID, messageID, jsonStr string) error {
 	}
 	defer res.Body.Close()
 	if res.StatusCode >= http.StatusBadRequest {
-		return errors.Wrap(err, "SendChat error.")
+		b, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			return errors.New(fmt.Sprintf("status:[%v]", res.StatusCode))
+		}
+		return errors.New(fmt.Sprintf("status:[%v] body[%v]", res.StatusCode, string(b)))
+
 	}
 
 	return nil
@@ -64,5 +72,5 @@ func getChannelHash(channelID string) (string, error) {
 	}
 
 	bs := h.Sum(nil)
-	return string(bs), nil
+	return fmt.Sprintf("%x", bs), nil
 }
