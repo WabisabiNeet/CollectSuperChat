@@ -41,12 +41,15 @@ var Currencies = []*Currency{
 	{Code: "IDR", Symbol: "Rp"},   // インドネシアルピア
 	{Code: "INR", Symbol: "Rs."},  // インドルピー
 	{Code: "SGD", Symbol: "S$"},   // シンガポールドル
+	{Code: "SGD", Symbol: "SGD"},  // シンガポールドル
 	{Code: "THB", Symbol: "฿"},    // タイバーツ
 	{Code: "VND", Symbol: "₫"},    // ベトナムドン
 	{Code: "CHF", Symbol: "CHF"},  // スイスフラン
 	{Code: "GBP", Symbol: "£"},    // 英ポンド
 	{Code: "BRL", Symbol: "R$"},   // ブラジルレアル
 	{Code: "PEN", Symbol: "PEN"},  // ペルーソル
+	{Code: "RUB", Symbol: "RUB"},  // ロシアルーブル
+	{Code: "PHP", Symbol: "PHP"},  // フィリピンペソ
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 	// {Code: "PHP", Symbol: "₱"},// フィリピンペソ
 }
