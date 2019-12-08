@@ -2,7 +2,8 @@ package log
 
 import (
 	"context"
-	"io/ioutil"
+	"crypto/sha1"
+	"net/http"
 	"strings"
 
 	"github.com/elastic/go-elasticsearch/esapi"
@@ -29,8 +30,13 @@ func init() {
 
 // SendChat send chat message to Elasticsearch
 func SendChat(channelID, messageID, jsonStr string) error {
+	index, err := getChannelHash(channelID)
+	if err != nil {
+		return errors.Wrap(err, "SendChat error.")
+	}
+
 	indexReq := esapi.IndexRequest{
-		Index: channelID,                  // Index name
+		Index: index,                      // Index name
 		Body:  strings.NewReader(jsonStr), // Document body
 		// DocumentID: "1",                    // Document ID
 		Refresh: "true", // Refresh
@@ -38,16 +44,25 @@ func SendChat(channelID, messageID, jsonStr string) error {
 
 	res, err := indexReq.Do(context.Background(), es)
 	if err != nil {
-		Info(err.Error())
 		return errors.Wrap(err, "SendChat error.")
 
 	}
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		Info(err.Error())
+	if res.StatusCode >= http.StatusBadRequest {
+		return errors.Wrap(err, "SendChat error.")
 	}
-	Info(string(body))
 
 	return nil
+}
+
+func getChannelHash(channelID string) (string, error) {
+	h := sha1.New()
+
+	_, err := h.Write([]byte(channelID))
+	if err != nil {
+		return "", err
+	}
+
+	bs := h.Sum(nil)
+	return string(bs), nil
 }
