@@ -35,6 +35,12 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 		log.Error("vid is nil")
 		return
 	}
+	ch, err := ytproxy.CreateWatcher(vid)
+	if err != nil {
+		log.Warn(err.Error())
+		return
+	}
+	defer ytproxy.UnsetWatcher(vid)
 
 	quit := make(chan os.Signal)
 	defer close(quit)
@@ -52,9 +58,6 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 
 	chatlog := initSuperChatLogger(videoInfo.Snippet.ChannelId)
 	defer chatlog.Sync()
-
-	ch := ytproxy.CreateWatcher(vid)
-	defer ytproxy.UnsetWatcher(vid)
 
 	defer selenium.CloseLiveChatWindow(vid)
 	err = selenium.OpenLiveChatWindow(vid)

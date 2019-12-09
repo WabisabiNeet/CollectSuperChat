@@ -32,7 +32,7 @@ func (n *YoutubeHTML) PollingStart() {
 		log.Fatal(errors.Wrap(err, "Unable to retrieve Youtube client").Error())
 	}
 
-	t := time.NewTicker(30 * time.Minute)
+	t := time.NewTicker(time.Hour)
 	defer t.Stop()
 	for {
 		n.checkAndStartSubscribedChannel(ys, "")
@@ -59,12 +59,24 @@ func (n *YoutubeHTML) checkAndStartSubscribedChannel(ys *youtube.Service, nextPa
 	}
 
 	for _, item := range res.Items {
-		vid, err := livestream.GetLiveIDFromChannelPage(item.Snippet.ResourceId.ChannelId)
+		log.Info("[%v] Channel page check start", item.Snippet.ResourceId.ChannelId)
+
+		lives, err := livestream.GetUpcommingLiveIDFromChannelPage(item.Snippet.ResourceId.ChannelId)
 		if err != nil {
 			log.Error(err.Error())
 			continue
 		}
-		n.CollectChat(vid)
+
+		for _, live := range lives {
+			now := time.Now()
+			if now.Before(live.StartTime) && live.StartTime.Sub(now) < (time.Hour*6) {
+				n.CollectChat(live.VideoID)
+			}
+		}
+		time.Sleep(10 * time.Second)
 	}
-	n.checkAndStartSubscribedChannel(ys, res.NextPageToken)
+
+	if res.NextPageToken != "" {
+		n.checkAndStartSubscribedChannel(ys, res.NextPageToken)
+	}
 }

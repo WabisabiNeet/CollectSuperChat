@@ -1,0 +1,569 @@
+
+<!doctype html><html  style="font-size: 10px;font-family: Roboto, Arial, sans-serif; " lang="ja-JP"><head><meta http-equiv="origin-trial" data-feature="Web Components V0" data-expires="2020-10-23" content="AhbmRDASY7NuOZD9cFMgQihZ+mQpCwa8WTGdTx82vSar9ddBQbziBfZXZg+ScofvEZDdHQNCEwz4yM7HjBS9RgkAAABneyJvcmlnaW4iOiJodHRwczovL3lvdXR1YmUuY29tOjQ0MyIsImZlYXR1cmUiOiJXZWJDb21wb25lbnRzVjAiLCJleHBpcnkiOjE2MDM0ODY4NTYsImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" data-feature="Web Components V0" data-expires="2020-10-27" content="Av2+1qfUp3MwEfAFcCccykS1qFmvLiCrMZ//pHQKnRZWG9dldVo8HYuJmGj2wZ7nDg+xE4RQMQ+Ku1zKM3PvYAIAAABmeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IldlYkNvbXBvbmVudHNWMCIsImV4cGlyeSI6MTYwMzgzNjc3MiwiaXNTdWJkb21haW4iOnRydWV9"><script >var ytcfg = {d: function() {return (window.yt && yt.config_) || ytcfg.data_ || (ytcfg.data_ = {});},get: function(k, o) {return (k in ytcfg.d()) ? ytcfg.d()[k] : o;},set: function() {var a = arguments;if (a.length > 1) {ytcfg.d()[a[0]] = a[1];} else {for (var k in a[0]) {ytcfg.d()[k] = a[0][k];}}}};window.ytcfg.set('EMERGENCY_BASE_URL', "\/error_204?t=jserror\u0026client.name=1\u0026level=ERROR\u0026client.version=2.20191206.06.00");</script><script >window.ShadyCSS = {disableRuntime: true};window.ShadyDOM = {force: true};window.ShadyDOM.preferPerformance = true;window.ShadyDOM.noPatch = true;window.Polymer = (window.Polymer || {});window.Polymer.legacyOptimizations = true;</script><link rel="shortcut icon" href="https://s.ytimg.com/yts/img/favicon-vfl8qSV2F.ico" type="image/x-icon" ><link rel="icon" href="https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png" sizes="32x32" ><link rel="icon" href="https://s.ytimg.com/yts/img/favicon_48-vflVjB_Qk.png" sizes="48x48" ><link rel="icon" href="https://s.ytimg.com/yts/img/favicon_96-vflW9Ec0w.png" sizes="96x96" ><link rel="icon" href="https://s.ytimg.com/yts/img/favicon_144-vfliLAfaB.png" sizes="144x144" ><title>YouTube</title><script >var ytcsi = {gt: function(n) {n = (n || '') + 'data_';return ytcsi[n] || (ytcsi[n] = {tick: {},info: {}});},now: (window.performance && window.performance.timing &&window.performance.now && window.performance.timing.navigationStart) ?function() {return window.performance.timing.navigationStart +window.performance.now();} :function() {return (new Date()).getTime();},tick: function(l, t, n) {ticks = ytcsi.gt(n).tick;var v = t || ytcsi.now();if (ticks[l]) {ticks['_' + l] = (ticks['_' + l] || [ticks[l]]);ticks['_' + l].push(v);}ticks[l] = v;},info: function(k, v, n) {ytcsi.gt(n).info[k] = v;},setStart: function(s, t, n) {ytcsi.info('yt_sts', s, n);ytcsi.tick('_start', t, n);}};(function(w, d) {ytcsi.setStart('dhs', w.performance ? w.performance.timing.responseStart : null);var isPrerender = (d.visibilityState || d.webkitVisibilityState) == 'prerender';var vName = (!d.visibilityState && d.webkitVisibilityState)? 'webkitvisibilitychange' : 'visibilitychange';if (isPrerender) {ytcsi.info('prerender', 1);var startTick = function() {ytcsi.setStart('dhs');d.removeEventListener(vName, startTick);};d.addEventListener(vName, startTick, false);}if (d.addEventListener) {d.addEventListener(vName, function() {ytcsi.tick('vc');}, false);}function isGecko() {if (!w.navigator || !w.navigator.userAgent) {return false;}var ua = w.navigator.userAgent;return ua.indexOf('Gecko') > 0 &&ua.toLowerCase().indexOf('webkit') < 0 &&ua.indexOf('Edge') < 0 &&ua.indexOf('Trident') < 0 &&ua.indexOf('MSIE') < 0;}if (isGecko()) {var isHidden = (d.visibilityState || d.webkitVisibilityState) == 'hidden';if (isHidden) {ytcsi.tick('vc');}}var slt = function(el, t) {setTimeout(function() {var n = ytcsi.now();el.loadTime = n;if (el.slt) {el.slt();}}, t);};w.__ytRIL = function(el) {if (!el.getAttribute('data-thumb')) {if (w.requestAnimationFrame) {w.requestAnimationFrame(function() {slt(el, 0);});} else {slt(el, 16);}}};})(window, document);</script><link rel="preload" href= "https://i.ytimg.com/generate_204" as="fetch">  
+<script  src="/yts/jsbin/web-animations-next-lite.min-vflluX5aW/web-animations-next-lite.min.js" type="text/javascript" name="web-animations-next-lite.min/web-animations-next-lite.min" ></script>  
+  
+<script  src="/yts/jsbin/custom-elements-es5-adapter-vflsrwHZH/custom-elements-es5-adapter.js" type="text/javascript" name="custom-elements-es5-adapter/custom-elements-es5-adapter" ></script>  
+  
+<script  src="/yts/jsbin/webcomponents-sd-vflDA4_4l/webcomponents-sd.js" type="text/javascript" name="webcomponents-sd/webcomponents-sd" ></script>  
+        <script >if (window.ytcsi) {window.ytcsi.tick("rsbe_dph", null, '');}</script>
+
+<link  rel="import" href="/yts/htmlbin/desktop_polymer_v2-vflxo8b8g.html" name="desktop_polymer_v2" >        <script >if (window.ytcsi) {window.ytcsi.tick("rsae_dph", null, '');}</script>
+
+  <script >if (window.ytcsi) {window.ytcsi.tick("lpcs", null, '');}(function() {window.ytplayer = {};ytcfg.set({"ROOT_VE_TYPE":3611,"VARIANTS_CHECKSUM":"03c933829d2d7f2886599829fdc710a9","INNERTUBE_CONTEXT_GL":"US","DISABLE_YT_IMG_DELAY_LOADING":false,"ANIMATED_YOODLE_JS_URL":"\/yts\/jsbin\/www-animated-yoodle-vflRr5I8m\/www-animated-yoodle.js","NO_EMPTY_DATA_IMG":true,"YPC_MB_URL":"https:\/\/payments.youtube.com\/payments\/v4\/js\/integrator.js?ss=md","SBOX_JS_URL":"\/yts\/jsbin\/www-searchbox-vflSLtMwr\/www-searchbox.js","UPLOAD_BTN_CLICKTRACKING":"ei=DOjtXcyRHoHPgwPo2IaQCA\u0026feature=mhsb","CLIENT_PROTOCOL":"h2","GAPI_LOCALE":"ja_JP","STAMPER_STABLE_LIST":true,"LANGUAGE":"日本語","PLAYER_CSS_URL":"\/yts\/cssbin\/player-vflkiZPlm\/www-player-2x-webp.css","ASYNC_WATCH":true,"ENABLE_ELEMENT_POOL_POPULATOR":true,"HISTORY_CACHE_MAX_SIZE":100,"CHANNEL_DEFAULT_BANNER":"https:\/\/s.ytimg.com\/yts\/img\/channels\/c4\/default_banner-vfl7DRgTn.png","ENABLE_SERVICE_REQUEST":true,"HTML_DIR":"ltr","GAPI_HOST":"https:\/\/apis.google.com","VISIBILITY_TIME_BETWEEN_JOBS_MS":100,"LOGGED_IN":false,"IS_TABLET":false,"ELEMENT_POOL_DEFAULT_CAP":75,"START_IN_THEATER_MODE":false,"LATEST_ECATCHER_SERVICE_TRACKING_PARAMS":{"client.name":"WEB"},"INNERTUBE_CONTEXT_CLIENT_NAME":1,"GAPI_HINT_PARAMS":"m;\/_\/scs\/abc-static\/_\/js\/k=gapi.gapi.en.MEVzAPCznC8.O\/d=1\/ct=zgms\/rs=AHpOoo_iL6i3Fuh5d3bLKRBazYvzpKjkxg\/m=__features__","EXPERIMENT_FLAGS":{"external_fullscreen_button_shown_threshold":10,"playlist_move_to_end":true,"high_priority_flyout_frequency":3,"persistent_miniplayer":true,"kevlar_autofocus_menu_on_keyboard_nav":true,"kevlar_miniplayer_set_element_early":true,"web_use_beacon_api_for_ad_click_server_pings":true,"enable_signals":true,"service_worker_push_logged_out_prompt_watches":-1,"player_enable_playback_playlist_change":true,"desktop_add_to_playlist_renderer_dialog_popup":true,"no_sub_count_on_sub_button":true,"disable_youthere_lact_threshold_check":true,"kevlar_thumbnail_overlay_new_elementpool_schedule":true,"log_web_meta_interval_ms":0,"gfeedback_for_signed_out_users_enabled":true,"desktop_action_companion_wta_support":true,"kevlar_frontend_video_list_actions":true,"polymer_enable_mdx":true,"kevlar_autonav_miniplayer_fix":true,"playlist_remove_watched":true,"enable_client_streamz_web":true,"kevlar_settings_privacy":true,"kevlar_icons_on_menus":true,"kevlar_home_skeleton_hide_later":true,"kevlar_allow_multistep_video_init":true,"desktop_search_suggestion_tap_target":0,"watch_next_pause_autoplay_lact_sec":4500,"enable_docked_chat_messages":true,"kevlar_home_keyboard_scroll_distance":0,"fix_for_safari_desktop_masthead_banner_size":true,"kevlar_settings_sharing":true,"kevlar_thumbnail_fluid":true,"kevlar_disable_background_prefetch":true,"autoescape_tempdata_url":true,"polymer_warm_thumbnail_preload":true,"kevlar_guide_refresh":true,"service_worker_push_watch_page_prompt":true,"web_enable_history_cache_map":true,"kevlar_time_caching_end_threshold":15,"external_fullscreen_button_click_threshold":2,"service_worker_push_home_page_prompt":true,"max_duration_to_consider_mouseover_as_hover":600000,"consent_url_override":"","disable_legacy_desktop_remote_queue":true,"kevlar_home_skeleton":true,"kevlar_add_to_queue_option":true,"kevlar_mousedown_prefetchable_components":["ytd-playlist-video-renderer","ytd-grid-video-renderer","ytd-compact-video-renderer","ytd-video-renderer","ytd-playlist-panel-video-renderer"],"client_streamz_web_flush_count":100,"pbj_navigate_limit":-1,"disable_legacy_desktop_remote_queue_watch":true,"desktop_pyv_on_watch_missing_params":true,"kevlar_settings_overview":true,"enable_wta_kevlar_watch_pyv":true,"kevlar_no_url_params":true,"enable_servlet_streamz":true,"web_gel_debounce_ms":10000,"kevlar_menu_logging":true,"kevlar_tooltip_impression_cap":2,"kevlar_no_autoscroll_on_playlist_hover":true,"kevlar_miniplayer":true,"web_always_load_chat_support":true,"kevlar_droppable_prefetchable_requests":true,"viewport_load_collection_wait_time":0,"should_clear_video_data_on_player_cued_unstarted":true,"log_web_endpoint_to_layer":true,"prefetch_comments_ms_after_video":0,"enable_offer_suppression":true,"kevlar_settings_notifications":true,"polymer_report_client_url_requested_rate":0.001,"kevlar_log_native_right_click_ve":true,"user_engagement_experiments_rate_limit_ms":86400000,"kevlar_playlist_collapsible":true,"enable_web_ketchup_hero_animation":true,"show_account_link_ari_double_dialog":true,"kevlar_enable_reorderable_playlists":true,"enable_ve_tracker_key":true,"is_part_of_any_user_engagement_experiment":true,"enable_yto_window":true,"kevlar_persistent_guide_width_threshold":1312,"defer_overlays":true,"ten_video_reordering":[0,1,2,3,6,4,5,7,8,9],"rich_grid_add_recommended_title":true,"kevlar_clean_up":true,"polymer2_polyfill_manual_flush":true,"rich_grid_mini_mode":true,"kevlar_nitrate_driven_tooltips":true,"autoplay_time":8000,"kevlar_allow_queue_reorder":true,"kevlar_js_fixes":true,"rich_grid_linear":true,"enable_watch_next_pause_autoplay_lact":true,"polymer_report_missing_web_navigation_endpoint_rate":0.1,"web_emulated_idle_callback_delay":0,"polymer_task_manager_status":"production","enable_button_behavior_reuse":true,"flush_onbeforeunload":true,"rich_grid_decouple_sections_row_multiplier":1,"kevlar_use_page_data_will_update":true,"service_worker_enabled":true,"external_fullscreen":true,"desktop_polymer_video_masthead_always_use_responsive_iframe":true,"kevlar_exit_fullscreen_leaving_watch":true,"kevlar_disable_fast_player_sizing_on_channel_page":true,"kevlar_watch_color_update":true,"visibility_time_between_jobs_ms":100,"desktop_keyboard_capture_keydown_killswitch":true,"kevlar_set_internal_player_size":true,"kevlar_settings_billing":true,"service_worker_push_prompt_delay_microseconds":3888000000000,"kevlar_autonav_popup_filtering":true,"service_worker_push_enabled":true,"rich_grid_section_minimum_row_number":2,"web_dont_cancel_pending_navigation_same_url":true,"live_chat_unicode_emoji_json_url":"https:\/\/www.gstatic.com\/youtube\/img\/emojis\/emojis-svg-1.json","desktop_pyv_on_watch_override_lact":true,"desktop_videowall_companion_wta_support":true,"enable_ypc_spinners":true,"enable_player_microformat_data":true,"retry_web_logging_batches":true,"desktop_image_companion_wta_support":true,"botguard_periodic_refresh":true,"kevlar_queue_use_update_api":true,"kevlar_snap_state_refresh":true,"warm_load_nav_start_web":true,"kevlar_mousedown_prefetch":true,"your_data_entrypoint":true,"rich_grid_decouple_sections":true,"desktop_notification_high_priority_ignore_push":true,"kevlar_miniplayer_expand_top":true,"web_player_watch_next_response":true,"serve_crosswalk_compliant_pdp":true,"kevlar_playback_associated_queue":true,"twelve_video_reordering":[0,1,2,4,7,8,3,5,6,9,10,11],"kevlar_miniplayer_queue_user_activation":true,"kevlar_prepare_player_on_miniplayer_activation":true,"reload_without_polymer_innertube":true,"client_streamz_web_flush_interval_seconds":60,"kevlar_watch_skeleton":true,"kevlar_prefetch":true,"enable_cold_load_instrumentation":true,"polymer_cold_home_preload":true,"log_vis_on_tab_change":true,"web_gel_timeout_cap":true,"kevlar_lazy_list_resume_for_autofill":true,"min_mouse_still_duration":100,"polymer_video_renderer_defer_menu":true,"skip_endpoint_param_comparison":true,"minimum_duration_to_consider_mouseover_as_hover":500,"ignore_empty_xhr":true,"use_watch_fragments2":true,"kevlar_transcript_panel_refreshed_styles":true,"kevlar_help_use_locale":true,"align_merch_shelf_with_description_on_desktop":true,"kevlar_enable_editable_playlists":true,"polymer2_element_pool_properties":true,"serve_pdp_at_canonical_url":true,"kevlar_mealbar_above_player":true,"enable_servlet_errors_streamz":true,"user_mention_suggestions_edu_impression_cap":10,"cancel_pending_navs":true,"kevlar_settings_playback":true,"preview_play_duration":3000,"player_allow_autonav_after_playlist":true,"is_browser_support_for_webcam_streaming":true,"enable_web_poster_hover_animation":true,"enable_borders_on_community":true,"kevlar_queue_use_dedicated_list_type":true,"live_chat_over_playlist":true,"external_fullscreen_with_edu":true,"kevlar_use_ytd_player":true,"service_worker_push_prompt_cap":-1,"kevlar_collect_battery_network_status":true,"recommended_video_reordering":true,"web_system_health_fraction":0.01,"desktop_notification_set_title_bar":true,"searchbox_reporting":true,"autoplay_pause_by_lact_sampling_fraction":0.0,"live_chat_increased_min_height":true,"custom_csi_timeline_use_gel":true,"mdx_enable_privacy_disclosure_ui":true,"enable_service_ajax_csn":true,"kevlar_menu_refresh":true,"kevlar_center_search_results":true,"kevlar_settings_advanced":true,"cold_missing_history":true,"global_spacebar_pause":true,"kevlar_transcript_engagement_panel":true,"kevlar_cancel_scheduled_comment_jobs_on_navigate":true,"kevlar_next_up_next_edu_emoji":"","kevlar_time_caching_start_threshold":15,"kevlar_background_color_update":true,"service_worker_scope":"\/","kevlar_thumbnail_overlay_button_refresh":true,"desktop_shopping_companion_wta_support":true,"web_logging_max_batch":100,"desktop_touch_gestures_usage_log":true,"kevlar_collect_hover_touch_support":true,"desktop_polymer_video_masthead_session_tempdata_ttl":30,"show_updated_ticket_shelf_ui":true,"defer_menus":true,"kevlar_watch_js_panel_height":true,"app_settings_snapshot_min_time_between_snapshots_hours":24,"log_window_onerror_fraction":0.1,"rich_grid":true,"autoplay_pause_by_lact_sec":0,"decorate_autoplay_renderer":true,"kevlar_continuations_migration":true,"log_hovers":true,"kevlar_channel_trailer_multi_attach":true,"update_super_chat_moderation":true,"kevlar_mousedown_prefetch_blacklist":true,"kevlar_no_early_init_unpause":true,"desktop_themeable_vulcan":true,"enable_premium_voluntary_pause":true,"kevlar_mini_guide_width_threshold":791,"service_worker_push_force_notification_prompt_tag":"1","kevlar_abandon_on_stop":true,"pass_biscotti_id_in_header_ajax":true,"kevlar_miniplayer_play_pause_on_scrim":true,"defer_rendering_outside_visible_area":true,"kevlar_use_response_ttl_to_invalidate_cache":true},"ENABLE_ELEMENT_POOL_AUTO_ABORT":true,"INNERTUBE_CONTEXT_CLIENT_VERSION":"2.20191206.06.00","WELCOME_POPUP_ENABLED_END":null,"SIGNIN_URL":"https:\/\/accounts.google.com\/ServiceLogin?uilel=3\u0026continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Fhl%3Dja%26app%3Ddesktop%26next%3D%252Fchannel%252FUC9PpHFOORGtRuDR_TMCYsfg%252Fvideos%253Fview%253D2%2526flow%253Dgrid%26action_handle_signin%3Dtrue%26feature%3D__FEATURE__\u0026service=youtube\u0026passive=true\u0026hl=ja","XSRF_TOKEN":"QUFFLUhqa1NPcno4bkFaS3FJQkpUYjBQRUZ6YkRoZkphQXxBQ3Jtc0tsUURzWnliNEVHNWNsMTAtUEZlQURoaHVkUTdmbXUzUVl5NHdrYlFIZDNWTi1KSmRLYTAwSXhTTHFuYnNBTDBLakUxUm9waDR4anpoR1lfQnJmVTFfMk9XeXRuR1gtWHgtSnkwNEtLWkxlcC1DX2VxNlVRSWRsOHEtVGNSeUwwQUJVV3NLRlRsZ2lhLW5nM2RYT051XzBFREhjS1E=","PAGE_CL":284024905,"ZWIEBACK_PING_URLS":["https:\/\/www.google.com\/pagead\/lvz?req_ts=1575872524\u0026pg=channel\u0026evtid=ADszL7NyQ7cFyWJxPMPdey2JFooiCeSfK39c60vclpH7an_PkZVgDHoT1nX9U9ut3DpmcOeJob24cEJuSaEVsvuOfzBacdCiKQ\u0026sigh=ADRnf4a1jvB1ZaGOT2PRqMw14rufz893CQ"],"SBOX_SETTINGS":{"IS_FUSION":false,"SEND_VISITOR_DATA":false,"PQ":"","REQUEST_DOMAIN":"us","SUGG_EXP_ID":"ytrl_c2,cfro=1,ersl=true,mrfs=true,drsl=true,rac=true,eap=true,mlrt=1,rlmn=boost_em_precision_20191119_ast_proto.recordio","REQUEST_LANGUAGE":"ja","IS_POLYMER":true,"SEARCHBOX_BEHAVIOR_EXPERIMENT":"zero-prefix","SEARCHBOX_ENABLE_REFINEMENT_SUGGEST":true,"SESSION_INDEX":null,"SEARCHBOX_ZERO_TYPING_SUGGEST_USE_REGULAR_SUGGEST":"","SEARCHBOX_TAP_TARGET_EXPERIMENT":0,"PSUGGEST_TOKEN":null,"VISITOR_DATA":"CgtNYUdHZHNJdk1JUSiM0LfvBQ%3D%3D","HAS_ON_SCREEN_KEYBOARD":false},"ENABLE_IMG_TRANSITION":false,"YTR_FAMILY_CREATION_URL":"https:\/\/families.google.com\/webcreation?usegapi=1","SCHEDULER_SOFT_STATE_TIMER":800,"ID_TOKEN":null,"COUNTRY":"アメリカ","DEVICE":"cosver=10.0\u0026cbr=Chrome\u0026cos=Windows\u0026cbrver=78.0.3904.108","DISABLE_WARM_LOADS":false,"DISABLE_DATA_REPLAY":false,"PAGE_BUILD_LABEL":"youtube.ytfe.desktop_20191205_6_RC0","INNERTUBE_API_KEY":"AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8","START_IN_FULL_WINDOW_MODE":false,"SCHEDULED_LAZY_LIST":true,"INNERTUBE_CONTEXT_HL":"ja","INNERTUBE_API_VERSION":"v1","GOOGLE_FEEDBACK_PRODUCT_ID":"59","SERVICE_WORKER_PROMPT_NOTIFICATIONS":false,"ONE_PICK_URL":"","CLIENT_TRANSPORT":"quic","HTML_LANG":"ja-JP","PLAYER_JS_URL":"\/yts\/jsbin\/player_ias-vflYr569U\/ja_JP\/base.js","SUPPORTS_ANIMATIONS":true,"DEFERRED_DETACH":true,"REUSE_COMPONENTS":true,"EVENT_ID":"DOjtXcyRHoHPgwPo2IaQCA","XSRF_FIELD_NAME":"session_token","GOOGLE_FEEDBACK_PRODUCT_DATA":{"polymer":"active","polymer2":"active","accept_language":"ja,en-US;q=0.9,en;q=0.8"},"SESSION_INDEX":null,"XHR_APIARY_HOST":"youtubei.youtube.com","VISITOR_DATA":"CgtNYUdHZHNJdk1JUSiM0LfvBQ%3D%3D"});ytcfg.set("SBOX_LABELS", {"SUGGESTION_DISMISS_LABEL":"削除","SUGGESTION_DISMISSED_LABEL":"候補を非表示にしました"});var setMessage = function(msg) {if (window.yt && yt.setMsg) {yt.setMsg(msg);} else {window.ytcfg = window.ytcfg || {};ytcfg.msgs = msg;}};setMessage({'SIGN_IN_LABEL': "ログイン",'SHARE_LABEL': "共有",'GUIDE_ALT_LABEL': "ガイド",'LOGO_ALT_LABEL': "YouTube ホーム",'BACK_ALT_LABEL': "戻る",'CHOOSE_COUNTRY_LABEL': "地域を選択",'COUNTRY_LABEL': "場所:",'CHOOSE_LANGUAGE_LABEL': "言語を選択",'LANGUAGE_LABEL': "言語:",'TIMEZONE_FORMAT': "（$utc_offset_text）$city_name",'LOCAL_TIME_LABEL': "現地時間",'UTC_OFFSET_FORMAT': "GMT$utc_offset",'ENTER_DATE_OR_EARLIER': "$allowed_date 以前の日付を入力してください",'ENTER_DATE_OR_LATER': "$allowed_date以降の日付を入力してください",'INVALID_DATE_ERROR': "無効な日付",'OFF': "オフ",'ON': "オン",'RESTRICTED_MODE_LABEL': "制限付きモード:",'RESTRICTED_MODE_TEXT_LINE_1': "制限付きモードを有効にすると、ユーザーの報告やその他の指標により不適切と判断された内容を含む動画は表示されません。どのフィルタも 100% 正確だとは言えませんが、これで通常ほとんどの不適切なコンテンツは除外できます。",'RESTRICTED_MODE_TEXT_LINE_2': "制限付きモード設定は、このブラウザにのみ適用されます。",'RESTRICTED_MODE_TITLE': "制限付きモード",'IMAGE_HORIZONTAL_POSITION_LABEL': "プレビューの中心点は、左から $x_percent%、右から $y_percent% の位置にあります。",'IMAGE_VERTICAL_POSITION_LABEL': "プレビューの中心点は、上から $x_percent%、下から $y_percent% の位置にあります",'REPOSITION_IMAGE_HORIZONTALLY_LABEL': "左右の矢印キーを押すと、プレビューの位置を変更できます",'REPOSITION_IMAGE_VERTICALLY_LABEL': "上下の矢印キーを押すと、プレビューの位置を変更できます",'REACH_TOP_OF_IMAGE_TEXT': "画像の上端に達しました",'REACH_BOTTOM_OF_IMAGE_TEXT': "画像の下端に達しました",'REACH_LEFT_OF_IMAGE_TEXT': "画像の左端に達しました",'REACH_RIGHT_OF_IMAGE_TEXT': "画像の右端に達しました",'SBOX_PLACEHOLDER': "検索",'SBOX_INAPPROPRIATE_PROMPT': "検索候補の報告",'SBOX_INAPPROPRIATE_TITLE': "検索候補の報告",'SBOX_INAPPROPRIATE_SUGGESTIONS': "報告する検索候補を選択してください:",'SBOX_INAPPROPRIATE_CATEGORY': "選択した検索候補:",'SBOX_INAPPROPRIATE_HATEFUL': "差別的である",'SBOX_INAPPROPRIATE_EXPLICIT': "露骨な性表現である",'SBOX_INAPPROPRIATE_VIOLENT': "暴力的である",'SBOX_INAPPROPRIATE_DANGEROUS': "危険で有害な行為である",'SBOX_INAPPROPRIATE_OTHER': "その他",'SBOX_INAPPROPRIATE_REASON': "理由（必須）",'SBOX_INAPPROPRIATE_ADDITIONAL': "追加情報を入力（オプション）",'SBOX_INAPPROPRIATE_SUBMIT': "送信",'SBOX_INAPPROPRIATE_REPORT': "報告",'SBOX_INAPPROPRIATE_CANCEL': "キャンセル",'SBOX_INAPPROPRIATE_TOAST': "このたびはご意見をお寄せいただきありがとうございました。",'SBOX_VOICE_OVERLAY_PLACEHOLDER': "認識しています...",'ADD_TO_DROPDOWN_LABEL': "保存先...",'REQUIRED_LABEL': "必須",'NO_ANGLE_BRACKET_LABEL': "再生リスト名に \u003c または \u003e を含めることはできません\n",'EDIT_AVATAR_LABEL': "プロフィール写真の編集",'AD_BADGE_TEXT': "広告",'EDU_GOT_IT': "OK",'MINIPLAYER_EDU_TITLE': "ながら見再生",'MINIPLAYER_EDU_TEXT': "このミニプレーヤーは [設定] でオフにできます",'MINIPLAYER_EDU_SETTINGS': "設定",'MINIPLAYER_COLLAPSE_LABEL': "折りたたむ",'MINIPLAYER_EXPAND_LABEL': "展開",'QUEUE': "キュー",'ADDED_TO_QUEUE': "キューに追加しました",'QUEUE_CLEARED': {"case1": "\u30ad\u30e5\u30fc\u306b\u3042\u308b 1 \u4ef6\u306e\u52d5\u753b\u3092\u524a\u9664\u3057\u307e\u3057\u305f", "other": "\u30ad\u30e5\u30fc\u306b\u3042\u308b # \u4ef6\u306e\u52d5\u753b\u3092\u524a\u9664\u3057\u307e\u3057\u305f"},'MINIPLAYER_CLOSE': "プレーヤーを閉じる",'QUEUE_CLOSE_MINIPLAYER_CONFIRM_TITLE': "キューを削除します",'QUEUE_CLOSE_MINIPLAYER_CONFIRM_BODY_TEXT': "プレーヤーを閉じてもよろしいですか？",'QUEUE_RECOVER_BUTTON': "復元",'QUEUE_RECOVER_MESSAGE': "キューを復元する",'CLEAR': "消去",'UNDO': "元に戻す",'CANCEL': "キャンセル",'UP_NEXT': "次の動画",'PLAYING_NOW': "再生中",'NEXT_UP_NEXT_EDU_TITLE': "次に再生する動画を指定できます",'NEXT_UP_NEXT_EDU_TEXT': "動画の ⋮ アイコンをクリックして試してみてください。\n",'SUBS_FILTER_EDU_TEXT': "各チャンネルの新着動画を表示",'SUBS_GUIDE_ITEM_EDU_TEXT': "登録チャンネルすべての新着動画を表示",'SUBS_FILTER_EDU_CHANNEL_TEXT': "このチャンネルの新着動画を表示しています。",'LIBRARY_GUIDE_ITEM_EDU_TITLE': "新しいライブラリをチェックする",'LIBRARY_GUIDE_ITEM_EDU_TEXT': "履歴、再生リスト、購入した動画などを確認する",'MENTIONS_EDU_TITLE': "詳細",'MENTIONS_EDU_TEXT': "ヘルプセンターに移動して、YouTube のメンションの仕組みをご確認ください。",'EXPLORE_EDU_TEXT': "新機能！優れた動画、チャンネル、トピックをさまざまな方法で検索できます",'LS_LOADING_STANDARD': "標準ビューを読み込んでいます",'LS_LOAD_HTML': "\u003ca href=\"https:\/\/www.youtube.com\/channel\/UC9PpHFOORGtRuDR_TMCYsfg\/videos?view=2\u0026amp;flow=grid\u0026amp;dp_lcl=1\u0026amp;disable_polymer=1\"\u003e基本的な HTML を読み込む\u003c\/a\u003e（接続速度が遅い場合）\n",'LS_HOLD_ON': "YouTube の読み込みに通常より時間がかかっています。そのままお待ちください...",'LS_TIMED_OUT': "問題が発生しました。通常より時間がかかっています。このまま待つか、\u003ca href=\"https:\/\/www.youtube.com\/channel\/UC9PpHFOORGtRuDR_TMCYsfg\/videos?view=2\u0026amp;flow=grid\u0026amp;pbjreload=10\"\u003eこちら\u003c\/a\u003eをクリックしてページの再読み込みをしてください。\n",'JOIN_MEMBERSHIP_EDU_TITLE': "メンバーシップ",'JOIN_MEMBERSHIP_EDU_TEXT': "このチャンネルのメンバーシップを購入すると、メンバー限定の特典を利用できます。",'SHARE_POST_EDU_TEXT': "YouTube で投稿を共有できます",'FREEBIE_JOIN_MEMBERSHIP_EDU_TITLE': "メンバーシップ",'FREEBIE_JOIN_MEMBERSHIP_EDU_TEXT': "このチャンネルは YouTube Premium で無料参加できるメンバーシップを提供しています",'MANAGE_MEMBERSHIP_EDU_TITLE': "メンバー限定の特典を表示する",'MANAGE_MEMBERSHIP_EDU_TEXT': "ここから、特典にアクセスして、メンバーシップを管理します。"});})();ytcfg.set('MENTIONS_EDU_HELP_LINK', "https:\/\/support.google.com\/youtube\/?p=creator_community");ytcfg.set('scheduler', {useRaf: true, timeout: 20});ytcfg.set('initialInnerWidth', window.innerWidth);ytcfg.set('initialInnerHeight', window.innerHeight);ytcfg.set("YTO_CKEE_ENABLED", {"guide":false,"crane_kick":true,"wax_on":true});ytcfg.set("YTO_CKEE_VIDEOS", ["1Aoc-cd9eYs","1jTy2VMqaM4","81XSlh_UKJg","9S9ydLeG-Lw","9z1nTwP2n0w","Anw5KRS2bjs","EsXRIHhAo5M","MfePCtYUy1g","NujGR1l9hAc","XPRNwg7KNos","_COmckF6OxE","_rB36UGoP4Y","aDTUH8VkhVE","c1z7iLlFu9E","d2_2oCRPrjM","hkwDj6A1oNk","iIaVdlcDRA0","l2t7qNQBthk","nrc-fRMHvBM","vNgbK85d0ZM","xCwwxNbtK6Y","xLtYmhj-0Kg","yO-hXXhYVkc"]);ytcfg.set("YTO_CKEE_FRAMERATE", 301);ytcfg.set("YTO_CKEE_SEEK_THRESHOLD", 0.5);window.ytcfg.set('COLD_LOADED_PAGE', 'channel');window.ytcfg.set('LINK_API_KEY', "AIzaSyDophAQuyyiBr8h0nypEwXUKozH-BEswD0");window.ytcfg.set('LINK_OIS_DOMAIN', "oauthintegrations.googleapis.com");if (window.ytcsi) {window.ytcsi.tick("lpcf", null, '');}</script>  
+<script  src="/yts/jsbin/scheduler-vfl3S_KkK/scheduler.js" type="text/javascript" name="scheduler/scheduler" ></script>  
+  
+<script  src="/yts/jsbin/www-tampering-vfl73a1tI/www-tampering.js" type="text/javascript" name="www-tampering/www-tampering" ></script>  
+  
+<script  src="/yts/jsbin/spf-vflqCgDoF/spf.js" type="text/javascript" name="spf/spf" ></script>  
+  
+<script  src="/yts/jsbin/network-vflX047bV/network.js" type="text/javascript" name="network/network" ></script>  
+<script >if (window.ytcsi) {window.ytcsi.tick("csl", null, '');}</script>
+  <style name="www-roboto" >@font-face{font-family:'Roboto';font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fCRc4EsA.woff2)format('woff2');unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;}@font-face{font-family:'Roboto';font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fABc4EsA.woff2)format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}@font-face{font-family:'Roboto';font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fCBc4EsA.woff2)format('woff2');unicode-range:U+1F00-1FFF;}@font-face{font-family:'Roboto';font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBxc4EsA.woff2)format('woff2');unicode-range:U+0370-03FF;}@font-face{font-family:'Roboto';font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fCxc4EsA.woff2)format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+1EA0-1EF9,U+20AB;}@font-face{font-family:'Roboto';font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fChc4EsA.woff2)format('woff2');unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;}@font-face{font-family:'Roboto';font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc4.woff2)format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto Regular'),local('Roboto-Regular'),url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu72xKOzY.woff2)format('woff2');unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto Regular'),local('Roboto-Regular'),url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu5mxKOzY.woff2)format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto Regular'),local('Roboto-Regular'),url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7mxKOzY.woff2)format('woff2');unicode-range:U+1F00-1FFF;}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto Regular'),local('Roboto-Regular'),url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4WxKOzY.woff2)format('woff2');unicode-range:U+0370-03FF;}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto Regular'),local('Roboto-Regular'),url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7WxKOzY.woff2)format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+1EA0-1EF9,U+20AB;}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto Regular'),local('Roboto-Regular'),url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7GxKOzY.woff2)format('woff2');unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto Regular'),local('Roboto-Regular'),url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2)format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}@font-face{font-family:'Roboto';font-style:italic;font-weight:500;src:local('Roboto Medium Italic'),local('Roboto-MediumItalic'),url(//fonts.gstatic.com/s/roboto/v18/KFOjCnqEu92Fr1Mu51S7ACc3CsTKlA.woff2)format('woff2');unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;}@font-face{font-family:'Roboto';font-style:italic;font-weight:500;src:local('Roboto Medium Italic'),local('Roboto-MediumItalic'),url(//fonts.gstatic.com/s/roboto/v18/KFOjCnqEu92Fr1Mu51S7ACc-CsTKlA.woff2)format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}@font-face{font-family:'Roboto';font-style:italic;font-weight:500;src:local('Roboto Medium Italic'),local('Roboto-MediumItalic'),url(//fonts.gstatic.com/s/roboto/v18/KFOjCnqEu92Fr1Mu51S7ACc2CsTKlA.woff2)format('woff2');unicode-range:U+1F00-1FFF;}@font-face{font-family:'Roboto';font-style:italic;font-weight:500;src:local('Roboto Medium Italic'),local('Roboto-MediumItalic'),url(//fonts.gstatic.com/s/roboto/v18/KFOjCnqEu92Fr1Mu51S7ACc5CsTKlA.woff2)format('woff2');unicode-range:U+0370-03FF;}@font-face{font-family:'Roboto';font-style:italic;font-weight:500;src:local('Roboto Medium Italic'),local('Roboto-MediumItalic'),url(//fonts.gstatic.com/s/roboto/v18/KFOjCnqEu92Fr1Mu51S7ACc1CsTKlA.woff2)format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+1EA0-1EF9,U+20AB;}@font-face{font-family:'Roboto';font-style:italic;font-weight:500;src:local('Roboto Medium Italic'),local('Roboto-MediumItalic'),url(//fonts.gstatic.com/s/roboto/v18/KFOjCnqEu92Fr1Mu51S7ACc0CsTKlA.woff2)format('woff2');unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;}@font-face{font-family:'Roboto';font-style:italic;font-weight:500;src:local('Roboto Medium Italic'),local('Roboto-MediumItalic'),url(//fonts.gstatic.com/s/roboto/v18/KFOjCnqEu92Fr1Mu51S7ACc6CsQ.woff2)format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}@font-face{font-family:'Roboto';font-style:italic;font-weight:400;src:local('Roboto Italic'),local('Roboto-Italic'),url(//fonts.gstatic.com/s/roboto/v18/KFOkCnqEu92Fr1Mu51xFIzIFKw.woff2)format('woff2');unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;}@font-face{font-family:'Roboto';font-style:italic;font-weight:400;src:local('Roboto Italic'),local('Roboto-Italic'),url(//fonts.gstatic.com/s/roboto/v18/KFOkCnqEu92Fr1Mu51xMIzIFKw.woff2)format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}@font-face{font-family:'Roboto';font-style:italic;font-weight:400;src:local('Roboto Italic'),local('Roboto-Italic'),url(//fonts.gstatic.com/s/roboto/v18/KFOkCnqEu92Fr1Mu51xEIzIFKw.woff2)format('woff2');unicode-range:U+1F00-1FFF;}@font-face{font-family:'Roboto';font-style:italic;font-weight:400;src:local('Roboto Italic'),local('Roboto-Italic'),url(//fonts.gstatic.com/s/roboto/v18/KFOkCnqEu92Fr1Mu51xLIzIFKw.woff2)format('woff2');unicode-range:U+0370-03FF;}@font-face{font-family:'Roboto';font-style:italic;font-weight:400;src:local('Roboto Italic'),local('Roboto-Italic'),url(//fonts.gstatic.com/s/roboto/v18/KFOkCnqEu92Fr1Mu51xHIzIFKw.woff2)format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+1EA0-1EF9,U+20AB;}@font-face{font-family:'Roboto';font-style:italic;font-weight:400;src:local('Roboto Italic'),local('Roboto-Italic'),url(//fonts.gstatic.com/s/roboto/v18/KFOkCnqEu92Fr1Mu51xGIzIFKw.woff2)format('woff2');unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;}@font-face{font-family:'Roboto';font-style:italic;font-weight:400;src:local('Roboto Italic'),local('Roboto-Italic'),url(//fonts.gstatic.com/s/roboto/v18/KFOkCnqEu92Fr1Mu51xIIzI.woff2)format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}</style><script name="www-roboto" >if (document.fonts && document.fonts.load) {document.fonts.load("400 10pt Roboto", "日");document.fonts.load("500 10pt Roboto", "日");}</script>
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=YT%20Sans%3A300%2C500%2C700" name="www-webfont-yt-sans"><link rel="stylesheet" href="/yts/cssbin/www-onepick-2x-webp-vflsYL2Tr.css" name="www-onepick"><style name="global_styles">body{padding:0;margin:0;overflow-y:scroll}body.autoscroll{overflow-y:auto}body.no-scroll{overflow:hidden}body.no-y-scroll{overflow-y:hidden}.hidden{display:none}textarea{--paper-input-container-input_-_white-space:pre-wrap}</style><style name="masthead_shell">ytd-masthead.shell{background:rgba(255,255,255,0.98);position:fixed;top:0;right:0;left:0;display:-ms-flex;display:-webkit-flex;display:flex;height:56px;-ms-flex-align:center;-webkit-align-items:center;align-items:center}ytd-masthead.shell #menu-icon{margin-left:16px}ytd-app>ytd-masthead.chunked{position:fixed;top:0;width:100%}ytd-masthead.shell.dark,ytd-masthead.shell.theater{background:rgba(40,40,40,0.98)}ytd-masthead.shell.full-window-mode{background:rgba(40,40,40,0.98);opacity:0;transform:translateY(calc(-100% - 5px))}ytd-masthead.shell>*:first-child{padding-left:16px}ytd-masthead.shell>*:last-child{padding-right:16px}ytd-masthead #masthead-logo{display:-ms-flex;display:-webkit-flex;display:flex}ytd-masthead #masthead-logo #country-code{margin-right:2px}ytd-masthead.shell #yt-logo-svg,ytd-masthead.shell #yt-logo-red-svg{align-self:center;margin-left:8px;padding:0;color:black}ytd-masthead.shell #a11y-skip-nav{display:none}ytd-masthead.shell svg{width:40px;height:40px;padding:8px;margin-right:8px;box-sizing:border-box;color:#606060;fill:currentColor}ytd-masthead .external-icon{width:24px;height:24px}ytd-masthead .yt-icons-ext{fill:currentColor;color:#606060}ytd-masthead.shell.dark .yt-icons-ext ytd-masthead.shell.theater .yt-icons-ext{fill:#fff}ytd-masthead svg#yt-logo-svg{width:80px}ytd-masthead svg#yt-logo-red-svg{width:106.4px}@media (max-width:656px){ytd-masthead.shell>*:first-child{padding-left:8px}ytd-masthead.shell>*:last-child{padding-right:8px}ytd-masthead.shell svg{margin-right:0}ytd-masthead #masthead-logo{-ms-flex:1 1 .000000001px;-webkit-flex:1;flex:1;-webkit-flex-basis:.000000001px;flex-basis:.000000001px}ytd-masthead.shell #yt-logo-svg,ytd-masthead.shell #yt-logo-red-svg{margin-left:4px}}@media (min-width:876px){ytd-masthead #masthead-logo{width:129px}}#masthead-skeleton-icons{display:flex;flex:1;flex-direction:row;justify-content:flex-end}ytd-masthead.masthead-finish #masthead-skeleton-icons{display:none}.masthead-skeleton-icon{border-radius:50%;height:32px;width:32px;margin:0 8px;background-color:hsl(0,0%,89%)}ytd-masthead.dark .masthead-skeleton-icon{background-color:hsl(0,0%,16%)}</style><style name="masthead_custom_styles" is="custom-style"  id="ext-styles" >ytd-masthead .yt-icons-ext{color:var(--yt-spec-icon-active-other)}ytd-masthead svg#yt-logo-svg #youtube-paths path,ytd-masthead svg#yt-logo-red-svg #youtube-red-paths path{fill:#282828}ytd-masthead.dark svg#yt-logo-svg #youtube-paths path,ytd-masthead.dark svg#yt-logo-red-svg #youtube-red-paths path,ytd-masthead.theater svg#yt-logo-svg #youtube-paths path,ytd-masthead.theater svg#yt-logo-red-svg #youtube-red-paths path{fill:#fff}</style><style name="searchbox">#search-input.ytd-searchbox-spt input{-webkit-appearance:none;-webkit-font-smoothing:antialiased;background-color:transparent;border:none;box-shadow:none;color:inherit;font-family:'Roboto','Noto',sans-serif;font-size:16px;font-weight:400;line-height:24px;margin-left:4px;max-width:100%;outline:none;text-align:inherit;width:100%;-ms-flex:1 1 .000000001px;-webkit-flex:1;flex:1;-webkit-flex-basis:.000000001px;flex-basis:.000000001px}#search-container.ytd-searchbox-spt{pointer-events:none;position:absolute;top:0;right:0;bottom:0;left:0}#search-input.ytd-searchbox-spt #search::-webkit-input-placeholder,#search-input.ytd-searchbox-spt #search::-moz-input-placeholder,#search-input.ytd-searchbox-spt #search:-ms-input-placeholder{color:hsl(0,0%,53.3%)}</style><style name="kevlar_global_styles">html{background-color:#f9f9f9!important}html[dark]{background-color:#131313!important}</style><style name="emergencycssformatted">#a11y-skip-nav {
+display: none !important
+}
+
+.yt-simple-endpoint {
+text-decoration: none
+}
+
+#watch-page-skeleton #related {
+display: none
+}
+
+ytd-banner-promo-renderer {
+--yt-lightsource-section2-color: var(--yt-spec-static-overlay-text-primary); --yt-lightsource-section3-color: var(--yt-spec-static-overlay-text-primary); --yt-lightsource-navBarColor: var(--yt-spec-static-overlay-text-primary); --yt-lightsource-body-text-color: var(--yt-spec-static-overlay-text-primary); --yt-lightsource-iron-activated-color: var(--yt-spec-static-overlay-text-primary); --yt-lightsource-iron-inactive-color: var(--yt-spec-static-overlay-text-primary); --yt-basic-foreground-body-color: var(--yt-spec-static-overlay-text-primary); --yt-basic-foreground-activated-color: var(--yt-spec-static-overlay-text-primary)
+}
+
+#description.ytd-legal-report-details-form-renderer {
+display: inline-block
+}#description-text.ytd-report-details-form-renderer {
+display: inline-block
+}
+
+ytd-playlist-panel-video-renderer {
+display: flex; min-height: 56px; padding: 4px 8px 4px 0
+}
+
+yt-sharing-embed-renderer #content iron-autogrow-textarea {
+display: inline-block
+}
+
+#guide-inner-content:hover {
+overflow-y: auto
+}
+
+[dark] ytd-menu-popup-tip-renderer {
+color: #FFFFFF;
+}</style><style name="emergencycss">.ytp-player-minimized .ad-container-single-media-element-annotations { display: block; } ytd-watch-flexy { min-width: 0; } ytd-watch-flexy[flexy_] #primary.ytd-watch-flexy { min-width: calc(var(--ytd-watch-flexy-min-player-height) * (var(--ytd-watch-flexy-width-ratio) / var(--ytd-watch-flexy-height-ratio))); } ytd-watch-flexy[flexy_] #secondary.ytd-watch-flexy { min-width: 300px; }  ytd-live-chat-frame[collapsed] { height: auto !important; } ytd-live-chat-frame[collapsed] iframe.ytd-live-chat-frame { height: 0; max-height: 0; }</style><meta name="description" content="YouTube でお気に入りの動画や音楽を楽しみ、オリジナルのコンテンツをアップロードして友だちや家族、世界中の人たちと共有しましょう。"><meta name="keywords" content="動画,ビデオ,共有,カメラ付き携帯電話,動画機能付き携帯電話,無料,アップロード,チャンネル,コミュニティ,YouTube,ユーチューブ"><link rel="search" type="application/opensearchdescription+xml" href="https://www.youtube.com/opensearch?locale=ja_JP" title="YouTube"><link rel="manifest" href="/manifest.json" crossorigin="use-credentials"></head><body dir="ltr" ><script >if (window.ytcsi) {window.ytcsi.tick("bs", null, '');}ytcfg.set('initialBodyClientWidth', document.body.clientWidth);window.ytcfg.set('SERVICE_WORKER_KILLSWITCH', false);</script><!-- end of chunk -->    <script >if (window.ytcsi) {window.ytcsi.tick("ai", null, '');}</script>
+  <style>
+#logo-red-icon-container.ytd-topbar-logo-renderer {
+      width: 86px;
+    }
+  </style>
+  <ytd-app >
+    <ytd-masthead id="masthead" slot="masthead" class="shell "><div id="search-container" class="ytd-searchbox-spt" slot="search-container"></div><div id="search-input" class="ytd-searchbox-spt" slot="search-input"><input id="search" autocapitalize="none" autocomplete="off"autocorrect="off"  hidden name="search_query" tabindex="0"type="text" spellcheck="false"></div><svg id="menu-icon" class="external-icon" preserveAspectRatio="xMidYMid meet"><g id="menu" class="yt-icons-ext" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></g></svg><div id="masthead-logo" slot="masthead-logo">  <div style="display: flex;">
+    <svg id="yt-logo-svg" class="external-icon" viewBox="0 0 200 60">
+      <g id="yt-logo" viewBox="0 0 200 60" preserveAspectRatio="xMidYMid meet">
+        <g>
+          <path fill="#FF0000" d="M63,14.87c-0.72-2.7-2.85-4.83-5.56-5.56C52.54,8,32.88,8,32.88,8S13.23,8,8.32,9.31
+            c-2.7,0.72-4.83,2.85-5.56,5.56C1.45,19.77,1.45,30,1.45,30s0,10.23,1.31,15.13c0.72,2.7,2.85,4.83,5.56,5.56
+            C13.23,52,32.88,52,32.88,52s19.66,0,24.56-1.31c2.7-0.72,4.83-2.85,5.56-5.56C64.31,40.23,64.31,30,64.31,30
+            S64.31,19.77,63,14.87z"/>
+          <polygon fill="#FFFFFF" points="26.6,39.43 42.93,30 26.6,20.57"/>
+        </g>
+        <g>
+          <g id="youtube-paths">
+            <path fill="#282828" d="M92.69,48.03c-1.24-0.84-2.13-2.14-2.65-3.91c-0.52-1.77-0.79-4.12-0.79-7.06v-4
+              c0-2.97,0.3-5.35,0.9-7.15c0.6-1.8,1.54-3.11,2.81-3.93c1.27-0.82,2.94-1.24,5.01-1.24c2.04,0,3.67,0.42,4.9,1.26
+              c1.23,0.84,2.13,2.15,2.7,3.93c0.57,1.78,0.85,4.16,0.85,7.12v4c0,2.94-0.28,5.3-0.83,7.08c-0.55,1.78-1.45,3.09-2.7,3.91
+              c-1.24,0.82-2.93,1.24-5.06,1.24C95.65,49.29,93.93,48.87,92.69,48.03z M99.66,43.71c0.34-0.9,0.52-2.37,0.52-4.4v-8.59
+              c0-1.98-0.17-3.42-0.52-4.34c-0.34-0.91-0.95-1.37-1.82-1.37c-0.84,0-1.43,0.46-1.78,1.37c-0.34,0.91-0.52,2.36-0.52,4.34v8.59
+              c0,2.04,0.16,3.51,0.49,4.4c0.33,0.9,0.93,1.35,1.8,1.35C98.71,45.06,99.31,44.61,99.66,43.71z"/>
+            <path fill="#282828" d="M188.16,37.13v1.39c0,1.77,0.05,3.09,0.16,3.98c0.1,0.88,0.32,1.53,0.65,1.93
+              c0.33,0.4,0.84,0.61,1.53,0.61c0.93,0,1.57-0.36,1.91-1.08c0.34-0.72,0.53-1.92,0.56-3.6l5.35,0.31
+              c0.03,0.24,0.04,0.57,0.04,0.99c0,2.55-0.7,4.45-2.09,5.71c-1.39,1.26-3.36,1.89-5.91,1.89c-3.06,0-5.2-0.96-6.43-2.88
+              c-1.23-1.92-1.84-4.88-1.84-8.9v-4.81c0-4.14,0.64-7.15,1.91-9.06c1.27-1.9,3.45-2.85,6.54-2.85c2.13,0,3.76,0.39,4.9,1.17
+              c1.14,0.78,1.94,1.99,2.41,3.64c0.46,1.65,0.7,3.93,0.7,6.83v4.72H188.16z M188.95,25.53c-0.31,0.39-0.52,1.03-0.63,1.91
+              c-0.11,0.88-0.16,2.23-0.16,4.02v1.98h4.54v-1.98c0-1.77-0.06-3.11-0.18-4.02c-0.12-0.91-0.34-1.56-0.65-1.93
+              c-0.31-0.37-0.8-0.56-1.46-0.56C189.75,24.94,189.26,25.14,188.95,25.53z"/>
+            <path fill="#282828" d="M77.59,36.61l-7.06-25.49h6.16l2.47,11.55c0.63,2.85,1.09,5.27,1.39,7.28h0.18
+              c0.21-1.44,0.67-3.85,1.39-7.24l2.56-11.6h6.16L83.7,36.61v12.23h-6.11V36.61z"/>
+            <path fill="#282828" d="M126.45,21.28v27.55h-4.85l-0.54-3.37h-0.13c-1.32,2.55-3.3,3.82-5.93,3.82c-1.83,0-3.18-0.6-4.05-1.8
+              c-0.87-1.2-1.3-3.07-1.3-5.62V21.28h6.2v20.23c0,1.23,0.13,2.11,0.4,2.63c0.27,0.52,0.72,0.79,1.35,0.79
+              c0.54,0,1.06-0.16,1.55-0.49c0.49-0.33,0.86-0.75,1.1-1.26V21.28H126.45z"/>
+            <path fill="#282828" d="M158.27,21.28v27.55h-4.85l-0.54-3.37h-0.13c-1.32,2.55-3.3,3.82-5.93,3.82c-1.83,0-3.18-0.6-4.05-1.8
+              c-0.87-1.2-1.3-3.07-1.3-5.62V21.28h6.2v20.23c0,1.23,0.13,2.11,0.4,2.63c0.27,0.52,0.72,0.79,1.35,0.79
+              c0.54,0,1.06-0.16,1.55-0.49c0.49-0.33,0.86-0.75,1.1-1.26V21.28H158.27z"/>
+            <path fill="#282828" d="M143.31,16.11h-6.16v32.72h-6.07V16.11h-6.16v-4.99h18.38V16.11z"/>
+            <path fill="#282828" d="M178.8,25.69c-0.38-1.74-0.98-3-1.82-3.78c-0.84-0.78-1.99-1.17-3.46-1.17c-1.14,0-2.2,0.32-3.19,0.97
+              c-0.99,0.64-1.75,1.49-2.29,2.54h-0.05l0-14.52h-5.98v39.11h5.12l0.63-2.61h0.13c0.48,0.93,1.2,1.66,2.16,2.2
+              c0.96,0.54,2.02,0.81,3.19,0.81c2.1,0,3.64-0.97,4.63-2.9c0.99-1.93,1.48-4.95,1.48-9.06v-4.36
+              C179.36,29.84,179.17,27.43,178.8,25.69z M173.11,36.93c0,2.01-0.08,3.58-0.25,4.72c-0.16,1.14-0.44,1.95-0.83,2.43
+              c-0.39,0.48-0.91,0.72-1.57,0.72c-0.51,0-0.98-0.12-1.42-0.36c-0.43-0.24-0.79-0.6-1.06-1.08V27.71
+              c0.21-0.75,0.57-1.36,1.08-1.84c0.51-0.48,1.06-0.72,1.66-0.72c0.63,0,1.12,0.25,1.46,0.74c0.34,0.49,0.58,1.33,0.72,2.49
+              c0.13,1.17,0.2,2.83,0.2,4.99V36.93z"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div style="display: none;">
+    <svg id="yt-logo-red-svg" class="external-icon" viewBox="0 0 98 24" style="width:86px;">
+      <g id="yt-logo-red" viewBox="0 0 98 24" preserveAspectRatio="xMidYMid meet">
+        <g>
+          <path fill="#FF0000" d="M28.4,5.12c-0.34-1.24-1.31-2.2-2.55-2.52C23.62,2,14.68,2,14.68,2S5.75,2,3.52,2.6
+            C2.29,2.93,1.33,3.89,1,5.12C0.59,7.39,0.39,9.69,0.4,12c-0.01,2.31,0.19,4.61,0.6,6.88c0.33,1.23,1.29,2.19,2.52,2.52
+            C5.75,22,14.68,22,14.68,22s8.93,0,11.16-0.6c1.24-0.32,2.22-1.28,2.56-2.52c0.41-2.27,0.61-4.57,0.6-6.88
+            C29.01,9.69,28.81,7.39,28.4,5.12z"/>
+          <polygon fill="#FFFFFF" points="11.83,16.29 19.25,12 11.83,7.71"/>
+        </g>
+        <g id="youtube-red-paths">
+          <path fill="#282828" d="M41.67,8.35V9c0,3.45-1.53,5.48-4.88,5.48h-0.51v6h-2.74V3.42h3.49C40.22,3.42,41.67,4.77,41.67,8.35z
+            M38.79,8.6c0-2.49-0.45-3.09-2-3.09h-0.51v7h0.47c1.47,0,2-1.06,2-3.37L38.79,8.6z"/>
+          <path fill="#282828" d="M48.14,7.83L48,11.08c-1.17-0.24-2.13-0.08-2.6,0.69v8.78h-2.67V8h2.17l0.24,2.71h0.1c0.28-2,1.2-3,2.39-3
+            C47.8,7.73,47.98,7.77,48.14,7.83z"/>
+          <path fill="#282828" d="M51.27,15.25v0.63c0,2.21,0.12,3,1.06,3s1.1-0.69,1.12-2.12l2.43,0.14c0.18,2.7-1.23,3.9-3.61,3.9
+            c-2.9,0-3.76-1.9-3.76-5.35v-2.23c0-3.64,1-5.41,3.84-5.41s3.64,1.51,3.64,5.29v2.15H51.27z M51.27,12.67v0.9h2.06v-0.89
+            c0-2.3-0.16-3-1-3s-1,0.67-1,3L51.27,12.67z"/>
+          <path fill="#282828" d="M70.02,11.1v9.46H67.2v-9.25c0-1-0.27-1.53-0.88-1.53c-0.54,0.02-1.02,0.34-1.25,0.82
+            c0.01,0.17,0.01,0.34,0,0.51v9.46h-2.79v-9.26c0-1-0.27-1.53-0.88-1.53c-0.53,0.02-1,0.33-1.23,0.8v10H57.4V8h2.23l0.25,1.59l0,0
+            c0.51-1.12,1.63-1.85,2.86-1.86c1.05-0.07,1.98,0.67,2.16,1.7c0.55-1.01,1.61-1.65,2.76-1.66C69.4,7.78,70.02,9,70.02,11.1z"/>
+          <path fill="#282828" d="M71.4,4.83c0-1.35,0.49-1.74,1.53-1.74s1.53,0.45,1.53,1.74s-0.47,1.74-1.53,1.74S71.4,6.22,71.4,4.83z
+            M71.59,8h2.7v12.56h-2.7V8z"/>
+          <path fill="#282828" d="M83.5,8v12.56h-2.2L81.05,19h-0.06c-0.46,1.08-1.53,1.77-2.7,1.74c-1.67,0-2.43-1.06-2.43-3.37V8h2.82
+            v9.19c0,1.1,0.23,1.55,0.8,1.55c0.52-0.02,0.98-0.33,1.2-0.8V8H83.5z"/>
+          <path fill="#282828" d="M97.8,11.1v9.46h-2.82v-9.25c0-1-0.27-1.53-0.88-1.53c-0.54,0.02-1.02,0.34-1.25,0.82
+            c0.01,0.17,0.01,0.34,0,0.51v9.46h-2.79v-9.26c0-1-0.27-1.53-0.88-1.53c-0.53,0.02-1,0.33-1.23,0.8v10h-2.81V8h2.26l0.24,1.59l0,0
+            c0.51-1.12,1.63-1.85,2.86-1.86c1.04-0.07,1.97,0.64,2.17,1.66c0.55-0.99,1.6-1.61,2.73-1.62C97.15,7.78,97.8,9,97.8,11.1z"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+<span id="country-code"></span></div><div id="masthead-skeleton-icons" slot="masthead-skeleton"><div class="masthead-skeleton-icon"></div><div class="masthead-skeleton-icon"></div><div class="masthead-skeleton-icon"></div><div class="masthead-skeleton-icon"></div></div></ytd-masthead>
+      <a slot="guide-links-primary" href="//www.youtube.com/yt/about/ja/" style="display: none;">YouTube について</a>
+  <a slot="guide-links-primary" href="//www.youtube.com/yt/press/ja/" style="display: none;">プレスルーム</a>
+  <a slot="guide-links-primary" href="//www.youtube.com/yt/copyright/ja/" style="display: none;">著作権センター</a>
+  <a slot="guide-links-primary" href="/t/contact_us" style="display: none;">お問い合わせ</a>
+  <a slot="guide-links-primary" href="//www.youtube.com/yt/creators/ja/" style="display: none;">クリエイター向け</a>
+  <a slot="guide-links-primary" href="//www.youtube.com/yt/advertise/ja/" style="display: none;">広告掲載</a>
+  <a slot="guide-links-primary" href="//www.youtube.com/yt/dev/ja/" style="display: none;">開発者向け</a>
+
+      <a slot="guide-links-secondary" href="/t/terms" style="display: none;">利用規約</a>
+  <a slot="guide-links-secondary" href="https://www.google.co.jp/intl/ja/policies/privacy/" style="display: none;">プライバシー</a>
+  <a slot="guide-links-secondary" href="//www.youtube.com/yt/policyandsafety/ja/" style="display: none;">ポリシーとセキュリティ</a>
+  <a slot="guide-links-secondary" href="/new" style="display: none;">新機能を試してみる</a>
+
+      <div id="vat-notice" slot="vat-notice" style="display: none;">
+  </div>
+
+      <div id="copyright" slot="copyright" style="display: none;">
+      <div dir="ltr" style="display:inline">&copy; 2019 YouTube, LLC</div>
+  </div>
+
+  </ytd-app>
+
+  <script >if (window.ytcsi) {window.ytcsi.tick("nc_pj", null, '');}</script>
+        <script >if (window.ytcsi) {window.ytcsi.tick("rsbe_dpj", null, '');}</script>
+
+<script  src="/yts/jsbin/desktop_polymer_v2-vflLDvvKN/desktop_polymer_v2.js" type="text/javascript" name="desktop_polymer_v2/desktop_polymer_v2" ></script>      <script >if (window.ytcsi) {window.ytcsi.tick("rsae_dpj", null, '');}</script>
+
+
+  <script >
+    if (window.ytcsi) {window.ytcsi.tick("ac", null, '');}
+    var onPolymerReady = function(e) {
+      window.removeEventListener('script-load-dpj', onPolymerReady);
+      if (window.ytcsi) {window.ytcsi.tick("apr", null, '');}
+    }
+
+    if (window.Polymer && Polymer.RenderStatus) {
+      onPolymerReady();
+    } else {
+      window.addEventListener('script-load-dpj', onPolymerReady);
+    }
+
+  </script>
+  <!-- end of chunk -->
+  <script >if (window.ytcsi) {window.ytcsi.tick("pdc", null, '');}</script>
+      <div id="img-preload" style="display: none;">
+        <img src="https://yt3.ggpht.com/a/AGF-l793adKfz4d8VS1BZY5Irx49vPFApIsFOrhfIw=s288-c-k-c0xffffffff-no-rj-mo">
+    </div>
+
+    <div id="microformat">
+            <title>あめぞう</title>
+
+    <link rel="canonical" href="https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg">
+
+    <meta property="og:site_name" content="YouTube">
+    <meta property="og:url" content="https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg">
+    <meta property="og:title" content="あめぞう">
+    <meta property="og:description" content="">
+
+      <meta property="og:image" content="https://yt3.ggpht.com/a/AGF-l793adKfz4d8VS1BZY5Irx49vPFApIsFOrhfIw=s200-c-k-c0xffffffff-no-rj-mo">
+
+    <meta name="apple-itunes-app" content="app-id=544007664" app-argument="https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg">
+
+    <meta property="al:ios:app_store_id" content="544007664">
+    <meta property="al:ios:app_name" content="YouTube">
+      <meta property="al:ios:url" content="vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=applinks">
+    <meta property="al:android:url" content="vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=applinks">
+    <meta property="al:android:app_name" content="YouTube">
+    <meta property="al:android:package" content="com.google.android.youtube">
+      <meta property="al:web:url" content="https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=applinks">
+      <meta property="al:web:should_fallback" content="true">
+
+    <meta property="og:type" content="yt-fb-app:channel">
+
+
+    <meta property="fb:app_id" content="87741124305">
+      <meta property="og:restrictions:age" content="18+">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@YouTube">
+    <meta name="twitter:url" content="https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg">
+    <meta name="twitter:title" content="あめぞう">
+    <meta name="twitter:description" content="">
+      <meta name="twitter:image" content="https://yt3.ggpht.com/a/AGF-l793adKfz4d8VS1BZY5Irx49vPFApIsFOrhfIw=s200-c-k-c0xffffffff-no-rj-mo">
+    <meta name="twitter:app:name:iphone" content="YouTube">
+    <meta name="twitter:app:id:iphone" content="544007664">
+    <meta name="twitter:app:url:iphone" content="vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=twitter-deep-link">
+    <meta name="twitter:app:name:ipad" content="YouTube">
+    <meta name="twitter:app:id:ipad" content="544007664">
+    <meta name="twitter:app:url:ipad" content="vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=twitter-deep-link">
+    <meta name="twitter:app:name:googleplay" content="YouTube">
+    <meta name="twitter:app:id:googleplay" content="com.google.android.youtube">
+    <meta name="twitter:app:url:googleplay" content="vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=twitter-deep-link">
+
+    <meta name="title" content="あめぞう">
+      <meta name="nosnippet">
+
+
+      <link rel="alternate" href="https://m.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg"
+
+
+>
+      <link rel="alternate" href="android-app://com.google.android.youtube/http/youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg"
+
+
+>
+      <link rel="alternate" href="ios-app://544007664/http/youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg"
+
+
+>
+
+
+    </div>
+  <script >
+    window["ytInitialData"] = {"responseContext":{"serviceTrackingParams":[{"service":"GFEEDBACK","params":[{"key":"browse_id","value":"UC9PpHFOORGtRuDR_TMCYsfg"},{"key":"context","value":"channel_creator"},{"key":"e","value":"23722139,23744176,23788834,23794463,23795882,23804281,23827263,23836249,23837040,23837993,23838771,23839597,23841118,23842630,23842986,23848795,23849617,23849887,23849887,23853887,23854139,23855893,23856652,23857950,23858917,23859802,23859812,23859864,23862431,23862890,23862890,23863273,24630395,3300013,3300118,3300134,3300161,3313321,3314786,3315772,3315790,3316343,9449243,9471235"},{"key":"logged_in","value":"0"}]},{"service":"CSI","params":[{"key":"GetBrowse_rid","value":"0x32a49e931ce97c04"},{"key":"c","value":"WEB"},{"key":"cver","value":"2.20191206.06.00"},{"key":"yt_li","value":"0"}]},{"service":"GUIDED_HELP","params":[{"key":"logged_in","value":"0"}]},{"service":"ECATCHER","params":[{"key":"client.name","value":"WEB"},{"key":"client.version","value":"2.20191206"},{"key":"innertube.build.changelist","value":"283958996"},{"key":"innertube.build.experiments.source_version","value":"284166605"},{"key":"innertube.build.label","value":"youtube.ytfe.innertube_20191205_3_RC0"},{"key":"innertube.build.timestamp","value":"1575555054"},{"key":"innertube.build.variants.checksum","value":"03c933829d2d7f2886599829fdc710a9"},{"key":"innertube.run.job","value":"ytfe-innertube-replica-only.ytfe"}]}],"maxAgeSeconds":300,"webResponseContextExtensionData":{"webResponseContextPreloadData":{"preloadThumbnailUrls":["https://yt3.ggpht.com/a/AGF-l793adKfz4d8VS1BZY5Irx49vPFApIsFOrhfIw=s288-c-k-c0xffffffff-no-rj-mo"]},"ytConfigData":{"csn":"DOjtXcyRHoHPgwPo2IaQCA","visitorData":"CgtNYUdHZHNJdk1JUSiM0LfvBQ%3D%3D","rootVisualElementType":3611}}},"contents":{"twoColumnBrowseResultsRenderer":{"tabs":[{"tabRenderer":{"endpoint":{"clickTrackingParams":"CDIQ8JMBGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"/channel/UC9PpHFOORGtRuDR_TMCYsfg/videos","webPageType":"WEB_PAGE_TYPE_BROWSE","rootVe":3611}},"browseEndpoint":{"browseId":"UC9PpHFOORGtRuDR_TMCYsfg","params":"EgZ2aWRlb3M%3D","canonicalBaseUrl":"/channel/UC9PpHFOORGtRuDR_TMCYsfg"}},"title":"動画","selected":true,"content":{"sectionListRenderer":{"contents":[{"itemSectionRenderer":{"contents":[{"messageRenderer":{"text":{"runs":[{"text":"このチャンネルには動画がありません。"}]},"trackingParams":"CDUQljsYACITCNP5pND2p-YCFezAPwQdgWAFTw=="}}],"trackingParams":"CDQQuy8YACITCNP5pND2p-YCFezAPwQdgWAFTw=="}}],"trackingParams":"CDMQui8iEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},"trackingParams":"CDIQ8JMBGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}}]}},"header":{"c4TabbedHeaderRenderer":{"channelId":"UC9PpHFOORGtRuDR_TMCYsfg","title":"あめぞう","navigationEndpoint":{"clickTrackingParams":"CC8Q8DsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"/channel/UC9PpHFOORGtRuDR_TMCYsfg","webPageType":"WEB_PAGE_TYPE_BROWSE","rootVe":3611}},"browseEndpoint":{"browseId":"UC9PpHFOORGtRuDR_TMCYsfg","canonicalBaseUrl":"/channel/UC9PpHFOORGtRuDR_TMCYsfg"}},"avatar":{"thumbnails":[{"url":"https://yt3.ggpht.com/a/AGF-l793adKfz4d8VS1BZY5Irx49vPFApIsFOrhfIw=s288-c-k-c0xffffffff-no-rj-mo","width":5120,"height":5120}],"webThumbnailDetailsExtensionData":{"isPreloaded":true}},"subscribeButton":{"buttonRenderer":{"style":"STYLE_DESTRUCTIVE","size":"SIZE_DEFAULT","isDisabled":false,"text":{"simpleText":"チャンネル登録"},"navigationEndpoint":{"clickTrackingParams":"CDAQmysiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"ignoreNavigation":true}},"modalEndpoint":{"modal":{"modalWithTitleAndButtonRenderer":{"title":{"simpleText":"このチャンネルを登録しますか？"},"content":{"simpleText":"チャンネル登録するにはログインしてください。"},"button":{"buttonRenderer":{"style":"STYLE_BLUE_TEXT","size":"SIZE_DEFAULT","isDisabled":false,"text":{"simpleText":"ログイン"},"navigationEndpoint":{"clickTrackingParams":"CDEQ_YYEIhMI0_mk0Pan5gIV7MA_BB2BYAVPMglzdWJzY3JpYmU=","commandMetadata":{"webCommandMetadata":{"url":"https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Fhl%3Dja%26app%3Ddesktop%26next%3D%252Fchannel%252FUC9PpHFOORGtRuDR_TMCYsfg%252Fvideos%26action_handle_signin%3Dtrue%26continue_action%3DQUFFLUhqbU1oTFpWdFRDaW5pRDJaNU1TbTRtWTJpSzdlQXxBQ3Jtc0trSnZlbERjdWRNa2hKMnM4bEkxUm8zcnFwRVYwVTdfYVNpbDk0LVRYeXlFbUZjcjRLNXpPblVUWDBwNTk0LW50bmplYlRKZEM2dzhjaDlHbGhYdFd1Y2lJeTc4S080QlVJUGFJZXM1dHpxUERKTE1uZkRoUnduaUVpNWktZVZuNnI5VG1yY1l3TXpDVVJkQThOb3NfMXJocE5wU2p2VVVjR01qR0l1ZTJWUXNDNkRWdVp5NEVrZGxxVGQ4Nl9WbU9aZ1BLSVJMZkNpUEVGODRqM2xBY1NOSDYzNGNR\u0026uilel=3\u0026service=youtube\u0026hl=ja\u0026ec=66429\u0026passive=true","rootVe":83769}},"signInEndpoint":{"nextEndpoint":{"clickTrackingParams":"CDEQ_YYEIhMI0_mk0Pan5gIV7MA_BB2BYAVP","commandMetadata":{"webCommandMetadata":{"url":"/channel/UC9PpHFOORGtRuDR_TMCYsfg/videos","webPageType":"WEB_PAGE_TYPE_BROWSE","rootVe":3611}},"browseEndpoint":{"browseId":"UC9PpHFOORGtRuDR_TMCYsfg","params":"EgZ2aWRlb3M%3D"}},"continueAction":"QUFFLUhqbU1oTFpWdFRDaW5pRDJaNU1TbTRtWTJpSzdlQXxBQ3Jtc0trSnZlbERjdWRNa2hKMnM4bEkxUm8zcnFwRVYwVTdfYVNpbDk0LVRYeXlFbUZjcjRLNXpPblVUWDBwNTk0LW50bmplYlRKZEM2dzhjaDlHbGhYdFd1Y2lJeTc4S080QlVJUGFJZXM1dHpxUERKTE1uZkRoUnduaUVpNWktZVZuNnI5VG1yY1l3TXpDVVJkQThOb3NfMXJocE5wU2p2VVVjR01qR0l1ZTJWUXNDNkRWdVp5NEVrZGxxVGQ4Nl9WbU9aZ1BLSVJMZkNpUEVGODRqM2xBY1NOSDYzNGNR","idamTag":"66429"}},"trackingParams":"CDEQ_YYEIhMI0_mk0Pan5gIV7MA_BB2BYAVP"}}}}}},"trackingParams":"CDAQmysiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},"trackingParams":"CC8Q8DsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","shrinkToFit":true}},"metadata":{"channelMetadataRenderer":{"title":"あめぞう","description":"","externalId":"UC9PpHFOORGtRuDR_TMCYsfg","keywords":"","ownerUrls":["http://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg","https://plus.google.com/106678606859873158226"],"isPaidChannel":false,"avatar":{"thumbnails":[{"url":"https://yt3.ggpht.com/a/AGF-l793adKfz4d8VS1BZY5Irx49vPFApIsFOrhfIw=s900-c-k-c0xffffffff-no-rj-mo","width":900,"height":900}]},"channelUrl":"https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg","isFamilySafe":true,"availableCountryCodes":["AX","FO","FM","FJ","FK","FI","FR","TR","ZW","CU","CW","CV","KI","KH","CR","KE","KG","CY","CX","CZ","CD","CG","CF","KY","VC","CC","VA","CM","CL","CO","CN","CI","KP","CK","KR","TZ","AE","EH","EG","EE","TK","EC","IS","ET","ES","AI","NZ","UZ","UY","NU","US","NP","NO","NL","ZA","MU","NI","NF","NG","IT","NC","UA","NA","DM","DO","DJ","DK","DE","PS","DZ","AS","AR","AQ","AW","IN","IM","AT","TT","AZ","TV","TW","UM","IE","ID","TL","TM","TN","TO","AG","AF","TJ","AD","TD","IR","TF","TG","AO","AM","TC","KM","UG","KN","KW","SE","NR","SG","NE","SA","LA","LB","LC","SM","SL","SO","SN","SI","LI","SK","LK","LT","LU","LV","SV","SS","IQ","SY","LY","SZ","BJ","PA","BH","BI","BN","BO","BL","BM","BB","BA","BF","BG","BD","BE","BZ","PL","BY","BR","BS","BQ","BV","BW","BT","ZM","VG","RS","RW","RU","LR","VE","OM","RO","CA","PT","RE","ER","SD","KZ","WS","YT","VN","HK","AL","YE","HM","QA","SC","JE","SB","JO","JM","JP","VI","MA","VU","LS","SH","PW","SJ","MG","MF","ME","MD","MC","PE","PF","PG","MO","MN","MM","ML","MK","PM","PN","MH","MW","MV","PR","MT","MS","MR","MQ","MP","PY","HU","MZ","MY","MX","GA","GB","GE","GD","GG","GF","GI","GH","SR","GM","GL","GN","GQ","GP","GS","GR","GU","GT","GW","GY","IO","PK","TH","AU","HN","IL","SX","PH","WF","HR","ST","HT","CH"],"androidDeepLink":"android-app://com.google.android.youtube/http/www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg","androidAppindexingLink":"android-app://com.google.android.youtube/http/www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg","iosAppindexingLink":"ios-app://544007664/vnd.youtube/www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg","tabPath":"videos","vanityChannelUrl":"http://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg"}},"trackingParams":"CAAQhGciEwjT-aTQ9qfmAhXswD8EHYFgBU8=","topbar":{"desktopTopbarRenderer":{"logo":{"topbarLogoRenderer":{"iconImage":{"iconType":"YOUTUBE_LOGO"},"tooltipText":{"runs":[{"text":"YouTube ホーム"}]},"endpoint":{"clickTrackingParams":"CC4QsV4iEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"/","webPageType":"WEB_PAGE_TYPE_BROWSE","rootVe":3854}},"browseEndpoint":{"browseId":"FEwhat_to_watch"}},"trackingParams":"CC4QsV4iEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},"searchbox":{"fusionSearchboxRenderer":{"icon":{"iconType":"SEARCH"},"placeholderText":{"runs":[{"text":"検索"}]},"config":{"webSearchboxConfig":{"requestLanguage":"ja","requestDomain":"us","hasOnscreenKeyboard":false,"focusSearchbox":true}},"trackingParams":"CC0Q7VAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","searchEndpoint":{"clickTrackingParams":"CC0Q7VAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"/results?search_query=","webPageType":"WEB_PAGE_TYPE_SEARCH","rootVe":4724}},"searchEndpoint":{"query":""}}}},"trackingParams":"CAEQq6wBIhMI0_mk0Pan5gIV7MA_BB2BYAVP","topbarButtons":[{"topbarMenuButtonRenderer":{"icon":{"iconType":"VIDEO_CALL"},"menuRenderer":{"multiPageMenuRenderer":{"sections":[{"multiPageMenuSectionRenderer":{"items":[{"compactLinkRenderer":{"icon":{"iconType":"CREATION_UPLOAD"},"title":{"runs":[{"text":"動画をアップロード"}]},"navigationEndpoint":{"clickTrackingParams":"CCwQ898CGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://accounts.google.com/ServiceLogin?service=youtube\u0026uilel=3\u0026passive=true\u0026continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Dja%26next%3Dhttps%253A%252F%252Fwww.youtube.com%252F%253Fchannel_creation_token%253DKBQ%2525253D\u0026hl=ja","rootVe":83769}},"signInEndpoint":{"nextEndpoint":{"clickTrackingParams":"CCwQ898CGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://www.youtube.com/?channel_creation_token=KBQ%253D","rootVe":83769}},"urlEndpoint":{"url":"https://www.youtube.com/?channel_creation_token=KBQ%253D"}}}},"trackingParams":"CCwQ898CGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","style":"COMPACT_LINK_STYLE_TYPE_CREATION_MENU"}},{"compactLinkRenderer":{"icon":{"iconType":"CREATION_LIVE"},"title":{"runs":[{"text":"ライブ配信を開始"}]},"navigationEndpoint":{"clickTrackingParams":"CCsQ9N8CGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://accounts.google.com/ServiceLogin?service=youtube\u0026uilel=3\u0026passive=true\u0026continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Dja%26next%3Dhttps%253A%252F%252Fwww.youtube.com%252F%253Fchannel_creation_token%253DKBU%2525253D\u0026hl=ja","rootVe":83769}},"signInEndpoint":{"nextEndpoint":{"clickTrackingParams":"CCsQ9N8CGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://www.youtube.com/?channel_creation_token=KBU%253D","rootVe":83769}},"urlEndpoint":{"url":"https://www.youtube.com/?channel_creation_token=KBU%253D"}}}},"trackingParams":"CCsQ9N8CGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","style":"COMPACT_LINK_STYLE_TYPE_CREATION_MENU"}}],"trackingParams":"CCoQ968BGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}}],"trackingParams":"CCkQ_6sBIhMI0_mk0Pan5gIV7MA_BB2BYAVP","style":"MULTI_PAGE_MENU_STYLE_TYPE_CREATION"}},"trackingParams":"CCgQ_qsBGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","accessibility":{"accessibilityData":{"label":"動画または投稿を作成"}},"tooltip":"動画または投稿を作成","style":"STYLE_DEFAULT"}},{"topbarMenuButtonRenderer":{"icon":{"iconType":"APPS"},"menuRenderer":{"multiPageMenuRenderer":{"sections":[{"multiPageMenuSectionRenderer":{"items":[{"compactLinkRenderer":{"icon":{"iconType":"UNPLUGGED_LOGO"},"title":{"runs":[{"text":"YouTube TV"}]},"navigationEndpoint":{"clickTrackingParams":"CCcQ4MUCGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://tv.youtube.com/?utm_source=youtube_web\u0026utm_medium=ep\u0026utm_campaign=home\u0026ve=34273","rootVe":83769}},"urlEndpoint":{"url":"https://tv.youtube.com/?utm_source=youtube_web\u0026utm_medium=ep\u0026utm_campaign=home\u0026ve=34273","target":"TARGET_NEW_WINDOW"}},"trackingParams":"CCcQ4MUCGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}}],"trackingParams":"CCYQ968BGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},{"multiPageMenuSectionRenderer":{"items":[{"compactLinkRenderer":{"icon":{"iconType":"YOUTUBE_MUSIC"},"title":{"runs":[{"text":"YouTube Music"}]},"navigationEndpoint":{"clickTrackingParams":"CCUQ4sUCGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://music.youtube.com/","rootVe":83769}},"urlEndpoint":{"url":"https://music.youtube.com","target":"TARGET_NEW_WINDOW"}},"trackingParams":"CCUQ4sUCGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},{"compactLinkRenderer":{"icon":{"iconType":"YOUTUBE_KIDS_ROUND"},"title":{"runs":[{"text":"YouTube Kids"}]},"navigationEndpoint":{"clickTrackingParams":"CCQQ48UCGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://www.youtubekids.com/?source=youtube_web","rootVe":83769}},"urlEndpoint":{"url":"https://www.youtubekids.com?source=youtube_web","target":"TARGET_NEW_WINDOW"}},"trackingParams":"CCQQ48UCGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}}],"trackingParams":"CCMQ968BGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},{"multiPageMenuSectionRenderer":{"items":[{"compactLinkRenderer":{"icon":{"iconType":"YOUTUBE_ROUND"},"title":{"runs":[{"text":"クリエイター アカデミー"}]},"navigationEndpoint":{"clickTrackingParams":"CCIQ5MUCGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://creatoracademy.youtube.com/page/education?utm_source=YouTube\u0026utm_medium=YT%20Main\u0026utm_campaign=YT%20Appsn","rootVe":83769}},"urlEndpoint":{"url":"https://creatoracademy.youtube.com/page/education?utm_source=YouTube\u0026utm_medium=YT%20Main\u0026utm_campaign=YT%20Appsn","target":"TARGET_NEW_WINDOW"}},"trackingParams":"CCIQ5MUCGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},{"compactLinkRenderer":{"icon":{"iconType":"YOUTUBE_ROUND"},"title":{"runs":[{"text":"YouTube for Artists"}]},"navigationEndpoint":{"clickTrackingParams":"CCEQ5cUCGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://artists.youtube.com/","rootVe":83769}},"urlEndpoint":{"url":"https://artists.youtube.com/","target":"TARGET_NEW_WINDOW"}},"trackingParams":"CCEQ5cUCGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}}],"trackingParams":"CCAQ968BGAIiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}}],"trackingParams":"CB8Q_6sBIhMI0_mk0Pan5gIV7MA_BB2BYAVP"}},"trackingParams":"CB4Q_qsBGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","accessibility":{"accessibilityData":{"label":"YouTube アプリ"}},"tooltip":"YouTube アプリ","style":"STYLE_DEFAULT"}},{"topbarMenuButtonRenderer":{"icon":{"iconType":"MORE_VERT"},"menuRenderer":{"multiPageMenuRenderer":{"sections":[{"multiPageMenuSectionRenderer":{"items":[{"toggleThemeCompactLinkRenderer":{"primaryIcon":{"iconType":"DARK_THEME"},"secondaryIcon":{"iconType":"CHEVRON_RIGHT"},"toggledOnTitle":{"runs":[{"text":"ダークテーマ: オン"}]},"toggledOffTitle":{"runs":[{"text":"ダークテーマ: オフ"}]},"serviceEndpoint":{"clickTrackingParams":"CBIQ968BGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"getMultiPageMenuAction":{"menu":{"multiPageMenuRenderer":{"header":{"simpleMenuHeaderRenderer":{"backButton":{"buttonRenderer":{"style":"STYLE_BLACK","size":"SIZE_DEFAULT","isDisabled":false,"icon":{"iconType":"BACK"},"accessibility":{"label":"戻る"},"trackingParams":"CB0Q8FsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","accessibilityData":{"accessibilityData":{"label":"戻る"}}}},"title":{"runs":[{"text":"ダークテーマ"}]}}},"sections":[{"toggleItemRenderer":{"descriptionLines":[{"runs":[{"text":"ダークテーマでは、ページの明るい部分が暗い色に変わり、夜間の視聴に最適な表示になります。ぜひお試しください。"}]},{"runs":[{"text":"ダークテーマ設定は、このブラウザにのみ適用されます。"}]}],"label":{"runs":[{"text":"ダークテーマ"}]},"toggleOnActions":[{"signalAction":{"signal":"TOGGLE_DARK_THEME_ON"}}],"toggleOffActions":[{"signalAction":{"signal":"TOGGLE_DARK_THEME_OFF"}}],"toggled":false}}],"trackingParams":"CBwQ_6sBIhMI0_mk0Pan5gIV7MA_BB2BYAVP"}}}}]}}}},{"compactLinkRenderer":{"icon":{"iconType":"TRANSLATE"},"title":{"runs":[{"text":"言語:"}]},"trackingParams":"CBgQp0wYASITCNP5pND2p-YCFezAPwQdgWAFTw==","secondaryIcon":{"iconType":"CHEVRON_RIGHT"},"serviceEndpoint":{"clickTrackingParams":"CBgQp0wYASITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"getMultiPageMenuAction":{"menu":{"multiPageMenuRenderer":{"header":{"simpleMenuHeaderRenderer":{"backButton":{"buttonRenderer":{"style":"STYLE_BLACK","size":"SIZE_DEFAULT","isDisabled":false,"icon":{"iconType":"BACK"},"accessibility":{"label":"戻る"},"trackingParams":"CBsQ8FsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","accessibilityData":{"accessibilityData":{"label":"戻る"}}}},"title":{"runs":[{"text":"言語を選択"}]}}},"sections":[{"multiPageMenuSectionRenderer":{"trackingParams":"CBoQ968BGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","webMultiPageMenuSectionRendererExtension":{"hack":true,"page":"languages","inlined":true}}}],"trackingParams":"CBkQ_6sBIhMI0_mk0Pan5gIV7MA_BB2BYAVP"}}}}]}},"subtitle":{"simpleText":"日本語"}}},{"compactLinkRenderer":{"icon":{"iconType":"SETTINGS"},"title":{"runs":[{"text":"設定"}]},"navigationEndpoint":{"clickTrackingParams":"CBcQp0wYAiITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"/account","rootVe":83769}},"signalNavigationEndpoint":{"signal":"ACCOUNT_SETTINGS"}},"trackingParams":"CBcQp0wYAiITCNP5pND2p-YCFezAPwQdgWAFTw=="}},{"compactLinkRenderer":{"icon":{"iconType":"SHIELD_WITH_AVATAR"},"title":{"runs":[{"text":"YouTube でのデータ"}]},"navigationEndpoint":{"clickTrackingParams":"CBYQp0wYAyITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"https://myaccount.google.com/u/0/yourdata/youtube?hl=ja","rootVe":83769}},"urlEndpoint":{"url":"https://myaccount.google.com/u/0/yourdata/youtube?hl=ja"}},"trackingParams":"CBYQp0wYAyITCNP5pND2p-YCFezAPwQdgWAFTw=="}},{"compactLinkRenderer":{"icon":{"iconType":"HELP"},"title":{"runs":[{"text":"ヘルプ"}]},"trackingParams":"CBUQp0wYBCITCNP5pND2p-YCFezAPwQdgWAFTw==","serviceEndpoint":{"clickTrackingParams":"CBUQp0wYBCITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"signalAction":{"signal":"HELP"}}]}}}},{"compactLinkRenderer":{"icon":{"iconType":"FEEDBACK"},"title":{"runs":[{"text":"フィードバックの送信"}]},"trackingParams":"CBQQp0wYBSITCNP5pND2p-YCFezAPwQdgWAFTw==","serviceEndpoint":{"clickTrackingParams":"CBQQp0wYBSITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"sendFeedbackAction":{"bucket":"Kevlar"}}]}}}},{"compactLinkRenderer":{"icon":{"iconType":"KEYBOARD"},"title":{"runs":[{"text":"キーボード ショートカット"}]},"trackingParams":"CBMQp0wYBiITCNP5pND2p-YCFezAPwQdgWAFTw==","serviceEndpoint":{"clickTrackingParams":"CBMQp0wYBiITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"signalAction":{"signal":"SHOW_KEYBOARD_SHORTCUT_DIALOG"}}]}}}}],"trackingParams":"CBIQ968BGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},{"multiPageMenuSectionRenderer":{"items":[{"compactLinkRenderer":{"title":{"runs":[{"text":"\n場所:\n  ","deemphasize":true}]},"trackingParams":"CA4Qp0wYACITCNP5pND2p-YCFezAPwQdgWAFTw==","secondaryIcon":{"iconType":"CHEVRON_RIGHT"},"serviceEndpoint":{"clickTrackingParams":"CA4Qp0wYACITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"getMultiPageMenuAction":{"menu":{"multiPageMenuRenderer":{"header":{"simpleMenuHeaderRenderer":{"backButton":{"buttonRenderer":{"style":"STYLE_BLACK","size":"SIZE_DEFAULT","isDisabled":false,"icon":{"iconType":"BACK"},"accessibility":{"label":"戻る"},"trackingParams":"CBEQ8FsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","accessibilityData":{"accessibilityData":{"label":"戻る"}}}},"title":{"runs":[{"text":"地域を選択"}]}}},"sections":[{"multiPageMenuSectionRenderer":{"trackingParams":"CBAQ968BGAAiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","webMultiPageMenuSectionRendererExtension":{"hack":true,"page":"countries","inlined":true}}}],"trackingParams":"CA8Q_6sBIhMI0_mk0Pan5gIV7MA_BB2BYAVP"}}}}]}},"subtitle":{"runs":[{"text":"アメリカ","deemphasize":true}]}}},{"compactLinkRenderer":{"title":{"runs":[{"text":"制限付きモード: オフ","deemphasize":true}]},"trackingParams":"CAsQp0wYASITCNP5pND2p-YCFezAPwQdgWAFTw==","secondaryIcon":{"iconType":"CHEVRON_RIGHT"},"serviceEndpoint":{"clickTrackingParams":"CAsQp0wYASITCNP5pND2p-YCFezAPwQdgWAFTw==","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"getMultiPageMenuAction":{"menu":{"multiPageMenuRenderer":{"header":{"simpleMenuHeaderRenderer":{"backButton":{"buttonRenderer":{"style":"STYLE_BLACK","size":"SIZE_DEFAULT","isDisabled":false,"icon":{"iconType":"BACK"},"accessibility":{"label":"戻る"},"trackingParams":"CA0Q8FsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","accessibilityData":{"accessibilityData":{"label":"戻る"}}}},"title":{"runs":[{"text":"制限付きモード"}]}}},"sections":[{"toggleItemRenderer":{"descriptionLines":[{"runs":[{"text":"成人向けコンテンツを含んでいる可能性のある動画が表示されないようにします。ただし、フィルタは 100% 正確というわけではありません。"}]},{"runs":[{"text":"この設定は現在のブラウザにのみ適用されます。"}]}],"label":{"runs":[{"text":"制限付きモードを有効にする"}]},"toggleOnActions":[{"signalAction":{"signal":"TOGGLE_RESTRICTED_MODE_ON"}}],"toggleOffActions":[{"signalAction":{"signal":"TOGGLE_RESTRICTED_MODE_OFF"}}]}}],"trackingParams":"CAwQ_6sBIhMI0_mk0Pan5gIV7MA_BB2BYAVP","style":"MULTI_PAGE_MENU_STYLE_TYPE_RESTRICTED_MODE"}}}}]}}}}],"trackingParams":"CAoQ968BGAEiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}}],"trackingParams":"CAkQ_6sBIhMI0_mk0Pan5gIV7MA_BB2BYAVP","style":"MULTI_PAGE_MENU_STYLE_TYPE_SYSTEM"}},"trackingParams":"CAgQ_qsBGAIiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","accessibility":{"accessibilityData":{"label":"設定"}},"tooltip":"設定","style":"STYLE_DEFAULT"}},{"buttonRenderer":{"style":"STYLE_SUGGESTIVE","size":"SIZE_SMALL","isDisabled":false,"text":{"simpleText":"ログイン"},"icon":{"iconType":"AVATAR_LOGGED_OUT"},"navigationEndpoint":{"clickTrackingParams":"CAcQ1IAEGAMiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"https://accounts.google.com/ServiceLogin?service=youtube\u0026uilel=3\u0026passive=true\u0026continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Dja%26next%3D%252Fchannel%252FUC9PpHFOORGtRuDR_TMCYsfg%252Fvideos%253Fview%253D2%2526flow%253Dgrid\u0026hl=ja\u0026ec=65620","rootVe":83769}},"signInEndpoint":{"hack":true,"idamTag":"65620"}},"trackingParams":"CAcQ1IAEGAMiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","targetId":"topbar-signin"}}],"hotkeyDialog":{"hotkeyDialogRenderer":{"title":{"runs":[{"text":"キーボード ショートカット"}]},"sections":[{"hotkeyDialogSectionRenderer":{"title":{"runs":[{"text":"再生"}]},"options":[{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"再生 / 一時停止の切り替え"}]},"hotkey":"k"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"10 秒巻き戻す"}]},"hotkey":"j"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"10 秒早送り"}]},"hotkey":"l"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"前の動画"}]},"hotkey":"P（Shift+p）"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"次の動画"}]},"hotkey":"N（Shift+n）"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"前のフレーム（一時停止中）"}]},"hotkey":",","hotkeyAccessibilityLabel":{"accessibilityData":{"label":"カンマ"}}}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"次のフレーム（一時停止中）"}]},"hotkey":".","hotkeyAccessibilityLabel":{"accessibilityData":{"label":"期間"}}}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"再生速度を下げる"}]},"hotkey":"\u003c (SHIFT+,)","hotkeyAccessibilityLabel":{"accessibilityData":{"label":"小なり記号または Shift + カンマ"}}}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"再生速度を上げる"}]},"hotkey":"\u003e (SHIFT+.)","hotkeyAccessibilityLabel":{"accessibilityData":{"label":"大なり記号または Shift + ピリオド"}}}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"動画の特定のポイントに移動（再生時間の 70% までは 7 回進む）"}]},"hotkey":"0..9"}}]}},{"hotkeyDialogSectionRenderer":{"title":{"runs":[{"text":"全般"}]},"options":[{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"全画面に切り替える"}]},"hotkey":"f"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"シアターモードを切り替え"}]},"hotkey":"t"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"ミニプレーヤーの切り替え"}]},"hotkey":"i"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"ミニプレーヤーまたは現在のダイアログを閉じる"}]},"hotkey":"Esc"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"ミュートの切り替え"}]},"hotkey":"m"}}]}},{"hotkeyDialogSectionRenderer":{"title":{"runs":[{"text":"字幕"}]},"options":[{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"動画が字幕に対応している場合は字幕のオン / オフを切り替える"}]},"hotkey":"c"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"テキストの不透明度レベルを調整"}]},"hotkey":"o"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"ウィンドウの不透明度レベルを調整"}]},"hotkey":"w"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"フォントサイズの変更（大きくする）"}]},"hotkey":"+"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"フォントサイズの変更（小さくする）"}]},"hotkey":"-","hotkeyAccessibilityLabel":{"accessibilityData":{"label":"マイナス"}}}}]}},{"hotkeyDialogSectionRenderer":{"title":{"runs":[{"text":"360° 動画"}]},"options":[{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"上にパン"}]},"hotkey":"w"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"左にパン"}]},"hotkey":"a"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"下にパン"}]},"hotkey":"s"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"右にパン"}]},"hotkey":"d"}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"ズームイン"}]},"hotkey":"テンキーの + または ]","hotkeyAccessibilityLabel":{"accessibilityData":{"label":"テンキーまたは右かっこのプラス"}}}},{"hotkeyDialogSectionOptionRenderer":{"label":{"runs":[{"text":"ズームアウト"}]},"hotkey":"テンキーの - または [","hotkeyAccessibilityLabel":{"accessibilityData":{"label":"テンキーまたは左かっこのマイナス"}}}}]}}],"dismissButton":{"buttonRenderer":{"style":"STYLE_BLUE_TEXT","size":"SIZE_DEFAULT","isDisabled":false,"text":{"simpleText":"閉じる"},"trackingParams":"CAYQ8FsiEwjT-aTQ9qfmAhXswD8EHYFgBU8="}},"trackingParams":"CAUQteYDIhMI0_mk0Pan5gIV7MA_BB2BYAVP"}},"backButton":{"buttonRenderer":{"trackingParams":"CAQQvIYDIhMI0_mk0Pan5gIV7MA_BB2BYAVP","command":{"clickTrackingParams":"CAQQvIYDIhMI0_mk0Pan5gIV7MA_BB2BYAVP","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"signalAction":{"signal":"HISTORY_BACK"}}]}}}},"forwardButton":{"buttonRenderer":{"trackingParams":"CAMQvYYDIhMI0_mk0Pan5gIV7MA_BB2BYAVP","command":{"clickTrackingParams":"CAMQvYYDIhMI0_mk0Pan5gIV7MA_BB2BYAVP","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"signalAction":{"signal":"HISTORY_FORWARD"}}]}}}},"a11ySkipNavigationButton":{"buttonRenderer":{"style":"STYLE_DEFAULT","size":"SIZE_DEFAULT","isDisabled":false,"text":{"runs":[{"text":"ナビゲーションをスキップ"}]},"trackingParams":"CAIQ8FsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","command":{"clickTrackingParams":"CAIQ8FsiEwjT-aTQ9qfmAhXswD8EHYFgBU8=","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"signalServiceEndpoint":{"signal":"CLIENT_SIGNAL","actions":[{"signalAction":{"signal":"SKIP_NAVIGATION"}}]}}}}}},"microformat":{"microformatDataRenderer":{"urlCanonical":"https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg","title":"あめぞう","description":"","thumbnail":{"thumbnails":[{"url":"https://yt3.ggpht.com/a/AGF-l793adKfz4d8VS1BZY5Irx49vPFApIsFOrhfIw=s200-c-k-c0xffffffff-no-rj-mo","width":200,"height":200}]},"siteName":"YouTube","appName":"YouTube","androidPackage":"com.google.android.youtube","iosAppStoreId":"544007664","iosAppArguments":"https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg","ogType":"yt-fb-app:channel","urlApplinksWeb":"https://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=applinks","urlApplinksIos":"vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=applinks","urlApplinksAndroid":"vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=applinks","urlTwitterIos":"vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=twitter-deep-link","urlTwitterAndroid":"vnd.youtube://www.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg?feature=twitter-deep-link","twitterCardType":"summary","twitterSiteHandle":"@YouTube","schemaDotOrgType":"http://schema.org/http://schema.org/YoutubeChannelV2","noindex":false,"unlisted":false,"linkAlternates":[{"hrefUrl":"https://m.youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg"},{"hrefUrl":"android-app://com.google.android.youtube/http/youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg"},{"hrefUrl":"ios-app://544007664/http/youtube.com/channel/UC9PpHFOORGtRuDR_TMCYsfg"}]}}};
+    window["ytInitialPlayerResponse"] = null;
+    if (window.ytcsi) {window.ytcsi.tick("pdr", null, '');}
+  </script>
+
+  <script >
+    (function() {
+      var setFiller = function() {
+        var blankSwfConfig = {"args":{"transparent_background":"1","innertube_api_version":"v1","use_fast_sizing_on_watch_default":false,"ps":"desktop-polymer","external_fullscreen":true,"use_miniplayer_ui":"1","show_miniplayer_button":"1","hl":"ja_JP","innertube_api_key":"AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8","cr":"US","host_language":"ja","enablejsapi":"1","fexp":"23722139,23744176,23788834,23794463,23795882,23804281,23827263,23836249,23837040,23837993,23838771,23839597,23841118,23842630,23842986,23848795,23849617,23849887,23849887,23853887,23854139,23855893,23856652,23857950,23858917,23859802,23859812,23859864,23862431,23862890,23862890,23863273,24630395,3300013,3300118,3300134,3300161,3313321,3314786,3315772,3315790,3316343,9449243,9471235","gapi_hint_params":"m;\/_\/scs\/abc-static\/_\/js\/k=gapi.gapi.en.MEVzAPCznC8.O\/d=1\/ct=zgms\/rs=AHpOoo_iL6i3Fuh5d3bLKRBazYvzpKjkxg\/m=__features__","fflags":"web_player_response_playback_tracking_parsing=true\u0026html5_new_elem_on_hidden=true\u0026delay_ads_gvi_call_on_bulleit_living_room_ms=0\u0026skip_ad_button_with_thumbnail=true\u0026html5_gl_fps_threshold=0\u0026enable_overlays_wta=true\u0026endscreen_renderer_on_desktop=true\u0026web_player_response_overlay_parsing=false\u0026web_player_live_monitor_env_killswitch2=true\u0026desktop_videowall_companion_wta_support=true\u0026html5_restrict_streaming_xhr_on_sqless_requests=true\u0026html5_gapless_seek_tolerance_secs=3.0\u0026html5_error_cooldown_in_ms=30000\u0026html5_gapless_ended_transition_buffer_ms=200\u0026external_fullscreen_with_edu=true\u0026html5_seek_over_discontinuities=true\u0026web_use_beacon_api_for_ad_click_server_pings=true\u0026desktop_image_companion_wta_support=true\u0026show_thumbnail_on_standard=true\u0026html5_live_normal_latency_bandwidth_window=0.0\u0026html5_source_buffer_attach_retry_limit=0\u0026html5_log_promoted_video_ads_as_non_autoplay=true\u0026enable_ypc_clickwrap_on_living_room=true\u0026enable_kevlar_action_companion_cleanup=true\u0026disable_new_pause_state3=true\u0026html5_disable_non_contiguous=true\u0026mweb_native_control_in_faux_fullscreen_shared=true\u0026web_player_response_fairplay_config_killswitch=true\u0026html5_gapless_preloading=true\u0026html5_qoe_intercept=\u0026player_enable_playback_playlist_change=true\u0026fast_autonav_in_background=true\u0026html5_subsegment_readahead_load_speed_check_interval=0.5\u0026html5_subsegment_readahead_timeout_secs=2.0\u0026html5_incremental_parser_buffer_extra_bytes=16384\u0026html5_peak_shave=true\u0026sdk_ad_prefetch_time_seconds=-1\u0026kevlar_miniplayer_expand_top=true\u0026persist_text_on_preview_button=true\u0026html5_manifestless_media_source_duration=25200\u0026web_player_watch_next_response=true\u0026html5_live_quality_cap=0\u0026use_survey_skip_in_0s=true\u0026html5_max_readahead_bandwidth_cap=0\u0026html5_gapless_manage_live_readahead=true\u0026desktop_action_companion_wta_support=true\u0026use_forced_linebreak_preskip_text=true\u0026html5_media_fullscreen=true\u0026html5_subsegment_readahead_min_buffer_health_secs_on_timeout=0.1\u0026enable_live_premiere_web_player_indicator=true\u0026html5_disable_preserve_reference=true\u0026html5_decode_to_texture_cap=true\u0026desktop_player_button_tooltip_with_shortcut=true\u0026enable_client_deferred_full_screen_filtering_for_mweb_phones=true\u0026kevlar_autonav_miniplayer_fix=true\u0026html5_ignore_background_dfd=true\u0026html5_df_downgrade_thresh=0.2\u0026web_player_show_music_in_this_video_graphic=video_thumbnail\u0026unplugged_tvhtml5_botguard_attestation=true\u0026html5_hls_min_video_height=0\u0026html5_inline_video_quality_survey=true\u0026enable_eviction_protection_for_bulleit=true\u0026forced_brand_precap_duration_ms=2000\u0026html5_hdcp_probing_stream_url=\u0026html5_quality_cap_min_age_secs=0\u0026live_fresca_v2=true\u0026html5_initdata_deep_comparison=true\u0026html5_live_low_latency_bandwidth_window=0.0\u0026html5_probe_secondary_during_timeout_miss_count=2\u0026kevlar_allow_multistep_video_init=true\u0026html5_use_streaming_xhr_abort_support=true\u0026html5_subsegment_readahead_min_load_speed=1.5\u0026html5_background_quality_cap=360\u0026html5_player_min_build_cl=-1\u0026mweb_enable_custom_control_shared=true\u0026web_gel_timeout_cap=true\u0026enable_prefetch_for_postrolls=true\u0026desktop_shopping_companion_wta_support=true\u0026html5_remove_pause=false\u0026html5_av1_thresh=720\u0026show_countdown_on_bumper=true\u0026html5_dont_predict_end_time_in_past=true\u0026enable_survey_termination_on_resize=true\u0026html5_qoe_user_intent_match_health=true\u0026html5_manifestless_interpolate=true\u0026html5_no_placeholder_rollbacks=true\u0026html5_streaming_xhr_try_cobalt=true\u0026html5_min_has_advanced=true\u0026kevlar_miniplayer_play_pause_on_scrim=true\u0026html5_hls_initial_bitrate=0\u0026html5_live_abr_repredict_fraction=0.0\u0026html5_manifestless_synchronized=true\u0026ignore_empty_xhr=true\u0026html5_log_rebuffer_events=0\u0026html5_gapless_max_played_ranges=12\u0026html5_gapless_audio=true\u0026mweb_cougar_big_controls=true\u0026html5_no_audio_append_cap=true\u0026html5_gapless_error_check_killswitch=true\u0026unplugged_tvhtml5_video_preload_on_focus_delay_ms=0\u0026html5_default_ad_gain=0.5\u0026html5_allowable_liveness_drift_chunks=2\u0026html5_jumbo_ull_subsegment_readahead_target=1.3\u0026html5_jumbo_ull_nonstreaming_mffa_ms=4000\u0026html5_av1_tv_killswitch=true\u0026html5_suspend_loader=true\u0026html5_min_readbehind_secs=0\u0026html5_video_tbd_min_kb=0\u0026html5_subsegment_readahead_seek_latency_fudge=0.5\u0026html5_hfr_quality_cap=0\u0026html5_delay_initial_loading=true\u0026enable_html5_midroll_tsla_update=true\u0026html5_log_playback_rate_change_killswitch=true\u0026html5_jumbo_mobile_subsegment_readahead_target=3.0\u0026html5_bandwidth_window_size=0\u0026html5_subsegment_readahead_min_buffer_health_secs=0.25\u0026html5_enable_ac3=true\u0026html5_fludd_suspend=true\u0026web_player_music_visualizer_treatment=fake\u0026player_allow_autonav_after_playlist=true\u0026html5_gapless_disable_preload_at_finish=true\u0026web_player_sentinel_is_uniplayer=true\u0026disable_legacy_desktop_remote_queue=true\u0026ensure_only_one_ads_termination_ping_for_bulleit=true\u0026html5_streaming_xhr_optimize_lengthless_mp4=true\u0026html5_hack_gapless_init=true\u0026kevlar_queue_use_dedicated_list_type=true\u0026html5_gapless_no_requests_after_lock=true\u0026render_enhanced_overlays_as_ctas_for_desktop_style=unset\u0026html5_prefer_audio_only_for_atv=true\u0026html5_readahead_ratelimit=3000\u0026kevlar_frontend_video_list_actions=true\u0026html5_minimum_readahead_seconds=0.0\u0026html5_maximum_readahead_seconds=0.0\u0026html5_av1_thresh_hcc=1080\u0026show_interstitial_white=true\u0026html5_license_constraint_delay=5000\u0026show_interstitial_for_3s=true\u0026fixed_padding_skip_button=true\u0026use_touch_events_for_bulleit_mweb=true\u0026html5_limit_adaptation_requests=true\u0026html5_time_based_consolidation_ms=0\u0026use_revamped_survey_design_for_desktop=true\u0026web_gel_debounce_ms=10000\u0026html5_max_av_sync_drift=50\u0026web_player_ipp_canary_type_for_logging=\u0026www_for_videostats=true\u0026html5_av1_thresh_lcc=360\u0026html5_shrink_live_timestamps=true\u0026html5_max_headm_for_streaming_xhr=0\u0026align_ad_to_video_player_lifecycle_for_bulleit=true\u0026hide_preskip=true\u0026kevlar_miniplayer=true\u0026html5_probe_primary_failure_factor=4\u0026simply_enable_botguard=true\u0026html5_enable_eac3=true\u0026html5_gaplesstransition_error_new_elem=true\u0026live_chunk_readahead=3\u0026html5_deadzone_multiplier=1.0\u0026html5_background_cap_idle_secs=60\u0026should_clear_video_data_on_player_cued_unstarted=true\u0026html5_adaptation_fix=true\u0026html5_gapless_allow_late_transitions=true\u0026html5_long_rebuffer_threshold_ms=0\u0026html5_pseudo_gapless=true\u0026mdx_enable_privacy_disclosure_ui=true\u0026playready_first_play_expiration=-1\u0026custom_csi_timeline_use_gel=true\u0026html5_store_xhr_headers_readable=true\u0026set_interstitial_advertisers_question_text=true\u0026html5_disable_aac_ac3=true\u0026visibility_error_html_dump_sample_rate=0.01\u0026mweb_muted_autoplay_animation=shrink\u0026use_new_skip_icon=true\u0026html5_progress_fix_fix=true\u0026html5_streaming_xhr_buffer_mdat=true\u0026html5_default_quality_cap=0\u0026html5_subsegment_readahead_target_buffer_health_secs=0.5\u0026active_view_block_viewable_ping_on_measurable=true\u0026html5_autonav_quality_cap=0\u0026html5_log_hls_video_height_change_as_format_change=true\u0026html5_firefox_ambisonic_opus=true\u0026html5_enable_4k_hq_enc=true\u0026html5_min_upgrade_health=0\u0026html5_aspect_from_adaptive_format=true\u0026bulleit_use_video_end_cuerange_for_completion=true\u0026allow_poltergust_autoplay=true\u0026debug_sherlog_username=\u0026html5_max_live_dvr_window_plus_margin_secs=46800.0\u0026html5_desktop_vr180_allow_panning=true\u0026html5_pause_video_fix=true\u0026enable_ve_tracker_key=true\u0026html5_health_to_gel=true\u0026hfr_dropped_framerate_fallback_threshold=0\u0026html5_post_interrupt_readahead=20\u0026ensure_only_one_resolved_midroll_response_on_web=true\u0026enable_ad_pod_specific_ui=true\u0026midroll_notify_time_seconds=5\u0026html5_gapless_rebuffer_tolerance_secs=0.0\u0026html5_streaming_xhr_try_webm=true\u0026variable_load_timeout_ms=0\u0026tvhtml5_disable_live_prefetch=true\u0026set_interstitial_start_button=true\u0026html5_full_gapless_content_resume=true\u0026html5_manifestless_vp9=true\u0026html5_probe_primary_delay_base_ms=0\u0026html5_disable_move_pssh_to_moov=true\u0026tvhtml5_min_readbehind_secs=20\u0026bulleit_get_midroll_info_timeout_ms=8000\u0026html5_live_ultra_low_latency_bandwidth_window=0.0\u0026enable_mute_ad_endpoint_resolution_on_bulleit=true\u0026html5_disable_subscribe_new_vis=true\u0026bulleit_use_touch_events_for_skip=true\u0026html5_request_size_padding_secs=3.0\u0026web_logging_max_batch=100\u0026max_resolution_for_white_noise=360\u0026html5_stop_video_in_cancel_playback=true\u0026autoplay_time=8000\u0026html5_request_size_max_secs=31\u0026html5_live_abr_head_miss_fraction=0.0\u0026html5_request_sizing_multiplier=0.8\u0026html5_unrewrite_timestamps=true\u0026html5_ignore_start_seconds_for_ads_killswitch=true\u0026player_destroy_old_version=true\u0026html5_ad_timeout_ms=0\u0026html5_platform_minimum_readahead_seconds=0.0\u0026ad_pod_disable_companion_persist_ads_quality=true\u0026html5_sticky_reduces_discount_by=0.0\u0026dash_manifest_version=5\u0026html5_disable_manifestless_sqless_sync=true\u0026release_player_on_abandon_for_bulleit_lr_ads_frontend=true\u0026html5_ignore_bad_bitrates=true\u0026html5_expanded_max_vss_pings=true\u0026enforce_cuerange_priority_on_web=true\u0026kevlar_queue_use_update_api=true\u0026web_player_live_monitor_env_killswitch=true\u0026html5_source_buffer_attach_delay_time=15000\u0026allow_live_autoplay=true\u0026html5_probe_live_using_range=true\u0026html5_min_readbehind_cap_secs=60\u0026variable_buffer_timeout_ms=0\u0026html5_hdr_separate_keys_support=true\u0026web_player_api_logging_fraction=0.01\u0026html5_platform_whitelisted_for_frame_accurate_seeks=true\u0026html5_prefer_server_bwe3=true\u0026html5_key_statuses_post_update_session=true\u0026html5_player_autonav_logging=true\u0026debug_dapper_trace_id=\u0026html5_incremental_parser_buffer_duration_secs=1.5\u0026pass_biscotti_id_in_header_ajax=true\u0026ensure_vis_persists_in_full_screen_for_mweb=true\u0026html5_enable_embedded_player_visibility_signals=true\u0026html5_gapless_remove_unstarted_state=true\u0026html5_av1_thresh_arm=240\u0026html5_disable_extra_update_resource=true\u0026postroll_notify_time_seconds=5\u0026send_vss_credential_player_vars_html5=true\u0026kevlar_playback_associated_queue=true\u0026html5_gapless_ad_byterate_multiplier=1.6\u0026preskip_button_style_ads_backend=countdown_next_to_thumbnail","innertube_context_client_version":"2.20191206.06.00"},"attrs":{"id":"movie_player"},"assets":{"js":"\/yts\/jsbin\/player_ias-vflYr569U\/ja_JP\/base.js","css":"\/yts\/cssbin\/player-vflkiZPlm\/www-player-2x-webp.css"}};
+        var fillerData = {
+          browse: {
+            filler: true,
+            page: 'browse'
+          },
+          home: {
+            filler: true,
+            page: 'home',
+            endpoint: {
+              commandMetadata: {
+                webCommandMetadata: {
+                  url: "/",
+                  webPageType: "WEB_PAGE_TYPE_BROWSE"
+                }
+              },
+              urlEndpoint: {
+                url: "/"
+              }
+            },
+            response: {
+              contents: {
+                twoColumnBrowseResultsRenderer: {
+                  tabs: [{
+                    tabRenderer: {
+                      selected: true,
+                      content: {
+                        sectionListRenderer: {
+                          contents: [],
+                          continuations: [{
+                            nextContinuationData: {continuation: ''}
+                          }]
+                        }
+                      }
+                    }
+                  }]
+                }
+              }
+            }
+          },
+          search: {
+            filler: true,
+            page: 'search',
+            endpoint: {
+              commandMetadata: {
+                webCommandMetadata: {
+                  url: "/results",
+                  webPageType: "WEB_PAGE_TYPE_SEARCH"
+                }
+              },
+              urlEndpoint: {
+                url: "/results"
+              }
+            },
+            response: {
+              contents: {
+                twoColumnSearchResultsRenderer: {
+                  primaryContents: {
+                    sectionListRenderer: {
+                      contents: [],
+                      subMenu: {
+                        searchSubMenuRenderer: {}
+                      }
+                    }
+                  },
+                  secondaryContents: {
+                    secondarySearchContainerRenderer: {
+                      contents: []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          watch: {
+            filler: true,
+            page: 'watch',
+            endpoint: {
+              commandMetadata: {
+                webCommandMetadata: {
+                  url: "/watch",
+                  webPageType: "WEB_PAGE_TYPE_WATCH"
+                }
+              },
+              urlEndpoint: {
+                url: "/watch"
+              }
+            },
+            playerResponse: {
+              playabilityStatus: {
+                status: 'OK'
+              }
+            },
+            response: {
+              contents: {
+                twoColumnWatchNextResults: {
+                  results: {
+                    results: {
+                      contents: [{
+                        videoPrimaryInfoRenderer: {},
+                        videoSecondaryInfoRenderer: {}
+                      }]
+                    }
+                  },
+                  secondaryResults: {
+                    secondaryResults: {}
+                  }
+                }
+              }
+            }
+          },
+          player: blankSwfConfig
+        };
+
+        window.ytcfg.set('FILLER_DATA', fillerData);
+      };
+
+        window.getPageData = function() {
+          if (window.ytcsi) {window.ytcsi.tick("pr", null, '');}
+          var endpoint = null;
+            endpoint = {"commandMetadata":{"webCommandMetadata":{"url":"/channel/UC9PpHFOORGtRuDR_TMCYsfg/videos?view=2\u0026flow=grid","webPageType":"WEB_PAGE_TYPE_BROWSE","rootVe":83769}},"urlEndpoint":{"url":"/channel/UC9PpHFOORGtRuDR_TMCYsfg/videos?view=2\u0026flow=grid"}};
+          var data = {
+              page: "browse",
+              player: ytplayer.config,
+              playerResponse: window.ytInitialPlayerResponse,
+                url: "\/channel\/UC9PpHFOORGtRuDR_TMCYsfg\/videos?view=2\u0026flow=grid",
+                csn: "DOjtXcyRHoHPgwPo2IaQCA",
+              response: window.ytInitialData,
+              endpoint: endpoint
+          };
+          return {
+            data: data,
+            endpoint: endpoint
+          };
+        };
+
+        if (window.loadDataHook) {
+          var pageData = window.getPageData();
+          window.loadDataHook(pageData.endpoint, pageData.data);
+          window.loadDataHook = null;
+        }
+        setFiller();
+
+    })();
+
+      var meta = document.createElement('meta');
+      meta.name = 'referrer';
+      meta.content = 'origin-when-cross-origin';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+      var head = document.getElementsByTagName('head')[0];
+      var microformatContainer = document.getElementById('microformat');
+      while (microformatContainer.childNodes.length > 0) {
+        head.appendChild(microformatContainer.childNodes[0]);
+      }
+  </script>
+    <span style="display:none" id="legal-help-page">
+法的理由によりコンテンツの変更をリクエストするには、<a href="https://www.google.com/support/legal/answer/3110420">法的な問題に関するヘルプのページ</a>をご覧ください。
+  </span>
+
+  
+        <link rel="stylesheet" href="/yts/cssbin/www-main-desktop-watch-page-skeleton-2x-webp-vflQ9GNSj.css" name="www-main-desktop-watch-page-skeleton">
+
+  <div id="watch-page-skeleton" class="watch-skeleton hidden">
+    <div id="container">
+      <div id="related">
+        <div class="autoplay skeleton-light-border-bottom">
+          <div id="upnext" class="skeleton-bg-color"></div>
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+        </div>
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+            <div class="video-skeleton">
+    <div class="video-details">
+      <div class="thumbnail skeleton-bg-color"></div>
+      <div class="details flex-1">
+        <div class="video-title text-shell skeleton-bg-color"></div>
+        <div class="video-meta text-shell skeleton-bg-color"></div>
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <div id="info-container">
+        <div id="primary-info" class="skeleton-light-border-bottom">
+          <div id="title" class="text-shell skeleton-bg-color"></div>
+          <div id="info">
+            <div id="count" class="text-shell skeleton-bg-color"></div>
+            <div class="flex-1"></div>
+            <div id="menu">
+                <div class="menu-button skeleton-bg-color"></div>
+                <div class="menu-button skeleton-bg-color"></div>
+                <div class="menu-button skeleton-bg-color"></div>
+                <div class="menu-button skeleton-bg-color"></div>
+                <div class="menu-button skeleton-bg-color"></div>
+            </div>
+          </div>
+        </div>
+        <div id="secondary-info" class="skeleton-light-border-bottom">
+          <div id="top-row">
+            <div id="video-owner" class="flex-1">
+              <div id="channel-icon" class="skeleton-bg-color"></div>
+              <div id="upload-info" class="flex-1">
+                <div id="owner-name"
+                     class="text-shell skeleton-bg-color">
+                </div>
+                <div id="published-date"
+                    class="text-shell skeleton-bg-color">
+                </div>
+              </div>
+            </div>
+            <div id="subscribe-button" class="skeleton-bg-color"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script >if (window.ytcsi) {window.ytcsi.info("st", 306, '');}</script></body></html>

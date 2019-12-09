@@ -118,19 +118,19 @@ func sendToWatcher(vid, json string) error {
 }
 
 // CreateWatcher is register channel
-func CreateWatcher(vid string) <-chan string {
+func CreateWatcher(vid string) (<-chan string, error) {
 	watcherMutex.Lock()
 	defer watcherMutex.Unlock()
 
-	w, ok := watcher[vid]
+	_, ok := watcher[vid]
 	if ok {
-		return w
+		return nil, errors.New("already started")
 	}
 
 	newCh := make(chan string, 20)
 	watcher[vid] = newCh
 
-	return newCh
+	return newCh, nil
 }
 
 // UnsetWatcher is unregister channel
