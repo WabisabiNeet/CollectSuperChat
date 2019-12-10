@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -147,7 +148,9 @@ type Gmail struct {
 }
 
 // PollingStart polling gmail.
-func (n *Gmail) PollingStart() {
+func (n *Gmail) PollingStart(wg *sync.WaitGroup) {
+	defer wg.Done()
+
 	quit := make(chan os.Signal)
 	defer close(quit)
 	signal.Notify(quit, os.Interrupt)

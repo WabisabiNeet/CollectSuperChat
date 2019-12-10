@@ -1,5 +1,8 @@
 package notifier
 
-type notifier interface {
-	PollingStart() string
+import "sync"
+
+// Notifier is interface
+type Notifier interface {
+	PollingStart(*sync.WaitGroup)
 }

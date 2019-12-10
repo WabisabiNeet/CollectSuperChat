@@ -85,23 +85,33 @@ func main() {
 
 	m := sync.Mutex{}
 	wg := &sync.WaitGroup{}
-	n := notifier.Gmail{
-		CollectChat: func(vid string) {
-			m.Lock()
-			defer m.Unlock()
-			sort.Slice(collectors, func(i, j int) bool {
-				return collectors[i].ProcessingCount < collectors[j].ProcessingCount
-			})
-			wg.Add(1)
-			collectors[0].incrementCount()
-			log.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
 
-			go collectors[0].StartWatch(wg, vid)
-		},
+	f := func(vid string) {
+		m.Lock()
+		defer m.Unlock()
+		sort.Slice(collectors, func(i, j int) bool {
+			return collectors[i].ProcessingCount < collectors[j].ProcessingCount
+		})
+		wg.Add(1)
+		collectors[0].incrementCount()
+		log.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
+
+		go collectors[0].StartWatch(wg, vid)
 	}
+
+	var ns []notifier.Notifier
+	ns = append(ns, &notifier.Gmail{
+		CollectChat: f,
+	})
+	ns = append(ns, &notifier.YoutubeHTML{
+		CollectChat: f,
+	})
 
 	pollCurrency()
 	ytproxy.OpenYoutubeLiveChatProxy()
-	n.PollingStart()
+	for _, n := range ns {
+		wg.Add(1)
+		go n.PollingStart(wg)
+	}
 	wg.Wait()
 }

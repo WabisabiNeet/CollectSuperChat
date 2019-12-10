@@ -3,6 +3,7 @@ package notifier
 import (
 	"os"
 	"os/signal"
+	"sync"
 	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
@@ -17,7 +18,9 @@ type YoutubeHTML struct {
 }
 
 // PollingStart polling gmail.
-func (n *YoutubeHTML) PollingStart() {
+func (n *YoutubeHTML) PollingStart(wg *sync.WaitGroup) {
+	defer wg.Done()
+
 	quit := make(chan os.Signal)
 	defer close(quit)
 	signal.Notify(quit, os.Interrupt)
