@@ -36,7 +36,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	}
 	ch, err := ytproxy.CreateWatcher(vid)
 	if err != nil {
-		log.Warn(err.Error())
+		log.Info(err.Error())
 		return
 	}
 	defer ytproxy.UnsetWatcher(vid)
