@@ -62,8 +62,8 @@ func SendChat(channelID, messageID, jsonStr string) error {
 	}
 
 	indexReq := esapi.IndexRequest{
-		Index: index,                      // Index name
-		Body:  strings.NewReader(jsonStr), // Document body
+		Index: fmt.Sprintf("chat-%v", index), // Index name
+		Body:  strings.NewReader(jsonStr),    // Document body
 		// DocumentID: "1",                    // Document ID
 		Refresh: "true", // Refresh
 	}

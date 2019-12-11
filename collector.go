@@ -14,7 +14,6 @@ import (
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/selenium"
 	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
-	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"google.golang.org/api/youtube/v3"
@@ -105,19 +104,15 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, c
 
 		scheduledStartTime, err := time.Parse(time.RFC3339, vinfo.LiveStreamingDetails.ScheduledStartTime)
 		if err != nil {
-			log.Warn(errors.New(fmt.Sprintf("can not convert ScheduledStartTime:[%v]", vinfo.LiveStreamingDetails.ScheduledStartTime)).Error())
 			m.VideoInfo.ScheduledStartTime = vinfo.LiveStreamingDetails.ScheduledStartTime
 		} else {
 			m.VideoInfo.ScheduledStartTime = scheduledStartTime.In(time.FixedZone("Asia/Tokyo", 9*60*60)).Format(time.RFC3339)
 		}
 		actualStartTime, err := time.Parse(time.RFC3339, vinfo.LiveStreamingDetails.ActualStartTime)
 		if err != nil {
-			log.Warn(errors.New(fmt.Sprintf("can not convert ActualStartTime:[%v]", vinfo.LiveStreamingDetails.ActualStartTime)).Error())
 			m.VideoInfo.ActualStartTime = vinfo.LiveStreamingDetails.ActualStartTime
 		} else {
-
 			m.VideoInfo.ActualStartTime = actualStartTime.In(time.FixedZone("Asia/Tokyo", 9*60*60)).Format(time.RFC3339)
-
 		}
 
 		if m.Message.AmountDisplayString != "" {
