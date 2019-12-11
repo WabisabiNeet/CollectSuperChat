@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/elastic/go-elasticsearch/esapi"
@@ -15,15 +16,37 @@ import (
 
 var (
 	es *elasticsearch.Client
+
+	// ElasticsearchCloudid is id
+	ElasticsearchCloudid string
+
+	// ElasticsearchUser is user
+	ElasticsearchUser string
+
+	// ElasticsearchPass is user
+	ElasticsearchPass string
 )
 
 func init() {
-	cfg := elasticsearch.Config{
-		Addresses: []string{
+	cloudid := os.Getenv("ELASTICSEARCH_CLOUDID")
+	user := os.Getenv("ELASTICSEARCH_USER")
+	pass := os.Getenv("ELASTICSEARCH_PASS")
+
+	cfg := elasticsearch.Config{}
+	if cloudid != "" {
+		if user == "" || pass == "" {
+			Fatal("use cloudid, but user or pass is nil. user[%v], pass[%v]", user, pass)
+		}
+		cfg.CloudID = cloudid
+		cfg.Username = user
+		cfg.Password = pass
+	} else {
+		cfg.Addresses = []string{
 			"http://elasticsearch:9200",
 			// "http://192.168.10.11:9200", // for debug
-		},
+		}
 	}
+
 	var err error
 	es, err = elasticsearch.NewClient(cfg)
 	if err != nil {
