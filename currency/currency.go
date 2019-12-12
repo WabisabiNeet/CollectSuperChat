@@ -50,6 +50,7 @@ var Currencies = []*Currency{
 	{Code: "PEN", Symbol: "PEN"},  // ペルーソル
 	{Code: "RUB", Symbol: "RUB"},  // ロシアルーブル
 	{Code: "PHP", Symbol: "PHP"},  // フィリピンペソ
+	{Code: "CLP", Symbol: "CLP"},  // チリペソ
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 	// {Code: "PHP", Symbol: "₱"},// フィリピンペソ
 }
