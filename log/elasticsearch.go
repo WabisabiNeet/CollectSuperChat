@@ -56,14 +56,9 @@ func init() {
 
 // SendChat send chat message to Elasticsearch
 func SendChat(channelID, messageID, jsonStr string) error {
-	index, err := getChannelHash(channelID)
-	if err != nil {
-		return errors.Wrap(err, "SendChat error.")
-	}
-
 	indexReq := esapi.IndexRequest{
-		Index: fmt.Sprintf("chat-%v", index), // Index name
-		Body:  strings.NewReader(jsonStr),    // Document body
+		Index: "chatdata",                 // Index name
+		Body:  strings.NewReader(jsonStr), // Document body
 		// DocumentID: "1",                    // Document ID
 		Refresh: "true", // Refresh
 	}
