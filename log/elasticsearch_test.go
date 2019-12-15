@@ -7,9 +7,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/antonholmquist/jason"
 	"github.com/elastic/go-elasticsearch/esapi"
@@ -127,4 +130,95 @@ func Test4(tt *testing.T) {
 	if err != nil {
 		tt.Fatal(err)
 	}
+}
+
+func Test5(tt *testing.T) {
+	cfg := elasticsearch.Config{}
+	cfg.Addresses = append(cfg.Addresses, "http://192.168.10.11:9200")
+
+	es, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	builder := strings.Builder{}
+	const data = "testdata/chatdata.txt"
+	file, err := os.Open(data)
+	if err != nil {
+		tt.Fatal(data)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		str := scanner.Text()
+		builder.WriteString(fmt.Sprintln(`{ "index" : {} }`))
+		builder.WriteString(fmt.Sprintln(str))
+	}
+
+	buld := esapi.BulkRequest{
+		Index: "test1",
+		Body:  strings.NewReader(builder.String()),
+	}
+	res, err := buld.Do(context.Background(), es)
+	if err != nil {
+		tt.Fatal(err)
+	}
+	if res.StatusCode >= http.StatusBadRequest {
+		tt.Fatal(res.StatusCode)
+	}
+
+}
+
+func Test6(tt *testing.T) {
+	cfg := elasticsearch.Config{}
+	cfg.CloudID = ""
+	cfg.Username = ""
+	cfg.Password = ""
+
+	es, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	filepath.Walk("testdata/superchat0", func(path string, info os.FileInfo, err error) error {
+		builder := strings.Builder{}
+
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() {
+			return nil
+		}
+
+		fmt.Println(path)
+		file, err := os.Open(path)
+		if err != nil {
+			log.Fatal(path)
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			str := scanner.Text()
+			builder.WriteString(fmt.Sprintln(`{ "index" : {} }`))
+			builder.WriteString(fmt.Sprintln(str))
+		}
+
+		buld := esapi.BulkRequest{
+			Index: "chatdata",
+			Body:  strings.NewReader(builder.String()),
+		}
+		res, err := buld.Do(context.Background(), es)
+		if err != nil {
+			tt.Fatal(err)
+		}
+		if res.StatusCode >= http.StatusBadRequest {
+			tt.Fatal(res.StatusCode)
+		}
+
+		time.Sleep(1 * time.Minute)
+		return nil
+	})
 }

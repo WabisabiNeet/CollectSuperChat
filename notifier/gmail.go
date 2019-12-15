@@ -187,7 +187,7 @@ func (n *Gmail) PollingStart(wg *sync.WaitGroup) {
 		return
 	}
 
-	t := time.NewTicker(1 * time.Minute)
+	t := time.NewTicker(2 * time.Minute)
 	defer t.Stop()
 	for {
 		vids, historyID, err := getVideoIDsFromList(srv, socialLabelID)
