@@ -82,6 +82,7 @@ func pollCurrency() {
 
 func main() {
 	defer log.Sync()
+	defer log.SyncSuerChat()
 
 	m := sync.Mutex{}
 	wg := &sync.WaitGroup{}
