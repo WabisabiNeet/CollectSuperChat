@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"path"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -14,8 +13,6 @@ import (
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/selenium"
 	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"google.golang.org/api/youtube/v3"
 )
 
@@ -55,9 +52,6 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 		return
 	}
 
-	chatlog := initSuperChatLogger(videoInfo.Snippet.ChannelId)
-	defer chatlog.Sync()
-
 	defer selenium.CloseLiveChatWindow(vid)
 	err = selenium.OpenLiveChatWindow(vid)
 	if err != nil {
@@ -88,14 +82,14 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 				return
 			}
 
-			outputSuperChat(messages, videoInfo, chatlog)
+			outputSuperChat(messages, videoInfo)
 		case <-quit:
 			return
 		}
 	}
 }
 
-func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, chatlog *zap.Logger) {
+func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video) {
 	for _, m := range messages {
 		m.VideoInfo.ChannelID = vinfo.Snippet.ChannelId
 		m.VideoInfo.ChannelTitle = vinfo.Snippet.ChannelTitle
@@ -132,7 +126,7 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, c
 		if err != nil {
 			log.Error(err.Error())
 		}
-		chatlog.Info(o)
+		log.OutputSuperChat(o)
 	}
 }
 
@@ -163,36 +157,4 @@ func (c *Collector) incrementCount() {
 
 func (c *Collector) decrementCount() {
 	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), -1)
-}
-
-func initSuperChatLogger(channelID string) *zap.Logger {
-	logfolder := path.Join("superchat", channelID)
-	os.MkdirAll(logfolder, os.ModeDir|0755)
-	today := time.Now()
-	const layout = "20060102"
-	filename := path.Join(logfolder, fmt.Sprintf("%s.txt", today.Format(layout)))
-
-	level := zap.NewAtomicLevel()
-	level.SetLevel(zapcore.InfoLevel)
-
-	myConfig := zap.Config{
-		Level:    level,
-		Encoding: "console",
-		EncoderConfig: zapcore.EncoderConfig{
-			TimeKey:        "", // ignore.
-			LevelKey:       "", // ignore.
-			NameKey:        "Name",
-			CallerKey:      "", // ignore.
-			MessageKey:     "Msg",
-			StacktraceKey:  "St",
-			EncodeLevel:    zapcore.CapitalLevelEncoder,
-			EncodeTime:     zapcore.ISO8601TimeEncoder,
-			EncodeDuration: zapcore.StringDurationEncoder,
-			EncodeCaller:   zapcore.ShortCallerEncoder,
-		},
-		OutputPaths: []string{filename},
-		// ErrorOutputPaths: []string{"stderr"},
-	}
-	chatlog, _ := myConfig.Build()
-	return chatlog
 }

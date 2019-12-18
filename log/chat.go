@@ -1,54 +1,61 @@
 package log
 
 import (
-	"fmt"
 	"os"
 	"path"
-	"time"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-// SuperChatLogger struct
-type SuperChatLogger struct {
-	channelID string
+var chatlog *zap.Logger
 
-	l *zap.Logger
+func init() {
+	initSuperChatLogger()
+	if ce := chatlog.Check(zap.InfoLevel, "init"); ce == nil {
+		Fatal("super chat logger init failed.")
+	}
 }
 
-// NewSuperChatLogger return logger for superchat
-func NewSuperChatLogger(channelID string) *SuperChatLogger {
-	logfolder := path.Join("superchat", channelID)
+// InitSuperChatLogger return chat logger.
+func initSuperChatLogger() {
+	logfolder := "superchat"
 	os.MkdirAll(logfolder, os.ModeDir|0755)
-	today := time.Now()
-	const layout = "20060102"
-	filename := path.Join(logfolder, fmt.Sprintf("%s.txt", today.Format(layout)))
+	filename := path.Join(logfolder, "superchat.txt")
+
+	sink := zapcore.AddSync(
+		&lumberjack.Logger{
+			Filename: filename,
+			MaxSize:  10,
+		},
+	)
+	enc := zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
+		TimeKey:        "", // ignore.
+		LevelKey:       "", // ignore.
+		NameKey:        "Name",
+		CallerKey:      "", // ignore.
+		MessageKey:     "Msg",
+		StacktraceKey:  "St",
+		EncodeLevel:    zapcore.CapitalLevelEncoder,
+		EncodeTime:     zapcore.ISO8601TimeEncoder,
+		EncodeDuration: zapcore.StringDurationEncoder,
+		EncodeCaller:   zapcore.ShortCallerEncoder,
+	})
 
 	level := zap.NewAtomicLevel()
-	level.SetLevel(zapcore.InfoLevel)
+	level.SetLevel(zapcore.DebugLevel)
+	chatlog = zap.New(
+		zapcore.NewCore(enc, sink, level),
+	)
+}
 
-	myConfig := zap.Config{
-		Level:    level,
-		Encoding: "console",
-		EncoderConfig: zapcore.EncoderConfig{
-			TimeKey:        "", // ignore.
-			LevelKey:       "", // ignore.
-			NameKey:        "Name",
-			CallerKey:      "", // ignore.
-			MessageKey:     "Msg",
-			StacktraceKey:  "St",
-			EncodeLevel:    zapcore.CapitalLevelEncoder,
-			EncodeTime:     zapcore.ISO8601TimeEncoder,
-			EncodeDuration: zapcore.StringDurationEncoder,
-			EncodeCaller:   zapcore.ShortCallerEncoder,
-		},
-		OutputPaths: []string{filename},
-		// ErrorOutputPaths: []string{"stderr"},
-	}
-	chatlog, _ := myConfig.Build()
-	return &SuperChatLogger{
-		channelID: channelID,
-		l:         chatlog,
-	}
+// OutputSuperChat output chat log
+func OutputSuperChat(o string) {
+	chatlog.Info(o)
+}
+
+// SyncSuerChat is wapper: zap.Logger
+func SyncSuerChat() {
+	chatlog.Sync()
 }
