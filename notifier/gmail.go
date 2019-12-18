@@ -17,8 +17,8 @@ import (
 	"google.golang.org/api/gmail/v1"
 )
 
-func getVideoIDsFromList(srv *gmail.Service, socialLabelID string) (vids []string, historyID uint64, err error) {
-	messages, _ := srv.Users.Messages.List("me").LabelIds(socialLabelID).Do()
+func getVideoIDsFromList(srv *gmail.Service) (vids []string, historyID uint64, err error) {
+	messages, _ := srv.Users.Messages.List("me").Do()
 	for _, m := range messages.Messages {
 		vid, his, err := getVideoIDfromMail(srv, m)
 		if historyID < his {
@@ -165,32 +165,10 @@ func (n *Gmail) PollingStart(wg *sync.WaitGroup) {
 		log.Fatal("Unable to retrieve Gmail client: %v", err)
 	}
 
-	user := "me"
-	r, err := srv.Users.Labels.List(user).Do()
-	if err != nil {
-		log.Fatal("Unable to retrieve labels: %v", err)
-	}
-	if len(r.Labels) == 0 {
-		log.Error("No labels found.")
-		return
-	}
-
-	socialLabelID := ""
-	for _, l := range r.Labels {
-		if l.Name != "CATEGORY_SOCIAL" {
-			continue
-		}
-		socialLabelID = l.Id
-	}
-	if socialLabelID == "" {
-		log.Error("CATEGORY_SOCIAL can not found.")
-		return
-	}
-
 	t := time.NewTicker(2 * time.Minute)
 	defer t.Stop()
 	for {
-		vids, historyID, err := getVideoIDsFromList(srv, socialLabelID)
+		vids, historyID, err := getVideoIDsFromList(srv)
 		if err != nil {
 			continue
 		}
@@ -204,7 +182,6 @@ func (n *Gmail) PollingStart(wg *sync.WaitGroup) {
 			histroyRes, err := srv.Users.History.List("me").
 				StartHistoryId(historyID).
 				HistoryTypes("messageAdded").
-				LabelId(socialLabelID).
 				Do()
 			if err != nil {
 				continue
