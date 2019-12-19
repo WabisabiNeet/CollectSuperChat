@@ -79,6 +79,68 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 	return messages, finished, nil
 }
 
+// GetReplayChatMessagesFromProxy scrape live chat
+func GetReplayChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error) {
+	root, err := jason.NewObjectFromReader(strings.NewReader(chatJSON))
+	if err != nil {
+		return nil, true, err
+	}
+
+	finished := false
+	_, err = root.GetObjectArray("continuationContents", "liveChatContinuation", "continuations")
+	if err != nil {
+		// chat end.
+		finished = true
+	}
+
+	messages := []*ChatMessage{}
+
+	actions, err := root.GetObjectArray("continuationContents", "liveChatContinuation", "actions")
+	if err != nil {
+		// no chat.
+		return messages, finished, nil
+	}
+
+	for _, action := range actions {
+		actions2, err := action.GetObjectArray("replayChatItemAction", "actions")
+		if err != nil {
+			continue
+		}
+		for _, action2 := range actions2 {
+			item, err := action2.GetObject("addChatItemAction")
+			if err != nil {
+				continue
+			}
+
+			m := item.Map()
+			if _, ok := m["liveChatTextMessageRenderer"]; ok {
+				message, err := getLiveChatTextMessage(item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if _, ok := m["liveChatPaidMessageRenderer"]; ok {
+				message, err := getLiveChatPaidMessage(item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if _, ok := m["liveChatPaidStickerRenderer"]; ok {
+				message, err := getLiveChatPaidStickerMessage(item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			}
+		}
+	}
+
+	return messages, finished, nil
+}
+
 func getLiveChatTextMessage(item *jason.Object) (*ChatMessage, error) {
 	mr, err := item.GetObject("liveChatTextMessageRenderer")
 	if err != nil {
