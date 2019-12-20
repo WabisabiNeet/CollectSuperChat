@@ -24,19 +24,6 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 		finished = true
 	}
 
-	// for archive???
-	// finished := false
-	// for _, continuation := range continuations {
-	// 	_, err := continuation.GetString("liveChatReplayContinuationData", "continuation")
-	// 	if err != nil {
-	// 		finished = true
-	// 		break
-	// 	}
-	// }
-	// if finished {
-	// 	return
-	// }
-
 	messages := []*ChatMessage{}
 
 	actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
@@ -87,15 +74,25 @@ func GetReplayChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, erro
 	}
 
 	finished := false
-	_, err = root.GetObjectArray("continuationContents", "liveChatContinuation", "continuations")
+	continuations, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "continuations")
 	if err != nil {
 		// chat end.
+		finished = true
+	}
+	existsLiveChatReplayContinuationData := false
+	for _, continuation := range continuations {
+		_, err := continuation.GetObject("liveChatReplayContinuationData")
+		if err == nil {
+			existsLiveChatReplayContinuationData = true
+		}
+	}
+	if !existsLiveChatReplayContinuationData {
 		finished = true
 	}
 
 	messages := []*ChatMessage{}
 
-	actions, err := root.GetObjectArray("continuationContents", "liveChatContinuation", "actions")
+	actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
 	if err != nil {
 		// no chat.
 		return messages, finished, nil
@@ -107,7 +104,7 @@ func GetReplayChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, erro
 			continue
 		}
 		for _, action2 := range actions2 {
-			item, err := action2.GetObject("addChatItemAction")
+			item, err := action2.GetObject("addChatItemAction", "item")
 			if err != nil {
 				continue
 			}

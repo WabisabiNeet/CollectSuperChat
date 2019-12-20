@@ -80,12 +80,43 @@ func pollCurrency() {
 	}()
 }
 
+func pollArchiveRequest() (<-chan string, error) {
+	archiveCh := make(chan string, 100)
+	go func() {
+		quit := make(chan os.Signal)
+		defer close(quit)
+		signal.Notify(quit, os.Interrupt)
+
+		for {
+			select {
+			case vid := <-archiveCh:
+				m.Lock()
+				defer m.Unlock()
+				sort.Slice(collectors, func(i, j int) bool {
+					return collectors[i].ProcessingCount < collectors[j].ProcessingCount
+				})
+				wg.Add(1)
+				collectors[0].incrementCount()
+				log.Info(fmt.Sprintf("archive watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
+
+				collectors[0].StartWatch(wg, vid, false)
+			case <-quit:
+				return
+			}
+		}
+	}()
+
+	return archiveCh, nil
+}
+
+var (
+	m  = sync.Mutex{}
+	wg = &sync.WaitGroup{}
+)
+
 func main() {
 	defer log.Sync()
 	defer log.SyncSuerChat()
-
-	m := sync.Mutex{}
-	wg := &sync.WaitGroup{}
 
 	f := func(vid string) {
 		m.Lock()
@@ -97,7 +128,7 @@ func main() {
 		collectors[0].incrementCount()
 		log.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
 
-		go collectors[0].StartWatch(wg, vid)
+		go collectors[0].StartWatch(wg, vid, false)
 	}
 
 	var ns []notifier.Notifier

@@ -133,6 +133,11 @@ func CreateWatcher(vid string) (<-chan string, error) {
 	return newCh, nil
 }
 
+// CreateArchiveWatcher is register channel
+func CreateArchiveWatcher() (<-chan string, error) {
+	return CreateWatcher("replay")
+}
+
 // UnsetWatcher is unregister channel
 func UnsetWatcher(vid string) {
 	watcherMutex.Lock()
@@ -144,4 +149,9 @@ func UnsetWatcher(vid string) {
 	}
 	delete(watcher, vid)
 	close(w)
+}
+
+// UnsetArchiveWatcher is unregister channel
+func UnsetArchiveWatcher() {
+	UnsetWatcher("replay")
 }
