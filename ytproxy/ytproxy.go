@@ -30,8 +30,8 @@ func OpenYoutubeLiveChatProxy() {
 
 	re := regexp.MustCompile(`www.youtube.com.*/get_live_chat.*`)
 	proxy2.OnResponse(goproxy.UrlMatches(re)).DoFunc(OnLiveChatResponse)
-	// re2 := regexp.MustCompile(`www.youtube.com/.*get_live_chat_replay.*`)
-	// proxy2.OnResponse(goproxy.UrlMatches(re2)).DoFunc(OnLiveChatReplayResponse)
+	re2 := regexp.MustCompile(`www.youtube.com.*/get_live_chat_replay.*`)
+	proxy2.OnResponse(goproxy.UrlMatches(re2)).DoFunc(OnLiveChatReplayResponse)
 
 	sv2 := &http.Server{
 		Handler: proxy2,
@@ -85,25 +85,25 @@ func OnLiveChatResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Respon
 }
 
 // OnLiveChatReplayResponse is proxy func.
-// func OnLiveChatReplayResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-// 	// リプレイ取得時はRefererにvidが含まれないためチェックをしない
+func OnLiveChatReplayResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+	// リプレイ取得時はRefererにvidが含まれないためチェックをしない
 
-// 	defer resp.Body.Close()
-// 	body, err := ioutil.ReadAll(resp.Body)
-// 	if err != nil {
-// 		log.Info(err.Error())
-// 		return resp
-// 	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Error(err.Error())
+		return resp
+	}
 
-// 	json := string(body)
-// 	for _, w := range watcher {
-// 		w <- json
-// 		break
-// 	}
+	json := string(body)
+	err = sendToWatcher("replay", json)
+	if err != nil {
+		log.Error(errors.Wrapf(err, "vid:[%v] json:[%v]", "replay", json).Error())
+	}
 
-// 	resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-// 	return resp
-// }
+	resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	return resp
+}
 
 func sendToWatcher(vid, json string) error {
 	watcherMutex.Lock()

@@ -24,19 +24,6 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 		finished = true
 	}
 
-	// for archive???
-	// finished := false
-	// for _, continuation := range continuations {
-	// 	_, err := continuation.GetString("liveChatReplayContinuationData", "continuation")
-	// 	if err != nil {
-	// 		finished = true
-	// 		break
-	// 	}
-	// }
-	// if finished {
-	// 	return
-	// }
-
 	messages := []*ChatMessage{}
 
 	actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
@@ -73,6 +60,79 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 				continue
 			}
 			messages = append(messages, message)
+		}
+	}
+
+	return messages, finished, nil
+}
+
+// GetReplayChatMessagesFromProxy scrape live chat
+func GetReplayChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error) {
+	root, err := jason.NewObjectFromReader(strings.NewReader(chatJSON))
+	if err != nil {
+		return nil, true, err
+	}
+
+	finished := false
+	continuations, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "continuations")
+	if err != nil {
+		// chat end.
+		finished = true
+	}
+	existsLiveChatReplayContinuationData := false
+	for _, continuation := range continuations {
+		_, err := continuation.GetObject("liveChatReplayContinuationData")
+		if err == nil {
+			existsLiveChatReplayContinuationData = true
+			break
+		}
+	}
+	if !existsLiveChatReplayContinuationData {
+		finished = true
+	}
+
+	messages := []*ChatMessage{}
+
+	actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
+	if err != nil {
+		// no chat.
+		return messages, finished, nil
+	}
+
+	for _, action := range actions {
+		actions2, err := action.GetObjectArray("replayChatItemAction", "actions")
+		if err != nil {
+			continue
+		}
+		for _, action2 := range actions2 {
+			item, err := action2.GetObject("addChatItemAction", "item")
+			if err != nil {
+				continue
+			}
+
+			m := item.Map()
+			if _, ok := m["liveChatTextMessageRenderer"]; ok {
+				message, err := getLiveChatTextMessage(item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if _, ok := m["liveChatPaidMessageRenderer"]; ok {
+				message, err := getLiveChatPaidMessage(item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if _, ok := m["liveChatPaidStickerRenderer"]; ok {
+				message, err := getLiveChatPaidStickerMessage(item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			}
 		}
 	}
 
