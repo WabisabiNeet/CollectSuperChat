@@ -24,19 +24,26 @@ type Collector struct {
 }
 
 // StartWatch collect super chat.
-func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
+func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool) {
 	defer c.decrementCount()
 	defer wg.Done()
 	if vid == "" {
 		log.Error("vid is nil")
 		return
 	}
-	ch, err := ytproxy.CreateWatcher(vid)
+
+	var watcherID string
+	if isArchive {
+		watcherID = "replay"
+	} else {
+		watcherID = vid
+	}
+	ch, err := ytproxy.CreateWatcher(watcherID)
 	if err != nil {
 		log.Info(err.Error())
 		return
 	}
-	defer ytproxy.UnsetWatcher(vid)
+	defer ytproxy.UnsetWatcher(watcherID)
 
 	quit := make(chan os.Signal)
 	defer close(quit)
@@ -47,13 +54,18 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	if err != nil {
 		log.Error(fmt.Sprintf("[vid:%v] %v", vid, err))
 		return
-	} else if videoInfo.LiveStreamingDetails.ActiveLiveChatId == "" {
+	} else if !isArchive && videoInfo.LiveStreamingDetails.ActiveLiveChatId == "" {
 		log.Info(fmt.Sprintf("[vid:%v] Live chat not active.", vid))
 		return
 	}
 
-	defer selenium.CloseLiveChatWindow(vid)
-	err = selenium.OpenLiveChatWindow(vid)
+	if isArchive {
+		defer selenium.CloseLiveChatWindow(vid)
+		err = selenium.OpenArchiveWindow(vid)
+	} else {
+		defer selenium.CloseLiveChatWindow(vid)
+		err = selenium.OpenLiveChatWindow(vid)
+	}
 	if err != nil {
 		log.Error(fmt.Sprintf("OpenLiveChatWindow error:%v", err.Error()))
 		return
@@ -70,12 +82,19 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 				return
 			}
 
-			messages, finished, err := livestream.GetLiveChatMessagesFromProxy(json)
+			var messages []*livestream.ChatMessage
+			var finished bool
+			if isArchive {
+				messages, finished, err = livestream.GetReplayChatMessagesFromProxy(json)
+			} else {
+				messages, finished, err = livestream.GetLiveChatMessagesFromProxy(json)
+			}
+
 			if err != nil {
 				log.Error(err.Error())
 			}
 			if finished {
-				log.Info("Live end. [%v][%v][%v]",
+				log.Info("watch end. [%v][%v][%v]",
 					videoInfo.Snippet.ChannelTitle,
 					videoInfo.Snippet.Title,
 					fmt.Sprintf("https://www.youtube.com/watch?v=%v", vid))

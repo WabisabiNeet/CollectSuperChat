@@ -97,7 +97,7 @@ func main() {
 		collectors[0].incrementCount()
 		log.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
 
-		go collectors[0].StartWatch(wg, vid)
+		go collectors[0].StartWatch(wg, vid, false)
 	}
 
 	var ns []notifier.Notifier
