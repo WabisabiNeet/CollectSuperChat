@@ -4,7 +4,6 @@ go 1.13
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
-	github.com/ant0ine/go-json-rest v3.3.2+incompatible
 	github.com/antonholmquist/jason v1.0.0
 	github.com/elastic/go-elasticsearch v0.0.0
 	github.com/elastic/go-elasticsearch/v7 v7.5.0

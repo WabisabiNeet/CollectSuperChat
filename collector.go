@@ -24,26 +24,19 @@ type Collector struct {
 }
 
 // StartWatch collect super chat.
-func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool) {
+func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string) {
 	defer c.decrementCount()
 	defer wg.Done()
 	if vid == "" {
 		log.Error("vid is nil")
 		return
 	}
-	var ch <-chan string
-	var err error
-	if isArchive {
-		ch, err = ytproxy.CreateArchiveWatcher()
-		defer ytproxy.UnsetArchiveWatcher()
-	} else {
-		ch, err = ytproxy.CreateWatcher(vid)
-		defer ytproxy.UnsetWatcher(vid)
-	}
+	ch, err := ytproxy.CreateWatcher(vid)
 	if err != nil {
 		log.Info(err.Error())
 		return
 	}
+	defer ytproxy.UnsetWatcher(vid)
 
 	quit := make(chan os.Signal)
 	defer close(quit)
