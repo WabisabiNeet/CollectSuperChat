@@ -21,7 +21,7 @@ type YoutubeHTML struct {
 func (n *YoutubeHTML) PollingStart(wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 	defer close(quit)
 	signal.Notify(quit, os.Interrupt)
 

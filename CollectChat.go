@@ -62,7 +62,7 @@ func pollCurrency() {
 	collect()
 
 	go func() {
-		quit := make(chan os.Signal)
+		quit := make(chan os.Signal, 1)
 		defer close(quit)
 		signal.Notify(quit, os.Interrupt)
 

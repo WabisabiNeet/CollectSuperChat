@@ -62,6 +62,7 @@ func OpenArchiveWindow(vid string) error {
 			"args", []string{
 				"--proxy-server=archive_collector:8082",
 				"--ignore-certificate-errors",
+				"--autoplay-policy=no-user-gesture-required",
 			}),
 	}
 	// free proxy 43.245.216.189:8080

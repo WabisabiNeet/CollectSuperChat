@@ -119,7 +119,7 @@ func main() {
 	}
 	ytproxy.OpenYoutubeLiveChatProxy(8082)
 
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 	defer close(quit)
 	signal.Notify(quit, os.Interrupt)
 	wg := sync.WaitGroup{}
