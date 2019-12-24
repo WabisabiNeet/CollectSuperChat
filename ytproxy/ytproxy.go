@@ -3,6 +3,7 @@ package ytproxy
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -20,7 +21,7 @@ var watcher = map[string](chan string){}
 var watcherMutex = sync.Mutex{}
 
 // OpenYoutubeLiveChatProxy open youtube proxy.
-func OpenYoutubeLiveChatProxy() {
+func OpenYoutubeLiveChatProxy(port int) {
 	proxy2 := goproxy.NewProxyHttpServer()
 	proxy2.Verbose = false
 
@@ -35,7 +36,7 @@ func OpenYoutubeLiveChatProxy() {
 
 	sv2 := &http.Server{
 		Handler: proxy2,
-		Addr:    "0.0.0.0:8081",
+		Addr:    fmt.Sprintf("0.0.0.0:%v", port),
 	}
 	go func() {
 		sigint := make(chan os.Signal, 1)

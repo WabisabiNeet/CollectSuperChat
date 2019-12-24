@@ -8,8 +8,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/WabisabiNeet/CollectSuperChat/archive/logger"
 	"github.com/WabisabiNeet/CollectSuperChat/collector"
+	"github.com/WabisabiNeet/CollectSuperChat/currency"
+	"github.com/WabisabiNeet/CollectSuperChat/log"
+	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -20,14 +22,14 @@ func init() {
 	apikey := os.Getenv("YOUTUBE_WATCH_LIVE_KEY_ARCHIVE")
 	// apikey = os.Getenv("YOUTUBE_WATCH_LIVE_KEY")
 	if apikey == "" {
-		logger.Fatal("not found api key.")
+		log.Fatal("not found api key.")
 	}
 
 	ctx := context.Background()
 	var err error
 	ys, err = youtube.NewService(ctx, option.WithAPIKey(apikey))
 	if err != nil {
-		logger.Fatal(err.Error())
+		log.Fatal(err.Error())
 	}
 }
 
@@ -59,7 +61,7 @@ func getVideoIDs(ys *youtube.Service, channel string, start, end time.Time, next
 }
 
 func main() {
-	defer logger.Info("--------------------------------------------------------")
+	defer log.Info("--------------------------------------------------------")
 
 	channel := flag.String("c", "", "channel")
 	start := flag.String("start", "", "start date eg. 20191212")
@@ -69,13 +71,13 @@ func main() {
 	flag.Parse()
 
 	if *channel == "" && *vid == "" {
-		logger.Fatal("required -c or -v option.")
+		log.Fatal("required -c or -v option.")
 	}
 	if *channel != "" && *vid != "" {
-		logger.Fatal("-c and -v cannot be used at the same time.")
+		log.Fatal("-c and -v cannot be used at the same time.")
 	}
 	if *channel != "" && (*start == "" || *end == "") {
-		logger.Fatal("-c option is required start and end option.")
+		log.Fatal("-c option is required start and end option.")
 	}
 
 	var Ids []string
@@ -83,30 +85,39 @@ func main() {
 		var err error
 		startTime, err := time.Parse("20060102", *start)
 		if err != nil {
-			logger.Error(err.Error())
+			log.Error(err.Error())
 			flag.Usage()
 			return
 		}
 		endTime, err := time.Parse("20060102", *end)
 		if err != nil {
-			logger.Error(err.Error())
+			log.Error(err.Error())
 			flag.Usage()
 			return
 		}
 
-		logger.Info("%v %v %v", *channel, startTime, endTime)
+		log.Info("%v %v %v", *channel, startTime, endTime)
 		Ids = getVideoIDs(ys, *channel, startTime, endTime, "")
 	} else if *vid != "" {
 		Ids = append(Ids, *vid)
 	} else {
-		logger.Fatal("invalid state.")
+		log.Fatal("invalid state.")
 	}
-	logger.Info("%v", Ids)
+	log.Info("%v", Ids)
 
 	c := &collector.Collector{
 		ID:             "0",
 		YoutubeService: ys,
 	}
+
+	for _, c := range currency.Currencies {
+		err := c.ScrapeRataToJPY()
+		if err != nil {
+			log.Warn(err.Error())
+		}
+		log.Info("[%v] %v", c.Code, c.RateToJPY)
+	}
+	ytproxy.OpenYoutubeLiveChatProxy(8082)
 
 	quit := make(chan os.Signal)
 	defer close(quit)

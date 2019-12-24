@@ -110,7 +110,7 @@ func main() {
 	})
 
 	pollCurrency()
-	ytproxy.OpenYoutubeLiveChatProxy()
+	ytproxy.OpenYoutubeLiveChatProxy(8081)
 	for _, n := range ns {
 		wg.Add(1)
 		go n.PollingStart(wg)

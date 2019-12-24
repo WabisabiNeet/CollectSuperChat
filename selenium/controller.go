@@ -60,7 +60,8 @@ func OpenArchiveWindow(vid string) error {
 		agouti.Browser("chrome"),
 		agouti.ChromeOptions(
 			"args", []string{
-				"--proxy-server=collector:8081",
+				"--proxy-server=collector:8082",
+				"--ignore-certificate-errors",
 			}),
 	}
 	// free proxy 43.245.216.189:8080
