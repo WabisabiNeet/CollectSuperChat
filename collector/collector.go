@@ -1,4 +1,4 @@
-package main
+package collector
 
 import (
 	"encoding/json"
@@ -25,7 +25,7 @@ type Collector struct {
 
 // StartWatch collect super chat.
 func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool) {
-	defer c.decrementCount()
+	defer c.DecrementCount()
 	defer wg.Done()
 	if vid == "" {
 		log.Error("vid is nil")
@@ -101,14 +101,14 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool) {
 				return
 			}
 
-			outputSuperChat(messages, videoInfo)
+			outputSuperChat(messages, videoInfo, isArchive)
 		case <-quit:
 			return
 		}
 	}
 }
 
-func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video) {
+func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, isArchive bool) {
 	for _, m := range messages {
 		m.VideoInfo.ChannelID = vinfo.Snippet.ChannelId
 		m.VideoInfo.ChannelTitle = vinfo.Snippet.ChannelTitle
@@ -141,10 +141,13 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video) {
 		}
 		o := string(outputJSON)
 
-		err = log.SendChat(vinfo.Snippet.ChannelId, m.Message.MessageID, o)
-		if err != nil {
-			log.Error(err.Error())
+		if !isArchive {
+			err = log.SendChat(vinfo.Snippet.ChannelId, m.Message.MessageID, o)
+			if err != nil {
+				log.Error(err.Error())
+			}
 		}
+
 		log.OutputSuperChat(o)
 	}
 }
@@ -170,10 +173,10 @@ func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (s
 	}
 }
 
-func (c *Collector) incrementCount() {
+func (c *Collector) IncrementCount() {
 	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), 1)
 }
 
-func (c *Collector) decrementCount() {
+func (c *Collector) DecrementCount() {
 	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), -1)
 }

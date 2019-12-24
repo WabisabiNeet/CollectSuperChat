@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/collector"
 	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/notifier"
@@ -21,7 +22,7 @@ import (
 // MaxKeys is api keys.
 const MaxKeys = 9
 
-var collectors = []*Collector{}
+var collectors = []*collector.Collector{}
 
 func init() {
 	for i := 1; i < MaxKeys; i++ {
@@ -36,7 +37,7 @@ func init() {
 		if err != nil {
 			log.Fatal(err.Error())
 		}
-		collectors = append(collectors, &Collector{
+		collectors = append(collectors, &collector.Collector{
 			ID:              strconv.FormatInt(int64(i), 10),
 			YoutubeService:  ys,
 			ProcessingCount: 0,
@@ -94,7 +95,7 @@ func main() {
 			return collectors[i].ProcessingCount < collectors[j].ProcessingCount
 		})
 		wg.Add(1)
-		collectors[0].incrementCount()
+		collectors[0].IncrementCount()
 		log.Info(fmt.Sprintf("watch start ID[%v] ProcessingCount[%v]", collectors[0].ID, collectors[0].ProcessingCount))
 
 		go collectors[0].StartWatch(wg, vid, false)

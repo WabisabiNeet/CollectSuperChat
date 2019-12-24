@@ -4,9 +4,12 @@ import (
 	"context"
 	"flag"
 	"os"
+	"os/signal"
+	"sync"
 	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/archive/logger"
+	"github.com/WabisabiNeet/CollectSuperChat/collector"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -26,30 +29,6 @@ func init() {
 	if err != nil {
 		logger.Fatal(err.Error())
 	}
-}
-
-func main() {
-	channel := flag.String("c", "", "channel")
-	start := flag.String("start", "", "start date eg. 20191212")
-	end := flag.String("end", "", "end date eg. 20191213")
-	flag.Parse()
-
-	startTime, err := time.Parse("20060102", *start)
-	if err != nil {
-		logger.Error(err.Error())
-		flag.Usage()
-		return
-	}
-	endTime, err := time.Parse("20060102", *end)
-	if err != nil {
-		logger.Error(err.Error())
-		flag.Usage()
-		return
-	}
-
-	logger.Info("%v %v %v", *channel, startTime, endTime)
-	Ids := getVideoIDs(ys, *channel, startTime, endTime, "")
-	logger.Info("%v", Ids)
 }
 
 func getVideoIDs(ys *youtube.Service, channel string, start, end time.Time, next string) (Ids []string) {
@@ -77,4 +56,66 @@ func getVideoIDs(ys *youtube.Service, channel string, start, end time.Time, next
 	}
 
 	return Ids
+}
+
+func main() {
+	defer logger.Info("--------------------------------------------------------")
+
+	channel := flag.String("c", "", "channel")
+	start := flag.String("start", "", "start date eg. 20191212")
+	end := flag.String("end", "", "end date eg. 20191213")
+
+	vid := flag.String("v", "", "video id")
+	flag.Parse()
+
+	if *channel == "" && *vid == "" {
+		logger.Fatal("required -c or -v option.")
+	}
+	if *channel != "" && *vid != "" {
+		logger.Fatal("-c and -v cannot be used at the same time.")
+	}
+	if *channel != "" && (*start == "" || *end == "") {
+		logger.Fatal("-c option is required start and end option.")
+	}
+	startTime, err := time.Parse("20060102", *start)
+	if err != nil {
+		logger.Error(err.Error())
+		flag.Usage()
+		return
+	}
+	endTime, err := time.Parse("20060102", *end)
+	if err != nil {
+		logger.Error(err.Error())
+		flag.Usage()
+		return
+	}
+
+	var Ids []string
+	if *channel != "" {
+		logger.Info("%v %v %v", *channel, startTime, endTime)
+		Ids = getVideoIDs(ys, *channel, startTime, endTime, "")
+	} else if *vid != "" {
+		Ids = append(Ids, *vid)
+	} else {
+		logger.Fatal("invalid state.")
+	}
+	logger.Info("%v", Ids)
+
+	c := &collector.Collector{
+		ID:             "0",
+		YoutubeService: ys,
+	}
+
+	quit := make(chan os.Signal)
+	defer close(quit)
+	signal.Notify(quit, os.Interrupt)
+	wg := sync.WaitGroup{}
+	for _, id := range Ids {
+		c.StartWatch(&wg, id, true)
+		select {
+		case <-quit:
+			return
+		default:
+		}
+	}
 }
