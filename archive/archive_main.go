@@ -77,21 +77,23 @@ func main() {
 	if *channel != "" && (*start == "" || *end == "") {
 		logger.Fatal("-c option is required start and end option.")
 	}
-	startTime, err := time.Parse("20060102", *start)
-	if err != nil {
-		logger.Error(err.Error())
-		flag.Usage()
-		return
-	}
-	endTime, err := time.Parse("20060102", *end)
-	if err != nil {
-		logger.Error(err.Error())
-		flag.Usage()
-		return
-	}
 
 	var Ids []string
 	if *channel != "" {
+		var err error
+		startTime, err := time.Parse("20060102", *start)
+		if err != nil {
+			logger.Error(err.Error())
+			flag.Usage()
+			return
+		}
+		endTime, err := time.Parse("20060102", *end)
+		if err != nil {
+			logger.Error(err.Error())
+			flag.Usage()
+			return
+		}
+
 		logger.Info("%v %v %v", *channel, startTime, endTime)
 		Ids = getVideoIDs(ys, *channel, startTime, endTime, "")
 	} else if *vid != "" {
