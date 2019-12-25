@@ -124,6 +124,7 @@ func main() {
 	signal.Notify(quit, os.Interrupt)
 	wg := sync.WaitGroup{}
 	for _, id := range Ids {
+		wg.Add(1)
 		c.StartWatch(&wg, id, true)
 		select {
 		case <-quit:
