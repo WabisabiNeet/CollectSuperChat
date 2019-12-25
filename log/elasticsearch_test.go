@@ -142,7 +142,7 @@ func Test5(tt *testing.T) {
 	}
 
 	builder := strings.Builder{}
-	const data = "testdata/chatdata.txt"
+	const data = "testdata/superchat0/superchat-2019-12-23T10-23-25.673.txt"
 	file, err := os.Open(data)
 	if err != nil {
 		tt.Fatal(data)
@@ -172,9 +172,7 @@ func Test5(tt *testing.T) {
 
 func Test6(tt *testing.T) {
 	cfg := elasticsearch.Config{}
-	cfg.CloudID = ""
-	cfg.Username = ""
-	cfg.Password = ""
+	cfg.Addresses = append(cfg.Addresses, "http://192.168.10.11:9200")
 
 	es, err := elasticsearch.NewClient(cfg)
 	if err != nil {
@@ -218,7 +216,7 @@ func Test6(tt *testing.T) {
 			tt.Fatal(res.StatusCode)
 		}
 
-		time.Sleep(1 * time.Minute)
+		time.Sleep(30 * time.Second)
 		return nil
 	})
 }
