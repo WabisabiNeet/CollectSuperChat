@@ -1,6 +1,7 @@
 package selenium
 
 import (
+	"fmt"
 	"net/url"
 	"sync"
 	"time"
@@ -54,13 +55,13 @@ func OpenLiveChatWindow(vid string) error {
 }
 
 // OpenArchiveWindow send request to selenium server that opening live chat window
-func OpenArchiveWindow(vid string) error {
+func OpenArchiveWindow(vid string, port int) error {
 	seleniumServer := "http://selenium:4444/wd/hub"
 	options := []agouti.Option{
 		agouti.Browser("chrome"),
 		agouti.ChromeOptions(
 			"args", []string{
-				"--proxy-server=archive_collector:8082",
+				fmt.Sprintf("--proxy-server=archive_collector:%v", port),
 				"--ignore-certificate-errors",
 				"--autoplay-policy=no-user-gesture-required",
 			}),

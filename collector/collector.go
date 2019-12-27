@@ -24,7 +24,7 @@ type Collector struct {
 }
 
 // StartWatch collect super chat.
-func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool) {
+func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, proxyPort int) {
 	defer c.DecrementCount()
 	defer wg.Done()
 	if vid == "" {
@@ -61,7 +61,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool) {
 
 	if isArchive {
 		defer selenium.CloseLiveChatWindow(vid)
-		err = selenium.OpenArchiveWindow(vid)
+		err = selenium.OpenArchiveWindow(vid, proxyPort)
 	} else {
 		defer selenium.CloseLiveChatWindow(vid)
 		err = selenium.OpenLiveChatWindow(vid)

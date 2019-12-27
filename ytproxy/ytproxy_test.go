@@ -2,14 +2,19 @@ package ytproxy_test
 
 import (
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
+	"os"
+	"os/signal"
 	"regexp"
 	"testing"
 	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"github.com/elazarl/goproxy"
 )
@@ -71,8 +76,40 @@ func TestProxy(tt *testing.T) {
 }
 
 func TestProxy2(tt *testing.T) {
-	ytproxy.OpenYoutubeLiveChatProxy()
+	ytproxy.OpenYoutubeLiveChatProxy(0)
 	fmt.Println("proxy started.")
 	<-time.Tick(time.Minute * 1)
 	fmt.Println("proxy end.")
+}
+
+func Test3(tt *testing.T) {
+	proxy2 := goproxy.NewProxyHttpServer()
+	proxy2.Verbose = false
+
+	proxy2.OnRequest().HandleConnectFunc(func(host string, ctx *goproxy.ProxyCtx) (*goproxy.ConnectAction, string) {
+		return goproxy.MitmConnect, host
+	})
+
+	sv2 := &http.Server{
+		Handler: proxy2,
+		Addr:    fmt.Sprintf("0.0.0.0:%v", 0),
+	}
+	go func() {
+		sigint := make(chan os.Signal, 1)
+		signal.Notify(sigint, os.Interrupt)
+		<-sigint
+
+		// We received an interrupt signal, shut down.
+		if err := sv2.Shutdown(context.Background()); err != nil {
+			// Error from closing listeners, or context timeout:
+			log.Error("HTTP server Shutdown: %v", err)
+		}
+	}()
+
+	ln, err := net.Listen("tcp", sv2.Addr)
+	if err != nil {
+		tt.Fatal(err)
+	}
+	fmt.Println(fmt.Sprintf("addr:%v", ln.Addr().String()))
+	go sv2.Serve(ln)
 }

@@ -117,7 +117,7 @@ func main() {
 		}
 		log.Info("[%v] %v", c.Code, c.RateToJPY)
 	}
-	ytproxy.OpenYoutubeLiveChatProxy(8082)
+	proxyPort := ytproxy.OpenYoutubeLiveChatProxy(0)
 
 	quit := make(chan os.Signal, 1)
 	defer close(quit)
@@ -125,7 +125,7 @@ func main() {
 	wg := sync.WaitGroup{}
 	for _, id := range Ids {
 		wg.Add(1)
-		c.StartWatch(&wg, id, true)
+		c.StartWatch(&wg, id, true, proxyPort)
 		select {
 		case <-quit:
 			return

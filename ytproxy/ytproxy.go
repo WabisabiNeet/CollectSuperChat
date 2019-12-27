@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -21,7 +22,7 @@ var watcher = map[string](chan string){}
 var watcherMutex = sync.Mutex{}
 
 // OpenYoutubeLiveChatProxy open youtube proxy.
-func OpenYoutubeLiveChatProxy(port int) {
+func OpenYoutubeLiveChatProxy(port int) int {
 	proxy2 := goproxy.NewProxyHttpServer()
 	proxy2.Verbose = false
 
@@ -49,7 +50,16 @@ func OpenYoutubeLiveChatProxy(port int) {
 			log.Error("HTTP server Shutdown: %v", err)
 		}
 	}()
-	go sv2.ListenAndServe()
+
+	ln, err := net.Listen("tcp", sv2.Addr)
+	if err != nil {
+		log.Error(err.Error())
+		return 0
+	}
+	go sv2.Serve(ln)
+
+	log.Info("addr:%v", ln.Addr().String())
+	return ln.Addr().(*net.TCPAddr).Port
 }
 
 // OnLiveChatResponse is proxy func.
