@@ -64,7 +64,7 @@ func GetUpcommingLiveID(u *url.URL) (upcomingInfo []*UpcomingLiveInfo, err error
 	for _, tab := range tabs {
 		tabURL, err := tab.GetString("tabRenderer", "endpoint", "commandMetadata", "webCommandMetadata", "url")
 		if err != nil {
-			log.Warn(err.Error())
+			log.Info(err.Error())
 			continue
 		}
 		if !strings.HasSuffix(tabURL, "videos") {
