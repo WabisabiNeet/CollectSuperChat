@@ -128,7 +128,14 @@ func GetReplayChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, erro
 			} else if _, ok := m["liveChatPaidStickerRenderer"]; ok {
 				message, err := getLiveChatPaidStickerMessage(item)
 				if err != nil {
-					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+					log.Info(fmt.Sprintf("liveChatPaidStickerRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if _, ok := m["liveChatMembershipItemRenderer"]; ok {
+				message, err := getLiveChatMembershipMessage(item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatMembershipItemRenderer error : %v", err))
 					continue
 				}
 				messages = append(messages, message)
@@ -237,6 +244,59 @@ func getLiveChatPaidStickerMessage(item *jason.Object) (*ChatMessage, error) {
 	m.Message.AmountDisplayString = purchase
 	m.Message.AmountJPY = 0
 	m.Message.Currency = ""
+
+	return m, nil
+}
+
+func getLiveChatMembershipMessage(item *jason.Object) (*ChatMessage, error) {
+	mr, err := item.GetObject("liveChatMembershipItemRenderer")
+	if err != nil {
+		return nil, err
+	}
+
+	m := &ChatMessage{}
+	m, err = getCommonMessageInfo(mr, m)
+	if err != nil {
+		return nil, err
+	}
+
+	authorBadges, err := mr.GetObjectArray("authorBadges") // メンバー/モデレーター
+	isModerator := false
+	isOwner := false
+	accessibilityLabel := ""
+	for _, badge := range authorBadges {
+		authorBadgeRenderer, err := badge.GetObject("liveChatAuthorBadgeRenderer")
+		if err != nil {
+			continue
+		}
+
+		iconType, err := authorBadgeRenderer.GetString("icon", "iconType")
+		if err == nil {
+			switch iconType {
+			case "MODERATOR":
+				isModerator = true
+			case "OWNER":
+				isOwner = true
+			case "VERIFIED":
+			default:
+				log.Warn(fmt.Sprintf("unexpected iconType:%v src[%v]", iconType, mr))
+			}
+
+			continue
+		}
+
+		label, err := authorBadgeRenderer.GetString("accessibility", "accessibilityData", "label")
+		if err == nil {
+			if label != "" {
+				accessibilityLabel = label
+			}
+		}
+	}
+
+	m.Message.MessageType = "MembershipMessage"
+	m.Message.IsModerator = isModerator
+	m.Message.IsOwner = isOwner
+	m.Message.AccessibilityLabel = accessibilityLabel
 
 	return m, nil
 }
