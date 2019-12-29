@@ -51,6 +51,8 @@ var Currencies = []*Currency{
 	{Code: "RUB", Symbol: "RUB"},  // ロシアルーブル
 	{Code: "PHP", Symbol: "PHP"},  // フィリピンペソ
 	{Code: "CLP", Symbol: "CLP"},  // チリペソ
+	{Code: "ARS", Symbol: "ARS"},  // アルゼンチンペソ
+	{Code: "PLN", Symbol: "PLN"},  // ポーランドズウォティ
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 	// {Code: "PHP", Symbol: "₱"},// フィリピンペソ
 }
