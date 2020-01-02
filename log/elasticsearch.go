@@ -86,7 +86,7 @@ func SendChats(jsons []*string) error {
 	builder := strings.Builder{}
 	for _, j := range jsons {
 		builder.WriteString(fmt.Sprintln(`{ "index" : {} }`))
-		builder.WriteString(fmt.Sprintln(j))
+		builder.WriteString(fmt.Sprintln(*j))
 	}
 
 	buld := esapi.BulkRequest{
