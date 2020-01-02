@@ -109,7 +109,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 }
 
 func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, isArchive bool) {
-	outputs := []*string{}
+	outputs := []string{}
 	for _, m := range messages {
 		m.VideoInfo.ChannelID = vinfo.Snippet.ChannelId
 		m.VideoInfo.ChannelTitle = vinfo.Snippet.ChannelTitle
@@ -141,11 +141,11 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, i
 			log.Error(err.Error())
 		}
 		o := string(outputJSON)
-		outputs = append(outputs, &o)
+		outputs = append(outputs, o)
 		log.OutputSuperChat(o)
 	}
 
-	if !isArchive {
+	if !isArchive && len(outputs) != 0 {
 		err := log.SendChats(outputs)
 		if err != nil {
 			log.Error(err.Error())

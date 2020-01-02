@@ -219,3 +219,21 @@ func Test6(tt *testing.T) {
 		return nil
 	})
 }
+
+func Test7(tt *testing.T) {
+	cfg := elasticsearch.Config{}
+	cfg.Addresses = append(cfg.Addresses, "http://192.168.10.11:9200")
+
+	es2, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	es = es2
+
+	outputs := []string{
+		`{"key1":"val1"}`,
+		`{"key2":"val2"}`,
+	}
+	SendChats(outputs)
+}
