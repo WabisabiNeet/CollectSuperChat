@@ -12,7 +12,6 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/antonholmquist/jason"
 	"github.com/elastic/go-elasticsearch/esapi"
@@ -216,7 +215,7 @@ func Test6(tt *testing.T) {
 			tt.Fatal(res.StatusCode)
 		}
 
-		time.Sleep(30 * time.Second)
+		// time.Sleep(30 * time.Second)
 		return nil
 	})
 }

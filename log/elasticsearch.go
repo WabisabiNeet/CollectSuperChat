@@ -81,6 +81,35 @@ func SendChat(channelID, messageID, jsonStr string) error {
 	return nil
 }
 
+// SendChats send chat message to Elasticsearch
+func SendChats(jsons []*string) error {
+	builder := strings.Builder{}
+	for _, j := range jsons {
+		builder.WriteString(fmt.Sprintln(`{ "index" : {} }`))
+		builder.WriteString(fmt.Sprintln(j))
+	}
+
+	buld := esapi.BulkRequest{
+		Index: "chatdata",
+		Body:  strings.NewReader(builder.String()),
+	}
+	res, err := buld.Do(context.Background(), es)
+	if err != nil {
+		return errors.Wrap(err, "SendChats error.")
+	}
+	defer res.Body.Close()
+	if res.StatusCode >= http.StatusBadRequest {
+		b, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			return errors.New(fmt.Sprintf("status:[%v]", res.StatusCode))
+		}
+		return errors.New(fmt.Sprintf("status:[%v] body[%v]", res.StatusCode, string(b)))
+
+	}
+
+	return nil
+}
+
 func getChannelHash(channelID string) (string, error) {
 	h := sha1.New()
 

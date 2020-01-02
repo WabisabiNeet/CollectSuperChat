@@ -109,6 +109,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 }
 
 func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, isArchive bool) {
+	outputs := []*string{}
 	for _, m := range messages {
 		m.VideoInfo.ChannelID = vinfo.Snippet.ChannelId
 		m.VideoInfo.ChannelTitle = vinfo.Snippet.ChannelTitle
@@ -140,15 +141,15 @@ func outputSuperChat(messages []*livestream.ChatMessage, vinfo *youtube.Video, i
 			log.Error(err.Error())
 		}
 		o := string(outputJSON)
-
-		if !isArchive {
-			err = log.SendChat(vinfo.Snippet.ChannelId, m.Message.MessageID, o)
-			if err != nil {
-				log.Error(err.Error())
-			}
-		}
-
+		outputs = append(outputs, &o)
 		log.OutputSuperChat(o)
+	}
+
+	if !isArchive {
+		err := log.SendChats(outputs)
+		if err != nil {
+			log.Error(err.Error())
+		}
 	}
 }
 
@@ -173,10 +174,12 @@ func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (s
 	}
 }
 
+// IncrementCount is method
 func (c *Collector) IncrementCount() {
 	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), 1)
 }
 
+// DecrementCount is method
 func (c *Collector) DecrementCount() {
 	c.ProcessingCount = atomic.AddInt32(&(c.ProcessingCount), -1)
 }
