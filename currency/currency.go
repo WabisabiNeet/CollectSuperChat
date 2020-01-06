@@ -39,6 +39,7 @@ var Currencies = []*Currency{
 	{Code: "BND", Symbol: "B$"},   // ブルネイドル
 	{Code: "FJD", Symbol: "FJ$"},  // フィジードル
 	{Code: "IDR", Symbol: "Rp"},   // インドネシアルピア
+	{Code: "INR", Symbol: "₹"},    // インドルピー
 	{Code: "INR", Symbol: "Rs."},  // インドルピー
 	{Code: "SGD", Symbol: "S$"},   // シンガポールドル
 	{Code: "SGD", Symbol: "SGD"},  // シンガポールドル
