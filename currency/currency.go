@@ -54,8 +54,8 @@ var Currencies = []*Currency{
 	{Code: "CLP", Symbol: "CLP"},  // チリペソ
 	{Code: "ARS", Symbol: "ARS"},  // アルゼンチンペソ
 	{Code: "PLN", Symbol: "PLN"},  // ポーランドズウォティ
+	{Code: "SEK", Symbol: "SEK"},  // スウェーデンクローナ
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
-	// {Code: "PHP", Symbol: "₱"},// フィリピンペソ
 }
 
 // ErrUnknownCurrency error
