@@ -60,6 +60,13 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 				continue
 			}
 			messages = append(messages, message)
+		} else if _, ok := m["liveChatMembershipItemRenderer"]; ok {
+			message, err := getLiveChatMembershipMessage(item)
+			if err != nil {
+				log.Info(fmt.Sprintf("liveChatMembershipItemRenderer error : %v", err))
+				continue
+			}
+			messages = append(messages, message)
 		}
 	}
 
