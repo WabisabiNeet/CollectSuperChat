@@ -237,3 +237,43 @@ func Test7(tt *testing.T) {
 	}
 	SendChats(outputs)
 }
+
+func Test8(tt *testing.T) {
+	cfg := elasticsearch.Config{}
+	cfg.Addresses = append(cfg.Addresses, "http://192.168.10.11:9200")
+
+	es2, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	es = es2
+
+	query := map[string]interface{}{
+		"query": map[string]interface{}{
+			"term": map[string]interface{}{
+				"videoInfo.vid.keyword": "b6Y3ERpaKtg",
+			},
+		},
+		"script": map[string]interface{}{
+			"source": "ctx._source.videoInfo.vtitle = 'ロボ子さんテストテスト2'",
+		},
+	}
+	var buf bytes.Buffer
+	if err = json.NewEncoder(&buf).Encode(query); err != nil {
+		tt.Fatal(err)
+	}
+
+	res, err := es.UpdateByQuery(
+		[]string{"chat*"},
+		es.UpdateByQuery.WithBody(&buf),
+	)
+	if err != nil {
+		tt.Fatal(err)
+	}
+
+	if res.StatusCode >= http.StatusBadRequest {
+		fmt.Println(res)
+		tt.Fatal(res.StatusCode)
+	}
+}

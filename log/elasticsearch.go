@@ -1,8 +1,10 @@
 package log
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha1"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -96,6 +98,50 @@ func SendChats(jsons []string) error {
 	res, err := buld.Do(context.Background(), es)
 	if err != nil {
 		return errors.Wrap(err, "SendChats error.")
+	}
+	defer res.Body.Close()
+	if res.StatusCode >= http.StatusBadRequest {
+		b, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			return errors.New(fmt.Sprintf("status:[%v]", res.StatusCode))
+		}
+		return errors.New(fmt.Sprintf("status:[%v] body[%v]", res.StatusCode, string(b)))
+
+	}
+
+	return nil
+}
+
+func UpdateVideoTitle(vid, vtitle string) error {
+	if vid == "" {
+		return errors.New(("UpdateVideoTitle: vid is nil"))
+	}
+	if vtitle == "" {
+		return errors.New(("UpdateVideoTitle: vtitle is nil"))
+	}
+
+	updateScript := fmt.Sprintf("ctx._source.videoInfo.vtitle = '%v'", vtitle)
+	query := map[string]interface{}{
+		"query": map[string]interface{}{
+			"term": map[string]interface{}{
+				"videoInfo.vid.keyword": vid,
+			},
+		},
+		"script": map[string]interface{}{
+			"source": updateScript,
+		},
+	}
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(query); err != nil {
+		return errors.Wrap(err, "UpdateVideoTitle error.")
+	}
+	res, err := es.UpdateByQuery(
+		[]string{"chat*"},
+		es.UpdateByQuery.WithBody(&buf),
+	)
+	if err != nil {
+		return errors.Wrap(err, "UpdateVideoTitle error.")
+
 	}
 	defer res.Body.Close()
 	if res.StatusCode >= http.StatusBadRequest {
