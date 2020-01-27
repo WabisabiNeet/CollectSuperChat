@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/antonholmquist/jason"
 	"github.com/elastic/go-elasticsearch/esapi"
@@ -256,7 +257,7 @@ func Test8(tt *testing.T) {
 			},
 		},
 		"script": map[string]interface{}{
-			"source": "ctx._source.videoInfo.vtitle = 'ロボ子さんテストテスト2'",
+			"source": "ctx._source.videoInfo.vtitle = 'ロボ子さんテストテスト3'",
 		},
 	}
 	var buf bytes.Buffer
@@ -276,4 +277,194 @@ func Test8(tt *testing.T) {
 		fmt.Println(res)
 		tt.Fatal(res.StatusCode)
 	}
+}
+
+func Test9(tt *testing.T) {
+	cfg := elasticsearch.Config{}
+	cfg.Addresses = append(cfg.Addresses, "http://192.168.10.11:9200")
+
+	es2, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	es = es2
+
+	query := map[string]interface{}{
+		"query": map[string]interface{}{
+			"term": map[string]interface{}{
+				"videoInfo.vid.keyword": "b6Y3ERpaKtg",
+			},
+		},
+	}
+	var buf bytes.Buffer
+	if err = json.NewEncoder(&buf).Encode(query); err != nil {
+		tt.Fatal(err)
+	}
+
+	start := time.Now()
+	for i := 0; i < 10000; i++ {
+		search(tt, i, &buf)
+	}
+	duration := time.Now().Sub(start)
+	fmt.Println(fmt.Sprintf("%v", duration))
+}
+
+func search(tt *testing.T, i int, buf *bytes.Buffer) {
+	res, err := es.Search(
+		es.Search.WithBody(buf),
+	)
+	if err != nil {
+		tt.Fatal(err)
+	}
+
+	if res.StatusCode >= http.StatusBadRequest {
+		fmt.Println(res)
+		tt.Fatalf("%v:%v", i, res.StatusCode)
+	}
+}
+
+func Test10(tt *testing.T) {
+	cfg := elasticsearch.Config{}
+	cfg.Addresses = append(cfg.Addresses, "http://192.168.10.11:9200")
+
+	es2, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	es = es2
+
+	query := map[string]interface{}{
+		"query": map[string]interface{}{
+			"terms": map[string]interface{}{
+				"message.messageID.keyword": []string{
+					"CjoKGkNPM1ZvT1RFeS1ZQ0ZjeGNtQW9kZ3hzRGV3EhxDSUNtMTZYRXktWUNGZlBHVEFJZHFSd013dy0y",
+					"CjoKGkNPbWJqT1RFeS1ZQ0ZjY1BaQW9kaGxBQkpBEhxDTnpjMmNPX3ktWUNGUVVpS2dvZHhsWUc1UTE3",
+				},
+			},
+		},
+	}
+	var buf bytes.Buffer
+	if err = json.NewEncoder(&buf).Encode(query); err != nil {
+		tt.Fatal(err)
+	}
+
+	res, err := es.DeleteByQuery(
+		[]string{"chat*"},
+		&buf,
+	)
+	if err != nil {
+		tt.Fatal(err)
+	}
+
+	if res.StatusCode >= http.StatusBadRequest {
+		fmt.Println(res)
+		tt.Fatal(res.StatusCode)
+	}
+}
+
+func Test11(tt *testing.T) {
+	cfg := elasticsearch.Config{}
+	cfg.Addresses = append(cfg.Addresses, "http://192.168.10.11:9200")
+
+	es, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	filepath.Walk("testdata/superchat0", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() {
+			return nil
+		}
+
+		fmt.Println(path)
+		file, err := os.Open(path)
+		if err != nil {
+			log.Fatal(path)
+		}
+		defer file.Close()
+
+		ids := []string{}
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			str := scanner.Text()
+			var rr ChatMessage
+			if err := json.NewDecoder(strings.NewReader(str)).Decode(&rr); err != nil {
+				tt.Fatalf("Error parsing the response body: %s", err)
+			}
+			ids = append(ids, rr.Message.MessageID)
+		}
+
+		query := map[string]interface{}{
+			"query": map[string]interface{}{
+				"terms": map[string]interface{}{
+					"message.messageID.keyword": ids,
+				},
+			},
+		}
+		var buf bytes.Buffer
+		if err = json.NewEncoder(&buf).Encode(query); err != nil {
+			tt.Fatal(err)
+		}
+
+		res, err := es.DeleteByQuery(
+			[]string{"chat*"},
+			&buf,
+		)
+		if err != nil {
+			tt.Fatal(err)
+		}
+
+		if res.StatusCode >= http.StatusBadRequest {
+			fmt.Println(res)
+			tt.Fatal(res.StatusCode)
+		}
+
+		res1, err1 := es.Indices.Refresh()
+		if err1 != nil {
+			tt.Fatal(err)
+		}
+
+		if res1.StatusCode >= http.StatusBadRequest {
+			fmt.Println(res1)
+			tt.Fatal(res1.StatusCode)
+		}
+
+		// time.Sleep(30 * time.Second)
+		return nil
+	})
+}
+
+// ChatMessage : output json.
+type ChatMessage struct {
+	VideoInfo struct {
+		ChannelID          string `json:"cid,omitempty"`
+		ChannelTitle       string `json:"ctitle,omitempty"`
+		VideoID            string `json:"vid,omitempty"`
+		VideoTitle         string `json:"vtitle,omitempty"`
+		ScheduledStartTime string `json:"scheduledStartTime,omitempty"`
+		ActualStartTime    string `json:"actualStartTime,omitempty"`
+	} `json:"videoInfo,omitempty"`
+	Message struct {
+		MessageID          string `json:"messageID,omitempty"`
+		MessageType        string `json:"type,omitempty"`
+		AuthorName         string `json:"authorName,omitempty"`
+		IsModerator        bool   `json:"isModerator,omitempty"`
+		IsMember           bool   `json:"isMember,omitempty"`
+		IsOwner            bool   `json:"isOwner,omitempty"`
+		AccessibilityLabel string `json:"accessibilityLabel,omitempty"`
+		AuthorChannelID    string `json:"authorChannelID,omitempty"`
+		UserComment        string `json:"userComment,omitempty"`
+		PublishedAt        string `json:"publishedAt,omitempty"`
+
+		AmountDisplayString string  `json:"amountDisplayString,omitempty"`
+		CurrencyRateToJPY   float64 `json:"currencyRateToJPY,omitempty"`
+		AmountJPY           uint    `json:"amountJPY,omitempty"`
+		Currency            string  `json:"currency,omitempty"`
+	} `json:"message,omitempty"`
 }

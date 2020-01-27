@@ -55,6 +55,10 @@ var Currencies = []*Currency{
 	{Code: "ARS", Symbol: "ARS"},  // アルゼンチンペソ
 	{Code: "PLN", Symbol: "PLN"},  // ポーランドズウォティ
 	{Code: "SEK", Symbol: "SEK"},  // スウェーデンクローナ
+	{Code: "HUF", Symbol: "HUF"},  // ハンガリーフォリント
+	{Code: "NOK", Symbol: "NOK"},  // ノルウェークローネ
+	{Code: "CZK", Symbol: "CZK"},  // チェココルナ
+	{Code: "CRC", Symbol: "CRC"},  // コスタリカコロン
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 }
 
