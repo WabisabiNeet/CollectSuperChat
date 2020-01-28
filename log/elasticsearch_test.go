@@ -17,6 +17,7 @@ import (
 	"github.com/antonholmquist/jason"
 	"github.com/elastic/go-elasticsearch/esapi"
 	"github.com/elastic/go-elasticsearch/v8"
+	jsoniter "github.com/json-iterator/go"
 )
 
 var (
@@ -467,4 +468,36 @@ type ChatMessage struct {
 		AmountJPY           uint    `json:"amountJPY,omitempty"`
 		Currency            string  `json:"currency,omitempty"`
 	} `json:"message,omitempty"`
+}
+
+var benchJSON = `{"videoInfo":{"cid":"UCdn5BQ06XqgXoAxIhbqw5Rg","ctitle":"フブキCh。白上フブキ","vid":"mRjCGiIsTNo","vtitle":"クリスマス？なにそれ？お焚き上げ？【#白上お焚き上げ】","scheduledStartTime":"2019-12-23T21:00:00+09:00"},"message":{"messageID":"CkUKGkNKZS1fc0tteS1ZQ0ZRRTlaQW9kN1ZZSkdBEidDTkNOZ0wybXktWUNGWFZRaFFvZFVWVURDQTE1NzcwODc5NzI1MjQ%3D","type":"TextMessage","authorName":"雅白雪","authorChannelID":"UC7uDFnYcl9jATBLdRVy3qdg","userComment":"待機","publishedAt":"2019-12-23T16:59:32+09:00"}}`
+
+func BenchmarkJson1(bb *testing.B) {
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
+	var data ChatMessage
+	err := json.UnmarshalFromString(benchJSON, &data)
+	if err != nil {
+		bb.Fatal(err)
+	}
+
+	bb.ResetTimer()
+	for i := 0; i < bb.N; i++ {
+		j, _ := json.Marshal(data)
+		_ = string(j)
+	}
+}
+
+func BenchmarkJson2(bb *testing.B) {
+	var jsonitr = jsoniter.ConfigCompatibleWithStandardLibrary
+	var data ChatMessage
+	err := jsonitr.UnmarshalFromString(benchJSON, &data)
+	if err != nil {
+		bb.Fatal(err)
+	}
+
+	bb.ResetTimer()
+	for i := 0; i < bb.N; i++ {
+		j, _ := json.Marshal(data)
+		_ = string(j)
+	}
 }
