@@ -138,7 +138,7 @@ func CreateWatcher(vid string) (<-chan string, error) {
 		return nil, errors.New("already started")
 	}
 
-	newCh := make(chan string, 20)
+	newCh := make(chan string, 100)
 	watcher[vid] = newCh
 
 	return newCh, nil
