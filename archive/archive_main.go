@@ -117,7 +117,7 @@ func main() {
 		}
 		log.Info("[%v] %v", c.Code, c.RateToJPY)
 	}
-	proxyPort := ytproxy.OpenYoutubeLiveChatProxy(0)
+	proxyPort := ytproxy.OpenYoutubeLiveChatReplayProxy(0)
 
 	quit := make(chan os.Signal, 1)
 	defer close(quit)

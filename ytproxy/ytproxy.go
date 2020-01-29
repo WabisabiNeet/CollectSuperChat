@@ -32,6 +32,43 @@ func OpenYoutubeLiveChatProxy(port int) int {
 
 	re := regexp.MustCompile(`www.youtube.com.*/get_live_chat.*`)
 	proxy2.OnResponse(goproxy.UrlMatches(re)).DoFunc(OnLiveChatResponse)
+
+	sv2 := &http.Server{
+		Handler: proxy2,
+		Addr:    fmt.Sprintf("0.0.0.0:%v", port),
+	}
+	go func() {
+		sigint := make(chan os.Signal, 1)
+		signal.Notify(sigint, os.Interrupt)
+		<-sigint
+
+		// We received an interrupt signal, shut down.
+		if err := sv2.Shutdown(context.Background()); err != nil {
+			// Error from closing listeners, or context timeout:
+			log.Error("HTTP server Shutdown: %v", err)
+		}
+	}()
+
+	ln, err := net.Listen("tcp", sv2.Addr)
+	if err != nil {
+		log.Error(err.Error())
+		return 0
+	}
+	go sv2.Serve(ln)
+
+	log.Info("addr:%v", ln.Addr().String())
+	return ln.Addr().(*net.TCPAddr).Port
+}
+
+// OpenYoutubeLiveChatReplayProxy open youtube proxy.
+func OpenYoutubeLiveChatReplayProxy(port int) int {
+	proxy2 := goproxy.NewProxyHttpServer()
+	proxy2.Verbose = false
+
+	proxy2.OnRequest().HandleConnectFunc(func(host string, ctx *goproxy.ProxyCtx) (*goproxy.ConnectAction, string) {
+		return goproxy.MitmConnect, host
+	})
+
 	re2 := regexp.MustCompile(`www.youtube.com.*/get_live_chat_replay.*`)
 	proxy2.OnResponse(goproxy.UrlMatches(re2)).DoFunc(OnLiveChatReplayResponse)
 
