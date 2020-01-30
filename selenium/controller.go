@@ -26,6 +26,7 @@ func OpenLiveChatWindow(vid string) error {
 			"args", []string{
 				"--proxy-server=collector:8081",
 				"--ignore-certificate-errors",
+				"--disable-gpu",
 			}),
 	}
 	// free proxy 43.245.216.189:8080
