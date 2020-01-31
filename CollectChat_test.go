@@ -8,9 +8,14 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/WabisabiNeet/CollectSuperChat/log"
+	"github.com/chromedp/cdproto/cdp"
+	"github.com/chromedp/cdproto/network"
+	"github.com/chromedp/chromedp"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/gmail/v1"
@@ -312,3 +317,49 @@ func saveToken(path string, token *oauth2.Token) {
 // 		return vid, nil
 // 	}
 // }
+
+func TestChromedp2(tt *testing.T) {
+	ctx, cancel := chromedp.NewContext(context.Background())
+	defer cancel()
+
+	chromedp.ListenTarget(
+		ctx,
+		func(ev interface{}) {
+			if ev, ok := ev.(*network.EventResponseReceived); ok {
+				// fmt.Println(fmt.Sprintf("event received:%v", ev.Response.URL))
+				// fmt.Println(ev.Type)
+
+				if ev.Type != "XHR" {
+					return
+				}
+				if !strings.Contains(ev.Response.URL, "get_live_chat") {
+					return
+				}
+
+				go func() {
+					// print response body
+					c := chromedp.FromContext(ctx)
+					rbp := network.GetResponseBody(ev.RequestID)
+					body, err := rbp.Do(cdp.WithExecutor(ctx, c.Target))
+					if err != nil {
+						fmt.Println(err)
+					}
+					fmt.Printf("%s\n", body)
+				}()
+
+			}
+		},
+	)
+
+	//
+
+	// navigate to a page, wait for an element, click
+	err := chromedp.Run(ctx,
+		network.Enable(),
+		chromedp.Navigate("https://www.youtube.com/live_chat?v=50NRqM8alh8&is_popout=1"),
+		chromedp.Sleep(time.Second*15),
+	)
+	if err != nil {
+		tt.Fatal(err)
+	}
+}
