@@ -17,8 +17,8 @@ func TestChomedp1(t *testing.T) {
 	}
 	defer chromedp.TerminateChrome()
 
-	vid1 := ""
-	vid2 := ""
+	vid1 := "bFKTXC5tYps" // korone 20200201 0000
+	vid2 := "WjgECmoEhNQ" // runa 20200201 0000
 	w1, err := chromedp.OpenLiveChatWindow(vid1)
 	if err != nil {
 		t.Fatal(err)
@@ -50,7 +50,7 @@ func TestChomedp1(t *testing.T) {
 				}
 
 				for _, m := range messages {
-					_, err := file.WriteString(m.Message.MessageID)
+					_, err := file.WriteString(fmt.Sprintf("%v\n", m.Message.MessageID))
 
 					if err != nil {
 						t.Fatal(err)
@@ -61,9 +61,9 @@ func TestChomedp1(t *testing.T) {
 		}
 	}
 
-	fn(ctx, vid1, w1)
-	fn(ctx, vid1, w2)
+	go fn(ctx, vid1, w1)
+	go fn(ctx, vid2, w2)
 
-	time.Sleep(time.Second * 20)
+	time.Sleep(time.Second * 30)
 	cancel()
 }

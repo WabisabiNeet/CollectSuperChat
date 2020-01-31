@@ -9,6 +9,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/chromedp"
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/selenium"
@@ -38,12 +39,6 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 	} else {
 		watcherID = vid
 	}
-	ch, err := ytproxy.CreateWatcher(watcherID)
-	if err != nil {
-		log.Info(err.Error())
-		return
-	}
-	defer ytproxy.UnsetWatcher(watcherID)
 
 	quit := make(chan os.Signal, 1)
 	defer close(quit)
@@ -59,12 +54,23 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 		return
 	}
 
+	var ch <-chan string
 	if isArchive {
+		ch, err = ytproxy.CreateWatcher(watcherID)
+		if err != nil {
+			log.Info(err.Error())
+			return
+		}
+		defer ytproxy.UnsetWatcher(watcherID)
+
 		defer selenium.CloseLiveChatWindow(vid)
 		err = selenium.OpenArchiveWindow(vid, proxyPort)
 	} else {
-		defer selenium.CloseLiveChatWindow(vid)
-		err = selenium.OpenLiveChatWindow(vid)
+		// defer selenium.CloseLiveChatWindow(vid)
+		// err = selenium.OpenLiveChatWindow(vid)
+		ch, err = chromedp.OpenLiveChatWindow(vid)
+		defer chromedp.CloseLinveChatWindow(vid)
+
 	}
 	if err != nil {
 		log.Error(fmt.Sprintf("OpenLiveChatWindow error:%v", err.Error()))

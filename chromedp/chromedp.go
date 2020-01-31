@@ -39,8 +39,7 @@ var (
 
 // InitChrome opne chrome process.
 func InitChrome() error {
-	// ctx, cancel := chromedp.NewContext(context.Background())
-	// defer cancel()
+	// c, cancel := chromedp.NewContext(context.Background())
 	var opts []chromedp.ExecAllocatorOption
 	for _, opt := range chromedp.DefaultExecAllocatorOptions {
 		opts = append(opts, opt)
@@ -57,9 +56,8 @@ func InitChrome() error {
 	if err != nil {
 		return err
 	}
-
-	windowCtx = c
 	allocCancel = aCancel
+	windowCtx = c
 	windowCancel = cancel
 
 	return nil
@@ -103,15 +101,15 @@ func OpenLiveChatWindow(vid string) (<-chan string, error) {
 				if ev.Type != "XHR" {
 					return
 				}
-				if !strings.Contains(ev.Response.URL, "get_live_chat") {
+				if !strings.Contains(ev.Response.URL, "get_live_chat") && !strings.Contains(ev.Response.URL, "get_live_chat_replay") {
 					return
 				}
 
 				go func() {
 					// print response body
-					c := chromedp.FromContext(windowCtx)
+					c := chromedp.FromContext(ctx)
 					rbp := network.GetResponseBody(ev.RequestID)
-					body, err := rbp.Do(cdp.WithExecutor(windowCtx, c.Target))
+					body, err := rbp.Do(cdp.WithExecutor(ctx, c.Target))
 					if err != nil {
 						log.Warn(err.Error())
 						return
@@ -130,7 +128,7 @@ func OpenLiveChatWindow(vid string) (<-chan string, error) {
 	err := chromedp.Run(ctx,
 		network.Enable(),
 		chromedp.Navigate(u.String()),
-		chromedp.Sleep(time.Second*5),
+		chromedp.Sleep(time.Second*1),
 	)
 	if err != nil {
 		cancel()

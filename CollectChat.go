@@ -10,11 +10,11 @@ import (
 	"sync"
 	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/chromedp"
 	"github.com/WabisabiNeet/CollectSuperChat/collector"
 	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
 	"github.com/WabisabiNeet/CollectSuperChat/notifier"
-	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -110,7 +110,13 @@ func main() {
 	})
 
 	pollCurrency()
-	ytproxy.OpenYoutubeLiveChatProxy(8081)
+	// ytproxy.OpenYoutubeLiveChatProxy(8081)
+	err := chromedp.InitChrome()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer chromedp.TerminateChrome()
+
 	for _, n := range ns {
 		wg.Add(1)
 		go n.PollingStart(wg)
