@@ -175,7 +175,7 @@ func getLiveChatTextMessage2(item *interface{}) (*ChatMessage, error) {
 		for _, badge := range iauthorBadges.([]interface{}) {
 			iconType, err := jsonpointer.Get(badge, "/liveChatAuthorBadgeRenderer/icon/iconType")
 			if err == nil {
-				switch iconType {
+				switch iconType.(string) {
 				case "MODERATOR":
 					isModerator = true
 				case "OWNER":

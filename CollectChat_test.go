@@ -319,12 +319,31 @@ func saveToken(path string, token *oauth2.Token) {
 // }
 
 func TestChromedp2(tt *testing.T) {
-	ctx, cancel := chromedp.NewContext(context.Background())
+	// ctx, cancel := chromedp.NewContext(context.Background())
+	// defer cancel()
+	var opts []chromedp.ExecAllocatorOption
+	for _, opt := range chromedp.DefaultExecAllocatorOptions {
+		opts = append(opts, opt)
+	}
+	// no headless
+	opts = append(opts,
+		chromedp.Flag("headless", false),
+		chromedp.Flag("hide-scrollbars", false),
+		chromedp.Flag("mute-audio", true),
+	)
+	allocCtx, allocCancel := chromedp.NewExecAllocator(context.Background(), opts...)
+	ctx, cancel := chromedp.NewContext(allocCtx)
 	defer cancel()
+	defer allocCancel()
+	err := chromedp.Run(ctx)
+	if err != nil {
+		tt.Fatal(err)
+	}
 
 	chromedp.ListenTarget(
 		ctx,
 		func(ev interface{}) {
+			// fmt.Println(reflect.TypeOf(ev))
 			if ev, ok := ev.(*network.EventResponseReceived); ok {
 				// fmt.Println(fmt.Sprintf("event received:%v", ev.Response.URL))
 				// fmt.Println(ev.Type)
@@ -336,28 +355,40 @@ func TestChromedp2(tt *testing.T) {
 					return
 				}
 
-				go func() {
-					// print response body
-					c := chromedp.FromContext(ctx)
-					rbp := network.GetResponseBody(ev.RequestID)
-					body, err := rbp.Do(cdp.WithExecutor(ctx, c.Target))
-					if err != nil {
-						fmt.Println(err)
-					}
-					fmt.Printf("%s\n", body)
-				}()
+				// go func() {
+				// print response body
+				c := chromedp.FromContext(ctx)
+				rbp := network.GetResponseBody(ev.RequestID)
+				body, err := rbp.Do(cdp.WithExecutor(ctx, c.Target))
+				if err != nil {
+					fmt.Println(err)
+				}
+				fmt.Printf("%s\n", body)
+				// }()
 
 			}
 		},
 	)
 
-	//
-
+	ctx1, cancel := chromedp.NewContext(ctx)
+	defer cancel()
 	// navigate to a page, wait for an element, click
-	err := chromedp.Run(ctx,
+	err = chromedp.Run(ctx1,
 		network.Enable(),
-		chromedp.Navigate("https://www.youtube.com/live_chat?v=50NRqM8alh8&is_popout=1"),
-		chromedp.Sleep(time.Second*15),
+		chromedp.Navigate("https://www.yahoo.co.jp"),
+		chromedp.Sleep(time.Second*5),
+	)
+	if err != nil {
+		tt.Fatal(err)
+	}
+
+	ctx2, cancel := chromedp.NewContext(ctx)
+	defer cancel()
+	// navigate to a page, wait for an element, click
+	err = chromedp.Run(ctx2,
+		network.Enable(),
+		chromedp.Navigate("https://www.google.co.jp"),
+		chromedp.Sleep(time.Second*5),
 	)
 	if err != nil {
 		tt.Fatal(err)

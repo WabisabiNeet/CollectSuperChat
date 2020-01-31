@@ -5,6 +5,8 @@ go 1.13
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/antonholmquist/jason v1.0.0
+	github.com/chromedp/cdproto v0.0.0-20200127141643-96201809f07b
+	github.com/chromedp/chromedp v0.5.3
 	github.com/elastic/go-elasticsearch v0.0.0
 	github.com/elastic/go-elasticsearch/v8 v8.0.0-20191204143503-cb4ea94ef05b
 	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484
