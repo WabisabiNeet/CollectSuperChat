@@ -141,7 +141,7 @@ func OpenLiveChatWindow(vid string, isArchive bool) (<-chan string, error) {
 					rbp := network.GetResponseBody(ev.RequestID)
 					body, err := rbp.Do(cdp.WithExecutor(ctx, c.Target))
 					if err != nil {
-						log.Info(err.Error())
+						log.Error(err.Error())
 						return
 					}
 
