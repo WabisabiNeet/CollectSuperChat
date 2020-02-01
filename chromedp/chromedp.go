@@ -51,9 +51,9 @@ func InitChrome() error {
 	}
 	// no headless
 	opts = append(opts,
-		chromedp.Flag("headless", false),
-		chromedp.Flag("hide-scrollbars", false),
-		chromedp.Flag("mute-audio", true),
+		// chromedp.Flag("headless", false),
+		// chromedp.Flag("hide-scrollbars", false),
+		// chromedp.Flag("mute-audio", false),
 		chromedp.Flag("autoplay-policy", "no-user-gesture-required"),
 		chromedp.DisableGPU,
 	)
