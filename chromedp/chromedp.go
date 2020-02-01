@@ -2,7 +2,9 @@ package chromedp
 
 import (
 	"context"
+	"fmt"
 	"net/url"
+	"reflect"
 	"strings"
 	"sync"
 	"time"
@@ -34,6 +36,9 @@ var (
 	tabs     = map[string](*tabInfo){}
 	tabMutex = sync.Mutex{}
 
+	resChs      = map[string](chan interface{}){}
+	resChsMutex = sync.Mutex{}
+
 	json = jsoniter.ConfigCompatibleWithStandardLibrary
 )
 
@@ -49,6 +54,8 @@ func InitChrome() error {
 		chromedp.Flag("headless", false),
 		chromedp.Flag("hide-scrollbars", false),
 		chromedp.Flag("mute-audio", true),
+		chromedp.Flag("autoplay-policy", "no-user-gesture-required"),
+		chromedp.DisableGPU,
 	)
 	aCtx, aCancel := chromedp.NewExecAllocator(context.Background(), opts...)
 	c, cancel := chromedp.NewContext(aCtx)
@@ -74,7 +81,7 @@ func TerminateChrome() {
 }
 
 // OpenLiveChatWindow open live chat window.
-func OpenLiveChatWindow(vid string) (<-chan string, error) {
+func OpenLiveChatWindow(vid string, isArchive bool) (<-chan string, error) {
 	tabMutex.Lock()
 	defer tabMutex.Unlock()
 
@@ -83,7 +90,13 @@ func OpenLiveChatWindow(vid string) (<-chan string, error) {
 		return nil, errors.New("already started")
 	}
 
-	u, _ := url.Parse(liveStreamChatURL)
+	var yturl string
+	if isArchive {
+		yturl = archiveURL
+	} else {
+		yturl = liveStreamChatURL
+	}
+	u, _ := url.Parse(yturl)
 	q := u.Query()
 	q.Add("v", vid)
 	u.RawQuery = q.Encode()
@@ -93,9 +106,12 @@ func OpenLiveChatWindow(vid string) (<-chan string, error) {
 	chromedp.ListenTarget(
 		ctx,
 		func(ev interface{}) {
-			// fmt.Println(reflect.TypeOf(ev))
-			if ev, ok := ev.(*network.EventResponseReceived); ok {
-				// fmt.Println(fmt.Sprintf("event received:%v", ev.Response.URL))
+			fmt.Println(reflect.TypeOf(ev))
+			switch ev.(type) {
+			case *network.EventResponseReceived:
+				ev := ev.(*network.EventResponseReceived)
+				fmt.Println(fmt.Sprintf("event received:%v", ev.Response.URL))
+				fmt.Println(fmt.Sprintf("event received:%+v", ev))
 				// fmt.Println(ev.Type)
 
 				if ev.Type != "XHR" {
@@ -105,8 +121,22 @@ func OpenLiveChatWindow(vid string) (<-chan string, error) {
 					return
 				}
 
+				reqID := ev.RequestID.String()
+				var ok bool
+				func() {
+					resChsMutex.Lock()
+					defer resChsMutex.Unlock()
+					_, ok = resChs[reqID]
+				}()
+				if ok {
+					return
+				}
+				ch := make(chan interface{}, 1)
+				resChs[reqID] = ch
+
 				go func() {
-					// print response body
+					<-ch // waiting to LoadingFinished
+
 					c := chromedp.FromContext(ctx)
 					rbp := network.GetResponseBody(ev.RequestID)
 					body, err := rbp.Do(cdp.WithExecutor(ctx, c.Target))
@@ -120,7 +150,18 @@ func OpenLiveChatWindow(vid string) (<-chan string, error) {
 						log.Warn(err.Error())
 					}
 				}()
+			case *network.EventLoadingFinished:
+				ev := ev.(*network.EventLoadingFinished)
+				fmt.Println(fmt.Sprintf("event received:%+v", ev))
 
+				resChsMutex.Lock()
+				defer resChsMutex.Unlock()
+				reqID := ev.RequestID.String()
+				ch, ok := resChs[reqID]
+				if ok {
+					delete(resChs, reqID)
+					close(ch)
+				}
 			}
 		},
 	)
@@ -156,6 +197,14 @@ func CloseLinveChatWindow(vid string) {
 	delete(tabs, vid)
 	tab.tabCancel()
 	close(tab.watcher)
+}
+
+// AlreadyStarted returns bool
+func AlreadyStarted(vid string) bool {
+	tabMutex.Lock()
+	defer tabMutex.Unlock()
+	_, ok := tabs[vid]
+	return ok
 }
 
 func sendToWatcher(vid, json string) error {

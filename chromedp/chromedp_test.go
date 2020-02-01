@@ -17,13 +17,13 @@ func TestChomedp1(t *testing.T) {
 	}
 	defer chromedp.TerminateChrome()
 
-	vid1 := "bFKTXC5tYps" // korone 20200201 0000
+	// vid1 := "bFKTXC5tYps" // korone 20200201 0000
 	vid2 := "WjgECmoEhNQ" // runa 20200201 0000
-	w1, err := chromedp.OpenLiveChatWindow(vid1)
-	if err != nil {
-		t.Fatal(err)
-	}
-	w2, err := chromedp.OpenLiveChatWindow(vid2)
+	// w1, err := chromedp.OpenLiveChatWindow(vid1, true)
+	// if err != nil {
+	// 	t.Fatal(err)
+	// }
+	w2, err := chromedp.OpenLiveChatWindow(vid2, true)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -41,7 +41,8 @@ func TestChomedp1(t *testing.T) {
 			case <-ctx.Done():
 				return
 			case json := <-w:
-				messages, finished, err := livestream.GetLiveChatMessagesFromProxy(json)
+				// messages, finished, err := livestream.GetLiveChatMessagesFromProxy(json)
+				messages, finished, err := livestream.GetReplayChatMessagesFromProxy(json)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -61,9 +62,9 @@ func TestChomedp1(t *testing.T) {
 		}
 	}
 
-	go fn(ctx, vid1, w1)
+	// go fn(ctx, vid1, w1)
 	go fn(ctx, vid2, w2)
 
-	time.Sleep(time.Second * 30)
+	time.Sleep(time.Second * 60)
 	cancel()
 }
