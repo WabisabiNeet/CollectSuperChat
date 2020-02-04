@@ -76,7 +76,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 			if isArchive {
 				messages, finished, err = livestream.GetReplayChatMessagesFromProxy(json)
 			} else {
-				messages, finished, err = livestream.GetLiveChatMessagesFromProxy2(json)
+				messages, finished, err = livestream.GetLiveChatMessagesFromProxy(json)
 			}
 
 			if err != nil {
