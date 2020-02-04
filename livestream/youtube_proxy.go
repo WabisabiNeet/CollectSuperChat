@@ -321,7 +321,7 @@ func getCommonMessageInfo(renderer *jason.Object, message *ChatMessage) (*ChatMe
 			text, _ := r.GetString("text") //表示メッセージ
 			messageStr += text
 		}
-		messageStr, _ = runs[0].GetString("text") //表示メッセージ
+		// messageStr, _ = runs[0].GetString("text") //表示メッセージ
 	}
 	author, err := renderer.GetString("authorName", "simpleText") //名前
 	if err != nil {
