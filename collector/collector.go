@@ -12,6 +12,7 @@ import (
 	"github.com/WabisabiNeet/CollectSuperChat/chromedp"
 	"github.com/WabisabiNeet/CollectSuperChat/livestream"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
+	"github.com/pkg/errors"
 	"google.golang.org/api/youtube/v3"
 )
 
@@ -79,7 +80,7 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 			}
 
 			if err != nil {
-				log.Error(err.Error())
+				log.Error(errors.Wrap(err, json).Error())
 			}
 			if finished {
 				log.Info("watch end. [%v][%v][%v]",
