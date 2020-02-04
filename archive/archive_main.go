@@ -4,14 +4,13 @@ import (
 	"context"
 	"flag"
 	"os"
-	"os/signal"
 	"sync"
 	"time"
 
+	"github.com/WabisabiNeet/CollectSuperChat/chromedp"
 	"github.com/WabisabiNeet/CollectSuperChat/collector"
 	"github.com/WabisabiNeet/CollectSuperChat/currency"
 	"github.com/WabisabiNeet/CollectSuperChat/log"
-	"github.com/WabisabiNeet/CollectSuperChat/ytproxy"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -70,9 +69,6 @@ func main() {
 	vid := flag.String("v", "", "video id")
 	flag.Parse()
 
-	if *channel == "" && *vid == "" {
-		log.Fatal("required -c or -v option.")
-	}
 	if *channel != "" && *vid != "" {
 		log.Fatal("-c and -v cannot be used at the same time.")
 	}
@@ -101,7 +97,7 @@ func main() {
 	} else if *vid != "" {
 		Ids = append(Ids, *vid)
 	} else {
-		log.Fatal("invalid state.")
+		Ids = append(Ids, flag.Args()...)
 	}
 	log.Info("%v", Ids)
 
@@ -117,19 +113,17 @@ func main() {
 		}
 		log.Info("[%v] %v", c.Code, c.RateToJPY)
 	}
-	proxyPort := ytproxy.OpenYoutubeLiveChatReplayProxy(0)
+	err := chromedp.InitChrome()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer chromedp.TerminateChrome()
 
-	quit := make(chan os.Signal, 1)
-	defer close(quit)
-	signal.Notify(quit, os.Interrupt)
 	wg := sync.WaitGroup{}
 	for _, id := range Ids {
 		wg.Add(1)
-		c.StartWatch(&wg, id, true, proxyPort)
-		select {
-		case <-quit:
-			return
-		default:
-		}
+		go c.StartWatch(&wg, id, true, 0)
 	}
+
+	wg.Wait()
 }
