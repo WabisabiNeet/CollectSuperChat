@@ -71,12 +71,12 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 				return
 			}
 
-			var messages []*livestream.ChatMessage
+			// var messages []*livestream.ChatMessage
 			var finished bool
 			if isArchive {
-				messages, finished, err = livestream.GetReplayChatMessagesFromProxy(json)
+				_, finished, err = livestream.GetReplayChatMessagesFromProxy(json)
 			} else {
-				messages, finished, err = livestream.GetLiveChatMessagesFromProxy(json)
+				_, finished, err = livestream.GetLiveChatMessagesFromProxy(json)
 			}
 
 			if err != nil {
@@ -90,7 +90,8 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 				return
 			}
 
-			outputSuperChat(messages, videoInfo, isArchive)
+			// outputSuperChat(messages, videoInfo, isArchive)
+			log.OutputSuperChat(json)
 		case <-quit:
 			return
 		}

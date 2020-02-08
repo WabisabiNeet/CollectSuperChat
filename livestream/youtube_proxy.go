@@ -23,54 +23,55 @@ func GetLiveChatMessagesFromProxy(chatJSON string) ([]*ChatMessage, bool, error)
 		// chat end.
 		finished = true
 	}
+	return nil, finished, nil
 
-	messages := []*ChatMessage{}
+	// messages := []*ChatMessage{}
 
-	actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
-	if err != nil {
-		// no chat.
-		return messages, finished, nil
-	}
+	// actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
+	// if err != nil {
+	// 	// no chat.
+	// 	return messages, finished, nil
+	// }
 
-	for _, action := range actions {
-		item, err := action.GetObject("addChatItemAction", "item")
-		if err != nil {
-			continue
-		}
+	// for _, action := range actions {
+	// 	item, err := action.GetObject("addChatItemAction", "item")
+	// 	if err != nil {
+	// 		continue
+	// 	}
 
-		m := item.Map()
-		if _, ok := m["liveChatTextMessageRenderer"]; ok {
-			message, err := getLiveChatTextMessage(item)
-			if err != nil {
-				log.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
-				continue
-			}
-			messages = append(messages, message)
-		} else if _, ok := m["liveChatPaidMessageRenderer"]; ok {
-			message, err := getLiveChatPaidMessage(item)
-			if err != nil {
-				log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
-				continue
-			}
-			messages = append(messages, message)
-		} else if _, ok := m["liveChatPaidStickerRenderer"]; ok {
-			message, err := getLiveChatPaidStickerMessage(item)
-			if err != nil {
-				log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
-				continue
-			}
-			messages = append(messages, message)
-		} else if _, ok := m["liveChatMembershipItemRenderer"]; ok {
-			message, err := getLiveChatMembershipMessage(item)
-			if err != nil {
-				log.Info(fmt.Sprintf("liveChatMembershipItemRenderer error : %v", err))
-				continue
-			}
-			messages = append(messages, message)
-		}
-	}
+	// 	m := item.Map()
+	// 	if _, ok := m["liveChatTextMessageRenderer"]; ok {
+	// 		message, err := getLiveChatTextMessage(item)
+	// 		if err != nil {
+	// 			log.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
+	// 			continue
+	// 		}
+	// 		messages = append(messages, message)
+	// 	} else if _, ok := m["liveChatPaidMessageRenderer"]; ok {
+	// 		message, err := getLiveChatPaidMessage(item)
+	// 		if err != nil {
+	// 			log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+	// 			continue
+	// 		}
+	// 		messages = append(messages, message)
+	// 	} else if _, ok := m["liveChatPaidStickerRenderer"]; ok {
+	// 		message, err := getLiveChatPaidStickerMessage(item)
+	// 		if err != nil {
+	// 			log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+	// 			continue
+	// 		}
+	// 		messages = append(messages, message)
+	// 	} else if _, ok := m["liveChatMembershipItemRenderer"]; ok {
+	// 		message, err := getLiveChatMembershipMessage(item)
+	// 		if err != nil {
+	// 			log.Info(fmt.Sprintf("liveChatMembershipItemRenderer error : %v", err))
+	// 			continue
+	// 		}
+	// 		messages = append(messages, message)
+	// 	}
+	// }
 
-	return messages, finished, nil
+	// return messages, finished, nil
 }
 
 // GetReplayChatMessagesFromProxy scrape live chat
