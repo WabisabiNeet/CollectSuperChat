@@ -60,6 +60,7 @@ var Currencies = []*Currency{
 	{Code: "CZK", Symbol: "CZK"},  // チェココルナ
 	{Code: "CRC", Symbol: "CRC"},  // コスタリカコロン
 	{Code: "DKK", Symbol: "DKK"},  // デンマーククローネ
+	//{Code: "BYN", Symbol: "BYN"},  // ベラルーシルーブル ※サイトに通貨なかった…
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 }
 
