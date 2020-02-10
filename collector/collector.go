@@ -83,6 +83,10 @@ func (c *Collector) StartWatch(wg *sync.WaitGroup, vid string, isArchive bool, p
 				log.Error(errors.Wrap(err, json).Error())
 			}
 			if finished {
+				if !isArchive {
+					c.updateVideoInfo(vid)
+				}
+
 				log.Info("watch end. [%v][%v][%v]",
 					videoInfo.Snippet.ChannelTitle,
 					videoInfo.Snippet.Title,
@@ -161,6 +165,16 @@ func getLiveStreamID(ys *youtube.Service, channel string, sig chan os.Signal) (s
 
 		return vid, nil
 	}
+}
+
+func (c *Collector) updateVideoInfo(vid string) {
+	videoInfo, err := livestream.GetLiveInfo(c.YoutubeService, vid)
+	if err != nil {
+		log.Error(fmt.Sprintf("[vid:%v] %v", vid, err))
+		return
+	}
+
+	log.UpdateVideoTitle(vid, videoInfo.Snippet.Title)
 }
 
 // IncrementCount is method
