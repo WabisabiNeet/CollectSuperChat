@@ -213,6 +213,7 @@ func Test6(tt *testing.T) {
 		if err != nil {
 			tt.Fatal(err)
 		}
+		defer res.Body.Close()
 		if res.StatusCode >= http.StatusBadRequest {
 			tt.Fatal(res.StatusCode)
 		}
