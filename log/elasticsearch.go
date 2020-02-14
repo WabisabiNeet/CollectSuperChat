@@ -112,6 +112,7 @@ func SendChats(jsons []string) error {
 	return nil
 }
 
+// UpdateVideoTitle is update video title.
 func UpdateVideoTitle(vid, vtitle string) error {
 	if vid == "" {
 		return errors.New(("UpdateVideoTitle: vid is nil"))

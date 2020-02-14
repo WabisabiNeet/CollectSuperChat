@@ -13,7 +13,17 @@ func initSentry() {
 	if dsn == "" {
 		dbglog.Fatal("SENTRY_DSN is not exist.")
 	}
+
+	commit := os.Getenv("GIT_COMMIT")
+	if commit == "" {
+		commit = "debug"
+	}
+
+	servername := os.Getenv("HOSTNAME")
+
 	sentry.Init(sentry.ClientOptions{
-		Dsn: dsn,
+		Dsn:        dsn,
+		Release:    commit,
+		ServerName: servername,
 	})
 }
