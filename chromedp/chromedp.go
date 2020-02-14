@@ -56,6 +56,7 @@ func InitChrome() error {
 		// chromedp.Flag("mute-audio", false),
 		chromedp.Flag("autoplay-policy", "no-user-gesture-required"),
 		chromedp.DisableGPU,
+		chromedp.Flag("lang", "en"),
 	)
 	aCtx, aCancel := chromedp.NewExecAllocator(context.Background(), opts...)
 	c, cancel := chromedp.NewContext(aCtx)
