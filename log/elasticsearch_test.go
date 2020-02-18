@@ -252,6 +252,7 @@ func Test8(tt *testing.T) {
 
 	es = es2
 
+	updateScript := fmt.Sprintf("ctx._source.videoInfo.vtitle = '%v'; ctx._source.videoInfo.actualStartTime = '%v';", "テストテスト4", "2020-02-19T21:00:02+09:00")
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
 			"term": map[string]interface{}{
@@ -259,7 +260,7 @@ func Test8(tt *testing.T) {
 			},
 		},
 		"script": map[string]interface{}{
-			"source": "ctx._source.videoInfo.vtitle = 'ロボ子さんテストテスト3'",
+			"source": updateScript,
 		},
 	}
 	var buf bytes.Buffer

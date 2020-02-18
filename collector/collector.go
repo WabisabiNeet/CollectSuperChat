@@ -174,7 +174,12 @@ func (c *Collector) updateVideoInfo(vid string) {
 		return
 	}
 
-	log.UpdateVideoTitle(vid, videoInfo.Snippet.Title)
+	actualStartTimeJST := ""
+	actualStartTime, err := time.Parse(time.RFC3339, videoInfo.LiveStreamingDetails.ActualStartTime)
+	if err == nil {
+		actualStartTimeJST = actualStartTime.In(time.FixedZone("Asia/Tokyo", 9*60*60)).Format(time.RFC3339)
+	}
+	log.UpdateVideoTitle(vid, videoInfo.Snippet.Title, actualStartTimeJST)
 }
 
 // IncrementCount is method

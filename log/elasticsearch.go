@@ -113,7 +113,7 @@ func SendChats(jsons []string) error {
 }
 
 // UpdateVideoTitle is update video title.
-func UpdateVideoTitle(vid, vtitle string) error {
+func UpdateVideoTitle(vid, vtitle, actualStartTimeJST string) error {
 	if vid == "" {
 		return errors.New(("UpdateVideoTitle: vid is nil"))
 	}
@@ -121,7 +121,7 @@ func UpdateVideoTitle(vid, vtitle string) error {
 		return errors.New(("UpdateVideoTitle: vtitle is nil"))
 	}
 
-	updateScript := fmt.Sprintf("ctx._source.videoInfo.vtitle = '%v'", vtitle)
+	updateScript := fmt.Sprintf("ctx._source.videoInfo.vtitle = '%v'; ctx._source.videoInfo.actualStartTime = '%v';", vtitle, actualStartTimeJST)
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
 			"term": map[string]interface{}{
