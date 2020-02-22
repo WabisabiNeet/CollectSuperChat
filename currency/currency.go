@@ -61,6 +61,7 @@ var Currencies = []*Currency{
 	{Code: "CRC", Symbol: "CRC"},  // コスタリカコロン
 	{Code: "DKK", Symbol: "DKK"},  // デンマーククローネ
 	{Code: "ZAR", Symbol: "ZAR"},  // 南アランド
+	{Code: "COP", Symbol: "COP"},  // コロンビアペソ
 	//{Code: "BYN", Symbol: "BYN"},  // ベラルーシルーブル ※サイトに通貨なかった…
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 }
