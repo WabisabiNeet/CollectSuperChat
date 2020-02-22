@@ -35,7 +35,7 @@ func (n *YoutubeHTML) PollingStart(wg *sync.WaitGroup) {
 		log.Fatal(errors.Wrap(err, "Unable to retrieve Youtube client").Error())
 	}
 
-	t := time.NewTicker(time.Hour)
+	t := time.NewTicker(time.Minute * 15)
 	defer t.Stop()
 	for {
 		n.checkAndStartSubscribedChannel(ys, "")
