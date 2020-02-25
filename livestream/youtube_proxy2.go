@@ -74,85 +74,80 @@ func GetLiveChatMessagesFromProxy2(chatJSON string) ([]*ChatMessage, bool, error
 	return messages, finished, nil
 }
 
-// GetReplayChatMessagesFromProxy2 scrape live chat
-// func GetReplayChatMessagesFromProxy2(chatJSON string) ([]*ChatMessage, bool, error) {
-// 	root, err := jason.NewObjectFromReader(strings.NewReader(chatJSON))
-// 	if err != nil {
-// 		return nil, true, err
-// 	}
+// GetReplayChatMessagesFromProxy2 scrape replay live chat
+func GetReplayChatMessagesFromProxy2(chatJSON string) ([]*ChatMessage, bool, error) {
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
+	var data interface{}
 
-// 	finished := false
-// 	continuations, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "continuations")
-// 	if err != nil {
-// 		// chat end.
-// 		finished = true
-// 	}
-// 	existsLiveChatReplayContinuationData := false
-// 	for _, continuation := range continuations {
-// 		_, err := continuation.GetObject("liveChatReplayContinuationData")
-// 		if err == nil {
-// 			existsLiveChatReplayContinuationData = true
-// 			break
-// 		}
-// 	}
-// 	if !existsLiveChatReplayContinuationData {
-// 		finished = true
-// 	}
+	err := json.UnmarshalFromString(chatJSON, &data)
+	if err != nil {
+		return nil, true, err
+	}
 
-// 	messages := []*ChatMessage{}
+	finished := false
+	finished = !jsonpointer.Has(data, "/response/continuationContents/liveChatContinuation/continuations")
 
-// 	actions, err := root.GetObjectArray("response", "continuationContents", "liveChatContinuation", "actions")
-// 	if err != nil {
-// 		// no chat.
-// 		return messages, finished, nil
-// 	}
+	messages := []*ChatMessage{}
 
-// 	for _, action := range actions {
-// 		actions2, err := action.GetObjectArray("replayChatItemAction", "actions")
-// 		if err != nil {
-// 			continue
-// 		}
-// 		for _, action2 := range actions2 {
-// 			item, err := action2.GetObject("addChatItemAction", "item")
-// 			if err != nil {
-// 				continue
-// 			}
+	iactions, err := jsonpointer.Get(data, "/response/continuationContents/liveChatContinuation/actions")
+	if err != nil {
+		// no chat.
+		return messages, finished, nil
+	}
+	if _, ok := iactions.([]interface{}); !ok {
+		return messages, finished, nil
+	}
 
-// 			m := item.Map()
-// 			if _, ok := m["liveChatTextMessageRenderer"]; ok {
-// 				message, err := getLiveChatTextMessage(item)
-// 				if err != nil {
-// 					log.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
-// 					continue
-// 				}
-// 				messages = append(messages, message)
-// 			} else if _, ok := m["liveChatPaidMessageRenderer"]; ok {
-// 				message, err := getLiveChatPaidMessage(item)
-// 				if err != nil {
-// 					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
-// 					continue
-// 				}
-// 				messages = append(messages, message)
-// 			} else if _, ok := m["liveChatPaidStickerRenderer"]; ok {
-// 				message, err := getLiveChatPaidStickerMessage(item)
-// 				if err != nil {
-// 					log.Info(fmt.Sprintf("liveChatPaidStickerRenderer error : %v", err))
-// 					continue
-// 				}
-// 				messages = append(messages, message)
-// 			} else if _, ok := m["liveChatMembershipItemRenderer"]; ok {
-// 				message, err := getLiveChatMembershipMessage(item)
-// 				if err != nil {
-// 					log.Info(fmt.Sprintf("liveChatMembershipItemRenderer error : %v", err))
-// 					continue
-// 				}
-// 				messages = append(messages, message)
-// 			}
-// 		}
-// 	}
+	for _, action := range iactions.([]interface{}) {
+		iactions2, err := jsonpointer.Get(action, "/replayChatItemAction/actions")
+		if err != nil {
+			// no chat.
+			continue
+		}
+		if _, ok := iactions2.([]interface{}); !ok {
+			continue
+		}
 
-// 	return messages, finished, nil
-// }
+		for _, action2 := range iactions2.([]interface{}) {
+			item, err := jsonpointer.Get(action2, "/addChatItemAction/item")
+			if err != nil {
+				continue
+			}
+
+			if jsonpointer.Has(item, "/liveChatTextMessageRenderer") {
+				message, err := getLiveChatTextMessage2(&item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatTextMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if jsonpointer.Has(item, "/liveChatPaidMessageRenderer") {
+				message, err := getLiveChatPaidMessage2(&item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if jsonpointer.Has(item, "/liveChatPaidStickerRenderer") {
+				message, err := getLiveChatPaidStickerMessage2(&item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatPaidMessageRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			} else if jsonpointer.Has(item, "/liveChatMembershipItemRenderer") {
+				message, err := getLiveChatMembershipMessage2(&item)
+				if err != nil {
+					log.Info(fmt.Sprintf("liveChatMembershipItemRenderer error : %v", err))
+					continue
+				}
+				messages = append(messages, message)
+			}
+		}
+	}
+
+	return messages, finished, nil
+}
 
 func getLiveChatTextMessage2(item *interface{}) (*ChatMessage, error) {
 	mr, err := jsonpointer.Get(*item, "/liveChatTextMessageRenderer")

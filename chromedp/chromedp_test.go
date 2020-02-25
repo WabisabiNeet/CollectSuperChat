@@ -17,15 +17,26 @@ func TestChomedp1(t *testing.T) {
 	}
 	defer chromedp.TerminateChrome()
 
-	// vid1 := "bFKTXC5tYps" // korone 20200201 0000
-	vid2 := "WjgECmoEhNQ" // runa 20200201 0000
-	// w1, err := chromedp.OpenLiveChatWindow(vid1, true)
-	// if err != nil {
-	// 	t.Fatal(err)
-	// }
-	w2, err := chromedp.OpenLiveChatWindow(vid2, true)
-	if err != nil {
-		t.Fatal(err)
+	vids := []string{
+		"ZMdAaib_Fqs",
+		"fPkSVqBpFT8",
+		"77mRtYwyBLQ",
+		"PolG-apCNKs",
+		"SKq8Pl_I9R0",
+		"eAkw-k-OuVc",
+		"opRmTs4WdEQ",
+		"ss1a64BJZLI",
+		"1VYQYJtQ0aA",
+		"20f8nXpqp-g",
+		"EmC19Lnv1Ag",
+		"nmY7up0eJEU",
+		"faQkGfooFWQ",
+		"b3lr10YQ0D8",
+		"b5jnwoRiYxg",
+		"OyXDD1oXNTA",
+		"V1E0jgAId1U",
+		"EpgAZQYfm8s",
+		"MQ7-28plUVQ",
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -42,7 +53,7 @@ func TestChomedp1(t *testing.T) {
 				return
 			case json := <-w:
 				// messages, finished, err := livestream.GetLiveChatMessagesFromProxy(json)
-				messages, finished, err := livestream.GetReplayChatMessagesFromProxy(json)
+				messages, finished, err := livestream.GetReplayChatMessagesFromProxy2(json)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -62,8 +73,13 @@ func TestChomedp1(t *testing.T) {
 		}
 	}
 
-	// go fn(ctx, vid1, w1)
-	go fn(ctx, vid2, w2)
+	for _, vid := range vids {
+		w2, err := chromedp.OpenLiveChatWindow(vid, true)
+		if err != nil {
+			t.Fatal(err)
+		}
+		go fn(ctx, vid, w2)
+	}
 
 	time.Sleep(time.Second * 60)
 	cancel()

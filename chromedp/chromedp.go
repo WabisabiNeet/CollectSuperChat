@@ -2,9 +2,7 @@ package chromedp
 
 import (
 	"context"
-	"fmt"
 	"net/url"
-	"reflect"
 	"strings"
 	"sync"
 	"time"
@@ -107,12 +105,12 @@ func OpenLiveChatWindow(vid string, isArchive bool) (<-chan string, error) {
 	chromedp.ListenTarget(
 		ctx,
 		func(ev interface{}) {
-			fmt.Println(reflect.TypeOf(ev))
+			// fmt.Println(reflect.TypeOf(ev))
 			switch ev.(type) {
 			case *network.EventResponseReceived:
 				ev := ev.(*network.EventResponseReceived)
-				fmt.Println(fmt.Sprintf("event received:%v", ev.Response.URL))
-				fmt.Println(fmt.Sprintf("event received:%+v", ev))
+				// fmt.Println(fmt.Sprintf("event received:%v", ev.Response.URL))
+				// fmt.Println(fmt.Sprintf("event received:%+v", ev))
 				// fmt.Println(ev.Type)
 
 				if ev.Type != "XHR" {
@@ -153,7 +151,7 @@ func OpenLiveChatWindow(vid string, isArchive bool) (<-chan string, error) {
 				}()
 			case *network.EventLoadingFinished:
 				ev := ev.(*network.EventLoadingFinished)
-				fmt.Println(fmt.Sprintf("event received:%+v", ev))
+				// fmt.Println(fmt.Sprintf("event received:%+v", ev))
 
 				resChsMutex.Lock()
 				defer resChsMutex.Unlock()

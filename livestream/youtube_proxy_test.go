@@ -190,3 +190,53 @@ func getTestJSON(bb *testing.B) string {
 	}
 	return string(b)
 }
+
+func BenchmarkFromReplayProxy1(bb *testing.B) {
+	benchJSON := getTestJSON2(bb)
+
+	bb.ResetTimer()
+	for i := 0; i < bb.N; i++ {
+		messages, finished, err := livestream.GetReplayChatMessagesFromProxy(benchJSON)
+		if err != nil {
+			bb.Fatal(err)
+		}
+		if finished {
+			bb.Fatal("this is not live finished data.")
+		}
+		if len(messages) == 0 {
+			bb.Fatal("len(messages) == 0")
+		}
+	}
+}
+
+func BenchmarkFromReplayProxy2(bb *testing.B) {
+	benchJSON := getTestJSON2(bb)
+
+	bb.ResetTimer()
+	for i := 0; i < bb.N; i++ {
+		messages, finished, err := livestream.GetReplayChatMessagesFromProxy2(benchJSON)
+		if err != nil {
+			bb.Fatal(err)
+		}
+		if finished {
+			bb.Fatal("this is not live finished data.")
+		}
+		if len(messages) == 0 {
+			bb.Fatal("len(messages) == 0")
+		}
+	}
+}
+
+func getTestJSON2(bb *testing.B) string {
+	f, err := os.Open("./testdata/arvhive_01.txt")
+	if err != nil {
+		bb.Fatal(err)
+	}
+	defer f.Close()
+
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		bb.Fatal(err)
+	}
+	return string(b)
+}
