@@ -121,15 +121,13 @@ func OpenLiveChatWindow(vid string, isArchive bool) (<-chan string, error) {
 				}
 
 				reqID := ev.RequestID.String()
-				var ok bool
-				func() {
-					resChsMutex.Lock()
-					defer resChsMutex.Unlock()
-					_, ok = resChs[reqID]
-				}()
+				resChsMutex.Lock()
+				defer resChsMutex.Unlock()
+				_, ok := resChs[reqID]
 				if ok {
 					return
 				}
+
 				ch := make(chan interface{}, 1)
 				resChs[reqID] = ch
 
