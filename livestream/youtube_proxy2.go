@@ -249,8 +249,7 @@ func getLiveChatPaidStickerMessage2(item *interface{}) (*ChatMessage, error) {
 }
 
 func getLiveChatMembershipMessage2(item *interface{}) (*ChatMessage, error) {
-	mr, err := jsonpointer.Get(*item, "/liveChatTextMessageRenderer")
-	// mr, err := item.GetObject("liveChatTextMessageRenderer")
+	mr, err := jsonpointer.Get(*item, "/liveChatMembershipItemRenderer")
 	if err != nil {
 		return nil, err
 	}
