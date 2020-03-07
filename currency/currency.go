@@ -62,7 +62,9 @@ var Currencies = []*Currency{
 	{Code: "DKK", Symbol: "DKK"},  // デンマーククローネ
 	{Code: "ZAR", Symbol: "ZAR"},  // 南アランド
 	{Code: "COP", Symbol: "COP"},  // コロンビアペソ
-	//{Code: "BYN", Symbol: "BYN"},  // ベラルーシルーブル ※サイトに通貨なかった…
+	{Code: "BGN", Symbol: "BGN"},  // ブルガリアレフ
+	// {Code: "BYN", Symbol: "BYN"},  // ベラルーシルーブル ※サイトに通貨なかった…
+	// {Code: "GTQ", Symbol: "GTQ"},  // ガテマラケツァル ※サイトに通過なかった…
 	// {Code: "CNY", Symbol: "¥"}, // 人民元
 }
 
